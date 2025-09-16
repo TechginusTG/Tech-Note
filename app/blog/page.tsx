@@ -6,8 +6,23 @@ function excerpt(text: string | undefined, len = 120) {
   return text.length > len ? text.slice(0, len).trimEnd() + '…' : text;
 }
 
-export default async function BlogPage() {
-  const posts = await fetchPosts();
+export default async function BlogPage({ searchParams }: { searchParams?: { page?: string } }) {
+  const posts = (await fetchPosts()) || [];
+  const perPage = 10;
+
+  // parse page from query, default to 1
+  let page = 1;
+  if (searchParams?.page) {
+    const p = parseInt(String(searchParams.page), 10);
+    page = Number.isFinite(p) && p > 0 ? p : 1;
+  }
+
+  const total = posts.length;
+  const totalPages = Math.max(1, Math.ceil(total / perPage));
+  if (page > totalPages) page = totalPages;
+
+  const start = (page - 1) * perPage;
+  const pagePosts = posts.slice(start, start + perPage);
 
   return (
     <main className="container mx-auto px-4 py-8">
@@ -22,12 +37,12 @@ export default async function BlogPage() {
       </div>
 
       <div className="divide-y border rounded-b-md overflow-hidden">
-        {posts.length > 0 ? (
-          posts.map((post, index) => (
+        {pagePosts.length > 0 ? (
+          pagePosts.map((post, index) => (
             <Link key={post.id} href={`/blog/${post.slug}`} className="block hover:bg-gray-50">
               <article className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center px-4 py-4 md:hover:shadow-sm md:hover:translate-y-0.5 transition-transform duration-150">
-                {/* 번호 */}
-                <div className="md:col-span-1 text-sm text-gray-500">{posts.length - index}</div>
+                {/* 번호: descending overall number */}
+                <div className="md:col-span-1 text-sm text-gray-500">{total - (start + index)}</div>
 
                 {/* 제목 */}
                 <div className="md:col-span-6">
@@ -48,9 +63,38 @@ export default async function BlogPage() {
         )}
       </div>
 
-      {/* 모바일에서 더 보기 버튼 */}
-      <div className="mt-6 text-center">
-        <Link href="/blog" className="inline-block px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">View all posts</Link>
+      {/* 페이지 네비게이션 */}
+      <div className="mt-6 flex flex-col items-center">
+        <div className="text-sm text-gray-600 mb-2">Showing {Math.min(start + 1, total)} - {Math.min(start + pagePosts.length, total)} of {total} posts</div>
+
+        <nav className="inline-flex items-center space-x-2">
+          <Link
+            href={`?page=${Math.max(1, page - 1)}`}
+            className={`px-3 py-1 rounded-md border ${page === 1 ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : 'bg-white hover:bg-gray-50'}`}
+            aria-disabled={page === 1}
+          >
+            Prev
+          </Link>
+
+          {/* page number buttons */}
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+            <Link
+              key={p}
+              href={`?page=${p}`}
+              className={`px-3 py-1 rounded-md border ${p === page ? 'bg-blue-600 text-white' : 'bg-white hover:bg-gray-50 text-gray-700'}`}
+            >
+              {p}
+            </Link>
+          ))}
+
+          <Link
+            href={`?page=${Math.min(totalPages, page + 1)}`}
+            className={`px-3 py-1 rounded-md border ${page === totalPages ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : 'bg-white hover:bg-gray-50'}`}
+            aria-disabled={page === totalPages}
+          >
+            Next
+          </Link>
+        </nav>
       </div>
     </main>
   );
