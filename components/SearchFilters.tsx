@@ -4,13 +4,14 @@ import React, { useState } from 'react';
 export default function SearchFilters({ titleQuery, dateFrom, dateTo, numMin, numMax, sort }:
   { titleQuery?: string; dateFrom?: string; dateTo?: string; numMin?: string; numMax?: string; sort?: string }) {
   const [open, setOpen] = useState(false);
+  const btnBase = 'inline-flex items-center justify-center h-9 min-w-[64px] px-3 rounded-md whitespace-nowrap text-sm';
 
   return (
     <div className="mb-6">
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="inline-flex items-center gap-2 px-3 py-2 border rounded-md bg-white hover:bg-gray-50"
+        className={`${btnBase} border bg-white hover:bg-gray-50`}
         aria-expanded={open}
         aria-controls="detailed-search"
       >
@@ -31,12 +32,12 @@ export default function SearchFilters({ titleQuery, dateFrom, dateTo, numMin, nu
           <input name="min" type="number" defaultValue={numMin} placeholder="최소 번호" className="px-3 py-2 border rounded-md" />
           <input name="max" type="number" defaultValue={numMax} placeholder="최대 번호" className="px-3 py-2 border rounded-md" />
           <div className="flex gap-2 md:col-span-1">
-            <select name="sort" defaultValue={sort} className="px-3 py-2 border rounded-md">
+            <select name="sort" defaultValue={sort} className="px-3 py-2 border rounded-md text-sm">
               <option value="newest">최신순</option>
               <option value="oldest">오래된순</option>
             </select>
-            <button type="submit" className="px-3 py-2 bg-blue-600 text-white rounded-md">적용</button>
-            <a href="/blog" className="px-3 py-2 bg-gray-200 text-gray-700 rounded-md">초기화</a>
+            <button type="submit" className={`${btnBase} bg-blue-600 text-white`}>적용</button>
+            <a href="/blog" className={`${btnBase} bg-gray-200 text-gray-700`}>초기화</a>
           </div>
         </form>
       )}

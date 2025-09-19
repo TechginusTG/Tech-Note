@@ -22,6 +22,7 @@ export default function PostsRenderer({
   totalPages: number;
 }) {
   const [view, setView] = useState<'list' | 'tile'>('list');
+  const btnBase = 'inline-flex items-center justify-center h-9 min-w-[64px] px-3 rounded whitespace-nowrap text-sm';
 
   const buildQuery = (params: Record<string, any>) => {
     const qs = new URLSearchParams();
@@ -37,10 +38,10 @@ export default function PostsRenderer({
         <div className="text-sm text-gray-600">총 {total}개 중 {Math.min(start + 1, total)} - {Math.min(start + posts.length, total)} 표시</div>
 
         <div className="flex items-center gap-2">
-          <button onClick={() => setView('list')} className={`px-2 py-1 rounded ${view === 'list' ? 'bg-gray-200' : 'bg-white'}`} aria-pressed={view === 'list'}>
+          <button onClick={() => setView('list')} className={`${btnBase} ${view === 'list' ? 'bg-gray-200' : 'bg-white'}`} aria-pressed={view === 'list'}>
             목록
           </button>
-          <button onClick={() => setView('tile')} className={`px-2 py-1 rounded ${view === 'tile' ? 'bg-gray-200' : 'bg-white'}`} aria-pressed={view === 'tile'}>
+          <button onClick={() => setView('tile')} className={`${btnBase} ${view === 'tile' ? 'bg-gray-200' : 'bg-white'}`} aria-pressed={view === 'tile'}>
             타일
           </button>
         </div>
@@ -79,7 +80,7 @@ export default function PostsRenderer({
                       // eslint-disable-next-line @next/next/no-img-element
                       <img src={post.thumb} alt={post.title} className="w-full h-full object-cover" />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center text-gray-400">이미지 없음</div>
+                      <div className="w-full h-full flex items-center justify-center text-gray-400 text-sm">이미지 없음</div>
                     )}
                   </div>
 
@@ -107,15 +108,15 @@ export default function PostsRenderer({
       {/* pagination navigation */}
       <div className="mt-6 flex flex-col items-center">
         <nav className="inline-flex items-center space-x-2">
-          <Link href={buildQuery({ ...baseFilters, page: Math.max(1, page - 1) })} className={`px-3 py-1 rounded-md border ${page === 1 ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : 'bg-white hover:bg-gray-50'}`} aria-disabled={page === 1}>이전</Link>
+          <Link href={buildQuery({ ...baseFilters, page: Math.max(1, page - 1) })} className={`${btnBase} rounded-md border ${page === 1 ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : 'bg-white hover:bg-gray-50'}`} aria-disabled={page === 1}>이전</Link>
 
           {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
-            <Link key={p} href={buildQuery({ ...baseFilters, page: p })} className={`px-3 py-1 rounded-md border ${p === page ? 'bg-blue-600 text-white' : 'bg-white hover:bg-gray-50 text-gray-700'}`}>
+            <Link key={p} href={buildQuery({ ...baseFilters, page: p })} className={`${btnBase} rounded-md border ${p === page ? 'bg-blue-600 text-white' : 'bg-white hover:bg-gray-50 text-gray-700'}`}>
               {p}
             </Link>
           ))}
 
-          <Link href={buildQuery({ ...baseFilters, page: Math.min(totalPages, page + 1) })} className={`px-3 py-1 rounded-md border ${page === totalPages ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : 'bg-white hover:bg-gray-50'}`} aria-disabled={page === totalPages}>다음</Link>
+          <Link href={buildQuery({ ...baseFilters, page: Math.min(totalPages, page + 1) })} className={`${btnBase} rounded-md border ${page === totalPages ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : 'bg-white hover:bg-gray-50'}`} aria-disabled={page === totalPages}>다음</Link>
         </nav>
       </div>
     </section>
