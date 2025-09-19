@@ -34,14 +34,14 @@ export default function PostsRenderer({
   return (
     <section>
       <div className="flex items-center justify-between mb-4">
-        <div className="text-sm text-gray-600">Showing {Math.min(start + 1, total)} - {Math.min(start + posts.length, total)} of {total}</div>
+        <div className="text-sm text-gray-600">총 {total}개 중 {Math.min(start + 1, total)} - {Math.min(start + posts.length, total)} 표시</div>
 
         <div className="flex items-center gap-2">
           <button onClick={() => setView('list')} className={`px-2 py-1 rounded ${view === 'list' ? 'bg-gray-200' : 'bg-white'}`} aria-pressed={view === 'list'}>
-            List
+            목록
           </button>
           <button onClick={() => setView('tile')} className={`px-2 py-1 rounded ${view === 'tile' ? 'bg-gray-200' : 'bg-white'}`} aria-pressed={view === 'tile'}>
-            Tile
+            타일
           </button>
         </div>
       </div>
@@ -63,7 +63,7 @@ export default function PostsRenderer({
               </Link>
             ))
           ) : (
-            <p className="px-4 py-6">No posts match the filters.</p>
+            <p className="px-4 py-6 text-center">조건에 맞는 게시물이 없습니다.</p>
           )}
         </div>
       ) : (
@@ -79,7 +79,7 @@ export default function PostsRenderer({
                       // eslint-disable-next-line @next/next/no-img-element
                       <img src={post.thumb} alt={post.title} className="w-full h-full object-cover" />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center text-gray-400">No Image</div>
+                      <div className="w-full h-full flex items-center justify-center text-gray-400">이미지 없음</div>
                     )}
                   </div>
 
@@ -100,14 +100,14 @@ export default function PostsRenderer({
             ))}
           </div>
         ) : (
-          <p className="px-4 py-6">No posts match the filters.</p>
+          <p className="px-4 py-6 text-center">조건에 맞는 게시물이 없습니다.</p>
         )
       )}
 
       {/* pagination navigation */}
       <div className="mt-6 flex flex-col items-center">
         <nav className="inline-flex items-center space-x-2">
-          <Link href={buildQuery({ ...baseFilters, page: Math.max(1, page - 1) })} className={`px-3 py-1 rounded-md border ${page === 1 ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : 'bg-white hover:bg-gray-50'}`} aria-disabled={page === 1}>Prev</Link>
+          <Link href={buildQuery({ ...baseFilters, page: Math.max(1, page - 1) })} className={`px-3 py-1 rounded-md border ${page === 1 ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : 'bg-white hover:bg-gray-50'}`} aria-disabled={page === 1}>이전</Link>
 
           {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
             <Link key={p} href={buildQuery({ ...baseFilters, page: p })} className={`px-3 py-1 rounded-md border ${p === page ? 'bg-blue-600 text-white' : 'bg-white hover:bg-gray-50 text-gray-700'}`}>
@@ -115,7 +115,7 @@ export default function PostsRenderer({
             </Link>
           ))}
 
-          <Link href={buildQuery({ ...baseFilters, page: Math.min(totalPages, page + 1) })} className={`px-3 py-1 rounded-md border ${page === totalPages ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : 'bg-white hover:bg-gray-50'}`} aria-disabled={page === totalPages}>Next</Link>
+          <Link href={buildQuery({ ...baseFilters, page: Math.min(totalPages, page + 1) })} className={`px-3 py-1 rounded-md border ${page === totalPages ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : 'bg-white hover:bg-gray-50'}`} aria-disabled={page === totalPages}>다음</Link>
         </nav>
       </div>
     </section>
