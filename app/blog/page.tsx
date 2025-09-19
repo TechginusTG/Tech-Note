@@ -1,5 +1,6 @@
 import { fetchPosts } from '@/lib/api';
 import Link from 'next/link';
+import SearchFilters from '@/components/SearchFilters';
 
 function excerpt(text: string | undefined, len = 120) {
   if (!text) return '';
@@ -88,21 +89,15 @@ export default async function BlogPage({ searchParams }: { searchParams?: { [key
     <main className="container mx-auto px-4 py-8">
       <h1 className="text-4xl font-bold mb-4">Blog</h1>
 
-      {/* 검색/필터 폼 (GET) */}
-      <form method="get" className="grid grid-cols-1 md:grid-cols-6 gap-3 mb-6">
-        <input name="q" defaultValue={titleQuery} placeholder="Search title..." className="md:col-span-2 px-3 py-2 border rounded-md" />
-        <input name="from" type="date" defaultValue={dateFrom} className="px-3 py-2 border rounded-md" />
-        <input name="to" type="date" defaultValue={dateTo} className="px-3 py-2 border rounded-md" />
-        <input name="min" type="number" defaultValue={numMin} placeholder="Min #" className="px-3 py-2 border rounded-md" />
-        <input name="max" type="number" defaultValue={numMax} placeholder="Max #" className="px-3 py-2 border rounded-md" />
-        <div className="flex gap-2 md:col-span-1">
-          <select name="sort" defaultValue={sort} className="px-3 py-2 border rounded-md">
-            <option value="newest">Newest</option>
-            <option value="oldest">Oldest</option>
-          </select>
-          <button type="submit" className="px-3 py-2 bg-blue-600 text-white rounded-md">Filter</button>
-        </div>
-      </form>
+      {/* 검색/필터 (토글) */}
+      <SearchFilters
+        titleQuery={titleQuery}
+        dateFrom={dateFrom}
+        dateTo={dateTo}
+        numMin={numMin}
+        numMax={numMax}
+        sort={sort}
+      />
 
       {/* 게시판 헤더 */}
       <div className="hidden md:grid grid-cols-12 gap-4 items-center bg-gray-100 text-sm text-gray-600 px-4 py-2 rounded-t-md">
