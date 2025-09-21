@@ -5,6 +5,7 @@ import "./styles/theme.css";
 import "./styles/globals.css";
 import { ReduxProvider } from "./store/provider";
 import ThemeInitializer from '@/components/ThemeInitializer';
+import Link from "next/link";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,9 +37,9 @@ export default function RootLayout({
         <ReduxProvider>
           <header className="flex justify-between items-center p-4 border-b">
             <div></div>
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            <Link href="/login" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
               Login
-            </button>
+            </Link>
           </header>
           <ThemeInitializer />
           {children}
