@@ -1,0 +1,13 @@
+.modalContainer { @apply fixed inset-0 z-50 flex items-center justify-center; }
+.backdrop { @apply fixed inset-0 bg-black/40; }
+.modalContent { @apply bg-white rounded-md shadow-lg z-10 w-full max-w-md mx-4 p-6; }
+.title { @apply text-lg font-semibold mb-4; }
+.optionsContainer { @apply flex flex-col gap-3; }
+.optionLabel { @apply inline-flex items-center gap-2 p-2 rounded cursor-pointer; }
+.optionLabelSelected { @apply bg-gray-100; }
+.themeSection { @apply mt-4; }
+.themeTitle { @apply text-sm font-medium mb-2; }
+.themeOptionsContainer { @apply flex flex-col gap-2; }
+.buttonsContainer { @apply mt-6 flex justify-end gap-2; }
+.cancelButton { @apply px-4 py-2 rounded bg-gray-100; }
+.saveButton { @apply px-4 py-2 rounded bg-blue-600 text-white; }

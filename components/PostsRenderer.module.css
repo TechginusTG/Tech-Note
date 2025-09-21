@@ -1,0 +1,39 @@
+.header { @apply flex items-center justify-between mb-4; }
+.postCount { @apply text-sm text-gray-600; }
+.settingsContainer { @apply flex items-center gap-2; }
+.btnBase { @apply inline-flex items-center justify-center h-9 min-w-[64px] px-3 rounded whitespace-nowrap text-sm; }
+.settingsButton { @apply bg-white border hover:bg-gray-50; }
+
+/* List View */
+.listWrapper { @apply divide-y border rounded-b-md overflow-hidden; }
+.listItemLink { @apply block hover:bg-gray-50; }
+.listItemArticle { @apply grid grid-cols-1 md:grid-cols-12 gap-4 items-center px-4 py-4 md:hover:shadow-sm md:hover:translate-y-0.5 transition-transform duration-150; }
+.listItemNumber { @apply md:col-span-1 text-sm text-gray-500; }
+.listItemMain { @apply md:col-span-6; }
+.listItemTitle { @apply text-lg md:text-xl font-medium text-gray-800 hover:text-blue-600; }
+.listItemExcerptMobile { @apply mt-1 text-xs text-gray-500 md:hidden; }
+.listItemExcerptDesktop { @apply hidden md:block md:col-span-3 text-sm text-gray-600; }
+.listItemDate { @apply md:col-span-2 text-sm text-gray-500 text-right; }
+.noPostsMessage { @apply px-4 py-6 text-center; }
+
+/* Tile View */
+.tileGrid { @apply grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4; }
+.tileItemLink { @apply block; }
+.tileItemArticle { @apply relative bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-150; }
+.tileImageContainer { @apply aspect-w-16 aspect-h-9 bg-gray-100; }
+.tileImage { @apply w-full h-full object-cover; }
+.tileImagePlaceholder { @apply w-full h-full flex items-center justify-center text-gray-400 text-sm; }
+.tileContent { @apply p-3; }
+.tileTitle { @apply text-sm font-medium text-gray-800 truncate; }
+.tileMeta { @apply mt-1 text-xs text-gray-500 flex items-center justify-between; }
+.tileViews { @apply ml-2; }
+.tileBadge { @apply absolute top-2 right-2 bg-black text-white text-xs px-2 py-0.5 rounded-full; }
+
+/* Pagination */
+.paginationContainer { @apply mt-6 flex flex-col items-center; }
+.paginationNav { @apply inline-flex items-center space-x-2; }
+.paginationLink { @apply rounded-md border; }
+.paginationLinkDisabled { @apply bg-gray-100 text-gray-400 cursor-not-allowed; }
+.paginationLinkEnabled { @apply bg-white hover:bg-gray-50; }
+.paginationLinkActive { @apply bg-blue-600 text-white; }
+.paginationLinkInactive { @apply bg-white hover:bg-gray-50 text-gray-700; }

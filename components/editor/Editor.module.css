@@ -1,0 +1,16 @@
+
+.editorTextarea {
+  @apply w-full h-96 p-4 border rounded-md;
+}
+
+.previewWrapper {
+  @apply mt-4;
+}
+
+.previewHeading {
+  @apply text-lg font-semibold;
+}
+
+.previewContent {
+  @apply prose mt-2 p-4 border rounded-md;
+}

@@ -1,27 +1,28 @@
 import Editor from '@/components/editor/Editor';
+import styles from './page.module.css';
 
 export default function NewPostPage() {
   return (
-    <main className="container mx-auto px-4 py-8">
-      <h1 className="text-4xl font-bold mb-8">Create New Post</h1>
+    <main className={styles.main}>
+      <h1 className={styles.title}>Create New Post</h1>
       <form>
-        <div className="mb-4">
-          <label htmlFor="title" className="block text-lg font-medium mb-2">Title</label>
+        <div className={styles.formGroup}>
+          <label htmlFor="title" className={styles.label}>Title</label>
           <input
             type="text"
             id="title"
             name="title"
-            className="w-full p-2 border rounded-md"
+            className={styles.input}
             placeholder="Enter post title"
           />
         </div>
-        <div className="mb-8">
-          <label className="block text-lg font-medium mb-2">Content</label>
+        <div className={styles.formGroupLarge}>
+          <label className={styles.label}>Content</label>
           <Editor />
         </div>
         <button
           type="submit"
-          className="px-6 py-2 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700"
+          className={styles.publishButton}
         >
           Publish Post
         </button>
@@ -29,3 +30,4 @@ export default function NewPostPage() {
     </main>
   );
 }
+

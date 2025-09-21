@@ -1,0 +1,4 @@
+.main { @apply container mx-auto px-4 py-8; }
+.header { @apply flex items-center justify-between; }
+.title { @apply text-4xl font-bold mb-4; }
+.categoryButtonContainer { @apply mb-4; }
