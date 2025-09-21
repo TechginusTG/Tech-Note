@@ -1,6 +1,7 @@
-'use client';
-import React, { useState } from 'react';
+"use client";
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+import BlogSettingsModal from './BlogSettingsModal';
 
 type Post = any;
 
@@ -22,6 +23,58 @@ export default function PostsRenderer({
   totalPages: number;
 }) {
   const [view, setView] = useState<'list' | 'tile'>('list');
+  const [theme, setTheme] = useState<'light' | 'dark'>('light');
+  const [settingsOpen, setSettingsOpen] = useState(false);
+
+  // load persisted view mode
+  useEffect(() => {
+    try {
+      const v = localStorage.getItem('blog:view');
+      if (v === 'list' || v === 'tile') setView(v as 'list' | 'tile');
+    } catch (e) {
+      // ignore
+    }
+  }, []);
+
+  // persist view mode
+  useEffect(() => {
+    try {
+      localStorage.setItem('blog:view', view);
+    } catch (e) {
+      // ignore
+    }
+  }, [view]);
+
+  // load/persist theme
+  useEffect(() => {
+    try {
+      const t = localStorage.getItem('blog:theme');
+      if (t === 'light' || t === 'dark') setTheme(t as 'light' | 'dark');
+    } catch (e) {
+      // ignore
+    }
+  }, []);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('blog:theme', theme);
+    } catch (e) {
+      // ignore
+    }
+  }, [theme]);
+
+  // apply theme to document
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const root = document.documentElement;
+    if (theme === 'dark') {
+      root.classList.add('dark');
+      root.classList.add('theme-inverted');
+    } else {
+      root.classList.remove('dark');
+      root.classList.remove('theme-inverted');
+    }
+  }, [theme]);
   const btnBase = 'inline-flex items-center justify-center h-9 min-w-[64px] px-3 rounded whitespace-nowrap text-sm';
 
   const buildQuery = (params: Record<string, any>) => {
@@ -38,14 +91,25 @@ export default function PostsRenderer({
         <div className="text-sm text-gray-600">총 {total}개 중 {Math.min(start + 1, total)} - {Math.min(start + posts.length, total)} 표시</div>
 
         <div className="flex items-center gap-2">
-          <button onClick={() => setView('list')} className={`${btnBase} ${view === 'list' ? 'bg-gray-200' : 'bg-white'}`} aria-pressed={view === 'list'}>
-            목록
-          </button>
-          <button onClick={() => setView('tile')} className={`${btnBase} ${view === 'tile' ? 'bg-gray-200' : 'bg-white'}`} aria-pressed={view === 'tile'}>
-            타일
+          <button
+            onClick={() => setSettingsOpen(true)}
+            className={`${btnBase} bg-white border hover:bg-gray-50`}
+            aria-haspopup="dialog"
+            aria-expanded={settingsOpen}
+          >
+            설정
           </button>
         </div>
       </div>
+
+      <BlogSettingsModal
+        open={settingsOpen}
+        onClose={() => setSettingsOpen(false)}
+        view={view}
+        setView={setView}
+        theme={theme}
+        setTheme={setTheme}
+      />
 
       {view === 'list' ? (
         <div className="divide-y border rounded-b-md overflow-hidden">

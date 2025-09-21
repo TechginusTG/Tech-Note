@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ReduxProvider } from "./store/provider";
+import ThemeInitializer from '@/components/ThemeInitializer';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,7 +29,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ReduxProvider>{children}</ReduxProvider>
+        {/* Inline script to ensure theme classes are set before hydration to avoid flash */}
+        <script dangerouslySetInnerHTML={{ __html: `(function(){try{var t=localStorage.getItem('blog:theme');if(t==='dark'){document.documentElement.classList.add('theme-inverted','dark');}else{document.documentElement.classList.remove('theme-inverted','dark');}}catch(e){} })();` }} />
+        <ReduxProvider>
+          <ThemeInitializer />
+          {children}
+        </ReduxProvider>
       </body>
     </html>
   );
