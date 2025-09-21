@@ -1,5 +1,3 @@
-@import "tailwindcss";
-
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -18,18 +16,6 @@
     --background: #0a0a0a;
     --foreground: #ededed;
   }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-/* Ensure the app root fills viewport so background overrides apply to entire page */
-html, body, #__next {
-  height: 100%;
-  min-height: 100%;
 }
 
 /* When the user chooses the 'inverted' dark theme, swap the main CSS variables */
@@ -96,9 +82,6 @@ html, body, #__next {
   background-color: #1e40af !important; /* keep blue but adjust if needed */
 }
 
-/* Removed global CSS filter inversion to avoid heavy overlay/shadow effect.
-   Theme now uses variable swaps and targeted overrides for predictable colors. */
-
 /* Stronger overrides to ensure common utility classes and elements appear dark */
 html.theme-inverted,
 html.theme-inverted body {
@@ -160,4 +143,3 @@ html.theme-inverted .backdrop,
 html.theme-inverted .modal {
   background-color: transparent !important;
 }
-

@@ -1,0 +1,22 @@
+.main {
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 2rem 1rem;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.title {
+  font-size: 2.25rem; /* 4xl */
+  font-weight: 700; /* bold */
+  margin-bottom: 1rem;
+}
+
+.categoryPanel {
+    margin-bottom: 1rem;
+}

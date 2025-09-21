@@ -1,0 +1,27 @@
+.main {
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 2rem 1rem;
+}
+
+.article {
+  color: #374151;
+  font-size: 1.125rem;
+  line-height: 1.777;
+}
+
+.article h1 {
+    font-size: 2.25rem; /* 4xl */
+    font-weight: 700; /* bold */
+    margin-bottom: 1rem;
+}
+
+.article p {
+    margin-bottom: 1.25em;
+}
+
+.date {
+    color: #6b7280;
+    margin-bottom: 2rem;
+}

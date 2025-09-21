@@ -1,0 +1,82 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+.textCenter {
+  text-align: center;
+}
+
+.title {
+  font-size: 3.75rem; /* 5xl */
+  font-weight: 800; /* extrabold */
+  margin-bottom: 1rem;
+}
+
+.description {
+  font-size: 1.25rem; /* xl */
+  color: #4b5563; /* gray-600 */
+  margin-bottom: 3rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  max-width: 64rem; /* max-w-4xl */
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.card {
+  display: block;
+  padding: 2rem;
+  border: 1px solid #e5e7eb; /* border */
+  border-radius: 0.5rem; /* rounded-lg */
+  transition: all 0.2s ease-in-out;
+}
+
+.card:hover {
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); /* hover:shadow-lg */
+}
+
+.blogCard:hover {
+    border-color: #3b82f6; /* hover:border-blue-500 */
+}
+
+.newPostCard:hover {
+    border-color: #22c55e; /* hover:border-green-500 */
+}
+
+.communityCard:hover {
+    border-color: #8b5cf6; /* hover:border-purple-500 */
+}
+
+.cardTitle {
+  font-size: 1.875rem; /* 3xl */
+  font-weight: 700; /* bold */
+  margin-bottom: 0.5rem;
+}
+
+.cardText {
+  /* No specific class, but we can add one if needed */
+}
+
+.communityCard {
+  composes: card;
+}
+
+@media (min-width: 768px) {
+  .communityCard {
+    grid-column: span 2 / span 2;
+  }
+}
