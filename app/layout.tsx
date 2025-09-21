@@ -34,6 +34,12 @@ export default function RootLayout({
         {/* Inline script to ensure theme classes are set before hydration to avoid flash */}
         <script dangerouslySetInnerHTML={{ __html: `(function(){try{var t=localStorage.getItem('blog:theme');if(t==='dark'){document.documentElement.classList.add('theme-inverted','dark');}else{document.documentElement.classList.remove('theme-inverted','dark');}}catch(e){} })();` }} />
         <ReduxProvider>
+          <header className="flex justify-between items-center p-4 border-b">
+            <div></div>
+            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+              Login
+            </button>
+          </header>
           <ThemeInitializer />
           {children}
         </ReduxProvider>
