@@ -1,8 +1,0 @@
-.main { @apply container mx-auto px-4 py-8; }
-.title { @apply text-4xl font-bold mb-8; }
-.subtitle { @apply mb-8; }
-.formGroup { @apply mb-4; }
-.formGroupLarge { @apply mb-8; }
-.label { @apply block text-lg font-medium mb-2; }
-.input { @apply w-full p-2 border rounded-md; }
-.updateButton { @apply px-6 py-2 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700; }

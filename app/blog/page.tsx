@@ -2,7 +2,6 @@ import { fetchPosts } from '@/lib/api';
 import PostsRenderer from '@/components/PostsRenderer';
 import SearchFilters from '@/components/SearchFilters';
 import CategoryPanel from '@/components/CategoryPanel';
-import styles from './page.module.css';
 
 function excerpt(text: string | undefined, len = 120) {
   if (!text) return '';
@@ -120,10 +119,10 @@ export default async function BlogPage({ searchParams }: { searchParams?: { [key
   };
 
   return (
-    <main className={styles.main}>
-      <div className={styles.header}>
-        <h1 className={styles.title}>Blog</h1>
-        <div className={styles.categoryButtonContainer}>
+    <main className="container mx-auto px-4 py-8">
+      <div className="flex items-center justify-between">
+        <h1 className="text-4xl font-bold mb-4">Blog</h1>
+        <div className="mb-4">
           {/* category panel button */}
           <CategoryPanel categories={categories} currentFilters={baseFilters} />
         </div>
@@ -150,4 +149,3 @@ export default async function BlogPage({ searchParams }: { searchParams?: { [key
     </main>
   );
 }
-

@@ -2,7 +2,6 @@
 // It would fetch the post data based on the [id] parameter.
 
 import Editor from '@/components/editor/Editor';
-import styles from './page.module.css';
 
 type Props = {
   params: { id: string };
@@ -12,29 +11,29 @@ export default async function EditPostPage({ params }: Props) {
   // const post = await fetchPostById(params.id); // You would implement this function in lib/api.ts
 
   return (
-    <main className={styles.main}>
-      <h1 className={styles.title}>Edit Post</h1>
-      <p className={styles.subtitle}>Editing post with ID: {params.id}</p>
+    <main className="container mx-auto px-4 py-8">
+      <h1 className="text-4xl font-bold mb-8">Edit Post</h1>
+      <p className="mb-8">Editing post with ID: {params.id}</p>
       {/* Pre-fill the form with the fetched post data */}
       <form>
-        <div className={styles.formGroup}>
-          <label htmlFor="title" className={styles.label}>Title</label>
+        <div className="mb-4">
+          <label htmlFor="title" className="block text-lg font-medium mb-2">Title</label>
           <input
             type="text"
             id="title"
             name="title"
-            className={styles.input}
+            className="w-full p-2 border rounded-md"
             // defaultValue={post?.title}
           />
         </div>
-        <div className={styles.formGroupLarge}>
-          <label className={styles.label}>Content</label>
+        <div className="mb-8">
+          <label className="block text-lg font-medium mb-2">Content</label>
           {/* The Editor would need to be initialized with the post content */}
           <Editor />
         </div>
         <button
           type="submit"
-          className={styles.updateButton}
+          className="px-6 py-2 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700"
         >
           Update Post
         </button>
@@ -42,4 +41,3 @@ export default async function EditPostPage({ params }: Props) {
     </main>
   );
 }
-
