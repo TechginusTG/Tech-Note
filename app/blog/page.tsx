@@ -3,6 +3,7 @@ import PostsRenderer from '@/components/PostsRenderer';
 import SearchFilters from '@/components/SearchFilters';
 import CategoryPanel from '@/components/CategoryPanel';
 import styles from './page.module.css';
+import Link from 'next/link';
 
 function excerpt(text: string | undefined, len = 120) {
   if (!text) return '';
@@ -147,6 +148,11 @@ export default async function BlogPage({ searchParams }: { searchParams?: { [key
         page={page}
         totalPages={totalPages}
       />
+      <div className={styles.writeButtonContainer}>
+        <Link href="/write" className={styles.writeButton}>
+          글쓰기
+        </Link>
+      </div>
     </main>
   );
 }
