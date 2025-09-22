@@ -1,5 +1,6 @@
 import Editor from '@/components/editor/Editor';
 import styles from './page.module.css';
+import ClientOnly from '@/components/ClientOnly';
 
 export default function NewPostPage() {
   return (
@@ -18,7 +19,9 @@ export default function NewPostPage() {
         </div>
         <div className={styles.formGroupLarge}>
           <label className={styles.label}>Content</label>
-          <Editor />
+          <ClientOnly>
+            <Editor />
+          </ClientOnly>
         </div>
         <button
           type="submit"
