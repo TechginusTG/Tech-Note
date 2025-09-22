@@ -149,7 +149,7 @@ export default async function BlogPage({ searchParams }: { searchParams?: { [key
         totalPages={totalPages}
       />
       <div className={styles.writeButtonContainer}>
-        <Link href="/write" className={styles.writeButton}>
+        <Link href="/admin/blog/new" className={styles.writeButton}>
           글쓰기
         </Link>
       </div>
