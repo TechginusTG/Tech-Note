@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev:db": "podman-compose up -d",
-    "dev:backend": "cd backend && ./gradlew bootRun",
+    "dev:backend": "dotenv -e .env -- bash -c \"cd backend && ./gradlew bootRun\"",
     "dev:frontend": "next dev --turbopack",
     "dev": "npm run dev:db && (trap 'kill 0' SIGINT; npm run dev:backend & npm run dev:frontend)",
     "stop": "podman-compose down",
@@ -33,6 +33,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/react-redux": "^7.1.34",
+    "dotenv-cli": "^10.0.0",
     "eslint": "^9",
     "eslint-config-next": "15.5.3",
     "tailwindcss": "^4",
