@@ -5,7 +5,7 @@
 ## 주요 기술
 
 *   **프론트엔드:** Next.js, React, TypeScript, Redux Toolkit
-*   **백엔드:** Java, Spring Boot
+*   **백엔드:** Java, Spring Boot, PostgreSQL
 *   **스타일링:** CSS 모듈, Tailwind CSS
 
 ## 디렉토리 구조
