@@ -6,8 +6,8 @@
     "dev:db": "podman-compose up -d",
     "dev:backend": "dotenv -e .env -- bash -c \"cd backend && ./gradlew bootRun\"",
     "dev:frontend": "next dev --turbopack",
-    "dev": "npm run dev:db && (trap 'kill 0' SIGINT; npm run dev:backend & npm run dev:frontend)",
-    "stop": "podman-compose down",
+    "dev": "trap 'kill 0' SIGINT; npm run dev:backend & npm run dev:frontend",
+    "stop": "echo 'Database not running via compose.'",
     "build": "next build --turbopack",
     "start": "next start",
     "lint": "eslint"
