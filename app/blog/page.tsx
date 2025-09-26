@@ -1,3 +1,8 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { useTranslation } from 'react-i18next';
 import { fetchPosts } from '@/lib/api';
 import PostsRenderer from '@/components/PostsRenderer';
 import SearchFilters from '@/components/SearchFilters';
@@ -10,16 +15,19 @@ function excerpt(text: string | undefined, len = 120) {
   return text.length > len ? text.slice(0, len).trimEnd() + '…' : text;
 }
 
-function buildQuery(params: Record<string, any>) {
-  const qs = new URLSearchParams();
-  Object.entries(params).forEach(([k, v]) => {
-    if (v !== undefined && v !== null && String(v) !== '') qs.set(k, String(v));
-  });
-  return qs.toString() ? `?${qs.toString()}` : '';
-}
+export default function BlogPage() {
+  const { t } = useTranslation();
+  const searchParams = useSearchParams();
+  const [posts, setPosts] = useState<any[]>([]);
 
-export default async function BlogPage({ searchParams }: { searchParams?: { [key: string]: string | undefined } }) {
-  const posts = (await fetchPosts()) || [];
+  useEffect(() => {
+    const getPosts = async () => {
+      const fetchedPosts = (await fetchPosts()) || [];
+      setPosts(fetchedPosts);
+    };
+    getPosts();
+  }, []);
+
   const perPage = 10;
 
   // compute categories from posts
@@ -33,13 +41,13 @@ export default async function BlogPage({ searchParams }: { searchParams?: { [key
   const categories = Object.values(categoryMap).sort((a, b) => b.count - a.count);
 
   // extract filter params from query
-  const titleQuery = searchParams?.q ?? '';
-  const dateFrom = searchParams?.from ?? '';
-  const dateTo = searchParams?.to ?? '';
-  const numMin = searchParams?.min ?? '';
-  const numMax = searchParams?.max ?? '';
-  const sort = searchParams?.sort ?? 'newest';
-  const categoryFilter = searchParams?.category ?? '';
+  const titleQuery = searchParams.get('q') ?? '';
+  const dateFrom = searchParams.get('from') ?? '';
+  const dateTo = searchParams.get('to') ?? '';
+  const numMin = searchParams.get('min') ?? '';
+  const numMax = searchParams.get('max') ?? '';
+  const sort = searchParams.get('sort') ?? 'newest';
+  const categoryFilter = searchParams.get('category') ?? '';
 
   // filtering
   let filtered = posts.slice();
@@ -84,8 +92,8 @@ export default async function BlogPage({ searchParams }: { searchParams?: { [key
 
   // pagination params
   let page = 1;
-  if (searchParams?.page) {
-    const p = parseInt(searchParams.page as string, 10);
+  if (searchParams.get('page')) {
+    const p = parseInt(searchParams.get('page') as string, 10);
     page = Number.isFinite(p) && p > 0 ? p : 1;
   }
 
@@ -123,7 +131,7 @@ export default async function BlogPage({ searchParams }: { searchParams?: { [key
   return (
     <main className={styles.main}>
       <div className={styles.header}>
-        <h1 className={styles.title}>Blog</h1>
+        <h1 className={styles.title}>{t('blog')}</h1>
         <div className={styles.categoryPanel}>
           {/* category panel button */}
           <CategoryPanel categories={categories} currentFilters={baseFilters} />
@@ -150,7 +158,7 @@ export default async function BlogPage({ searchParams }: { searchParams?: { [key
       />
       <div className={styles.writeButtonContainer}>
         <Link href="/admin/blog/new" className={styles.writeButton}>
-          글쓰기
+          {t('write')}
         </Link>
       </div>
     </main>

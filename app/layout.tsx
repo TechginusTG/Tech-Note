@@ -7,6 +7,9 @@ import { ReduxProvider } from "./store/provider";
 import ThemeInitializer from '@/components/ThemeInitializer';
 import Link from "next/link";
 
+import Header from "@/components/Header";
+import I18nProvider from "./i18n-provider";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -35,14 +38,11 @@ export default function RootLayout({
         {/* Inline script to ensure theme classes are set before hydration to avoid flash */}
         <script dangerouslySetInnerHTML={{ __html: `(function(){try{var t=localStorage.getItem('blog:theme');if(t==='dark'){document.documentElement.classList.add('theme-inverted','dark');}else{document.documentElement.classList.remove('theme-inverted','dark');}}catch(e){} })();` }} />
         <ReduxProvider>
-          <header className="flex justify-between items-center p-4 border-b">
-            <div></div>
-            <Link href="/login" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-              Login
-            </Link>
-          </header>
-          <ThemeInitializer />
-          {children}
+          <I18nProvider>
+            <Header />
+            <ThemeInitializer />
+            {children}
+          </I18nProvider>
         </ReduxProvider>
       </body>
     </html>

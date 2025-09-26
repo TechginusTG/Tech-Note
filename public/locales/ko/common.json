@@ -1,0 +1,17 @@
+{
+  "login": "로그인",
+  "blog": "블로그",
+  "community": "커뮤니티",
+  "write_post": "포스트 작성",
+  "write": "글쓰기",
+  "community_features": "커뮤니티 기능은 여기에 구현될 것입니다.",
+  "community_description": "이 섹션에는 포럼, 토론 및 사용자 생성 콘텐츠가 포함됩니다.",
+  "create_new_post": "새 포스트 작성",
+  "title": "제목",
+  "enter_post_title": "포스트 제목을 입력하세요",
+  "content": "내용",
+  "publish_post": "포스트 발행",
+  "edit_post": "포스트 수정",
+  "editing_post_id": "{{id}}번 포스트 수정 중",
+  "update_post": "포스트 업데이트"
+}

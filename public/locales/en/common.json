@@ -1,0 +1,14 @@
+{
+  "login": "Login",
+  "blog": "Blog",
+  "community": "Community",
+  "write_post": "Write Post",
+  "write": "Write",
+  "community_features": "Community features will be implemented here.",
+  "community_description": "This section will include forums, discussions, and user-generated content.",
+  "create_new_post": "Create New Post",
+  "title": "Title",
+  "enter_post_title": "Enter post title",
+  "content": "Content",
+  "publish_post": "Publish Post"
+}
