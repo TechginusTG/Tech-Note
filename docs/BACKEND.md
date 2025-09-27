@@ -1,210 +1,199 @@
+# 백엔드 개발자 가이드: 새로운 기능 추가
 
-## 백엔드 확장: 새로운 기능 추가 가이드 (인수인계)
+이 가이드는 기존 `User` API를 참조하여 백엔드에 새로운 기능을 확장하는 단계별 프로세스를 제공합니다.
 
-이 섹션은 프로젝트에 새로운 기능을 추가하는 개발자를 위한 인수인계 가이드입니다. 기존 `User` API 구현 방식을 참고하여 새로운 엔티티와 API를 효율적으로 추가할 수 있습니다.
+## 핵심 원칙
 
-### 새로운 기능 추가 프로세스
+우리 백엔드는 표준 Spring Boot 규칙을 따르며, 계층화된 아키텍처를 통해 관심사를 명확하게 분리하는 것을 강조합니다:
 
-새로운 기능을 추가할 때는 일반적으로 다음 단계를 따릅니다.
+*   **엔티티(Entity):** 데이터 모델을 나타내며 데이터베이스 테이블에 매핑됩니다.
+*   **리포지토리(Repository):** 데이터 영속성을 관리하고 데이터베이스 작업을 위한 상위 수준의 API를 제공합니다.
+*   **컨트롤러(Controller):** 클라이언트에 RESTful API 엔드포인트를 노출합니다.
 
-1.  **엔티티(Entity) 정의:**
-    *   데이터베이스 테이블과 매핑될 Java 클래스를 생성합니다. (`@Entity`, `@Table`, `@Id`, `@GeneratedValue` 등의 JPA 어노테이션 사용)
-    *   `lombok` 어노테이션 (`@Getter`, `@Setter`)을 활용하여 boilerplate 코드를 줄입니다.
-    *   **예시:** `Post` 엔티티 (`backend/src/main/java/com/example/technote/post/Post.java`)
+## 'Post' 기능 추가 단계별 가이드
 
-    ```java
-    package com.example.technote.post;
+블로그 `Post` 엔티티를 관리하기 위한 새로운 기능을 추가하는 방법은 다음과 같습니다.
 
-    import com.example.technote.user.User;
-    import jakarta.persistence.*;
-    import lombok.Getter;
-    import lombok.Setter;
-    import java.time.LocalDateTime;
+### 1단계: 엔티티 정의
 
-    @Entity
-    @Table(name = "posts")
-    @Getter
-    @Setter
-    public class Post {
+`Post` 데이터 모델을 나타내는 새 Java 클래스를 만듭니다. 이 클래스는 데이터베이스의 `posts` 테이블에 매핑됩니다.
 
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private Long id;
+**파일:** `backend/src/main/java/com/example/technote/post/Post.java`
 
-        private String title;
+```java
+package com.example.technote.post;
 
-        @Column(columnDefinition = "TEXT")
-        private String content;
+import com.example.technote.user.User;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import java.time.LocalDateTime;
 
-        @ManyToOne
-        @JoinColumn(name = "author_id", nullable = false)
-        private User author;
+@Entity
+@Table(name = "posts")
+@Getter
+@Setter
+public class Post {
 
-        private LocalDateTime createdAt;
-        private LocalDateTime updatedAt;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-        @PrePersist
-        protected void onCreate() {
-            createdAt = LocalDateTime.now();
-            updatedAt = LocalDateTime.now();
-        }
+    private String title;
 
-        @PreUpdate
-        protected void onUpdate() {
-            updatedAt = LocalDateTime.now();
-        }
+    @Column(columnDefinition = "TEXT")
+    private String content;
+
+    // User 엔티티와 다대일 관계를 설정합니다.
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "author_id", nullable = false)
+    private User author;
+
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+
+    // 영속화 또는 업데이트 전에 타임스탬프를 자동으로 설정합니다.
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
     }
-    ```
 
-2.  **레포지토리(Repository) 정의:**
-    *   새로 정의한 엔티티에 대한 데이터베이스 접근을 처리할 인터페이스를 생성합니다.
-    *   `JpaRepository<엔티티클래스, ID타입>`을 상속받아 기본적인 CRUD (Create, Read, Update, Delete) 기능을 제공받습니다.
-    *   `@Repository` 어노테이션을 추가합니다.
-    *   **예시:** `PostRepository` (`backend/src/main/java/com/example/technote/post/PostRepository.java`)
-
-    ```java
-    package com.example.technote.post;
-
-    import org.springframework.data.jpa.repository.JpaRepository;
-    import org.springframework.stereotype.Repository;
-
-    @Repository
-    public interface PostRepository extends JpaRepository<Post, Long> {
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
     }
-    ```
+}
+```
 
-3.  **컨트롤러(Controller) 정의:**
-    *   새로운 엔티티에 대한 RESTful API 엔드포인트를 처리할 클래스를 생성합니다.
-    *   `@RestController`, `@RequestMapping` 어노테이션을 사용하여 API 경로를 정의합니다.
-    *   `@Autowired`를 사용하여 레포지토리를 주입받아 데이터베이스 작업을 수행합니다.
-    *   `@GetMapping`, `@PostMapping`, `@PutMapping`, `@DeleteMapping` 등의 어노테이션을 사용하여 각 HTTP 메서드에 대한 핸들러를 구현합니다.
-    *   **예시:** `PostController` (`backend/src/main/java/com/example/technote/post/PostController.java`)
+### 2단계: 리포지토리 생성
 
-    ```java
-    package com.example.technote.post;
+`JpaRepository`를 확장하는 리포지토리 인터페이스를 만듭니다. 이를 통해 필요한 모든 CRUD(생성, 읽기, 업데이트, 삭제) 메소드가 기본적으로 제공됩니다.
 
-    import com.example.technote.user.UserRepository;
-    import org.springframework.beans.factory.annotation.Autowired;
-    import org.springframework.http.ResponseEntity;
-    import org.springframework.web.bind.annotation.*;
+**파일:** `backend/src/main/java/com/example/technote/post/PostRepository.java`
 
-    import java.util.List;
-    import java.util.Optional;
+```java
+package com.example.technote.post;
 
-    @RestController
-    @RequestMapping("/api/posts")
-    public class PostController {
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-        @Autowired
-        private PostRepository postRepository;
+@Repository
+public interface PostRepository extends JpaRepository<Post, Long> {
+    // 필요한 경우 여기에 사용자 정의 쿼리 메소드를 추가할 수 있습니다.
+}
+```
 
-        @Autowired
-        private UserRepository userRepository; // User 엔티티와의 관계를 위해 필요
+### 3단계: 컨트롤러 구현
 
-        @GetMapping
-        public List<Post> getAllPosts() {
-            return postRepository.findAll();
-        }
+들어오는 HTTP 요청을 처리하고 `Post` 리소스에 대한 RESTful API 엔드포인트를 노출하는 컨트롤러를 만듭니다.
 
-        @GetMapping("/{id}")
-        public ResponseEntity<Post> getPostById(@PathVariable Long id) {
-            Optional<Post> post = postRepository.findById(id);
-            return post.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-        }
+**파일:** `backend/src/main/java/com/example/technote/post/PostController.java`
 
-        @PostMapping
-        public ResponseEntity<Post> createPost(@RequestBody Post post) {
-            // 실제 애플리케이션에서는 인증된 사용자 정보를 사용하여 author를 설정해야 합니다.
-            // 여기서는 예시를 위해 첫 번째 사용자를 가져오거나, 새로운 사용자를 생성합니다.
-            if (post.getAuthor() == null || post.getAuthor().getId() == null) {
-                return ResponseEntity.badRequest().build(); // author 정보가 없으면 에러
-            }
-            return userRepository.findById(post.getAuthor().getId())
-                    .map(author -> {
-                        post.setAuthor(author);
-                        return ResponseEntity.ok(postRepository.save(post));
-                    })
-                    .orElseGet(() -> ResponseEntity.badRequest().build()); // author를 찾을 수 없으면 에러
-        }
+```java
+package com.example.technote.post;
 
-        @PutMapping("/{id}")
-        public ResponseEntity<Post> updatePost(@PathVariable Long id, @RequestBody Post postDetails) {
-            Optional<Post> optionalPost = postRepository.findById(id);
-            if (optionalPost.isPresent()) {
-                Post post = optionalPost.get();
-                post.setTitle(postDetails.getTitle());
-                post.setContent(postDetails.getContent());
-                // author는 변경하지 않거나, 인증 로직을 통해 변경해야 합니다.
-                return ResponseEntity.ok(postRepository.save(post));
-            } else {
-                return ResponseEntity.notFound().build();
-            }
-        }
+import com.example.technote.user.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-        @DeleteMapping("/{id}")
-        public ResponseEntity<Void> deletePost(@PathVariable Long id) {
-            if (postRepository.existsById(id)) {
-                postRepository.deleteById(id);
-                return ResponseEntity.noContent().build();
-            } else {
-                return ResponseEntity.notFound().build();
-            }
-        }
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/posts")
+public class PostController {
+
+    @Autowired
+    private PostRepository postRepository;
+
+    @Autowired
+    private UserRepository userRepository; // 작성자 관계를 위해 필요
+
+    @GetMapping
+    public List<Post> getAllPosts() {
+        return postRepository.findAll();
     }
-    ```
 
-4.  **데이터베이스 마이그레이션 스크립트 추가:**
-    *   새로운 테이블이나 컬럼 변경이 필요한 경우, Flyway 마이그레이션 스크립트를 추가합니다.
-    *   `backend/src/main/resources/db/migration` 디렉토리에 `V<다음버전>__<설명>.sql` 형식으로 파일을 생성합니다.
-    *   **예시:** `posts` 테이블 생성을 위한 `V2__Create_posts_table.sql`
+    @GetMapping("/{id}")
+    public ResponseEntity<Post> getPostById(@PathVariable Long id) {
+        return postRepository.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
 
-    ```sql
-    -- V2__Create_posts_table.sql
-    CREATE TABLE posts (
-        id BIGSERIAL PRIMARY KEY,
-        title VARCHAR(255) NOT NULL,
-        content TEXT NOT NULL,
-        author_id BIGINT NOT NULL,
-        created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-        updated_at TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-        CONSTRAINT fk_author
-            FOREIGN KEY (author_id)
-            REFERENCES users(id)
-    );
-    ```
+    @PostMapping
+    public ResponseEntity<Post> createPost(@RequestBody Post post) {
+        // 실제 앱에서는 인증된 사용자의 보안 컨텍스트에서 작성자를 가져와야 합니다.
+        // 이 예제에서는 요청에 작성자의 ID가 제공된다고 가정합니다.
+        if (post.getAuthor() == null || post.getAuthor().getId() == null) {
+            return ResponseEntity.badRequest().body(null); // 작성자 정보는 필수입니다.
+        }
+        return userRepository.findById(post.getAuthor().getId())
+                .map(author -> {
+                    post.setAuthor(author);
+                    Post savedPost = postRepository.save(post);
+                    return ResponseEntity.ok(savedPost);
+                })
+                .orElse(ResponseEntity.badRequest().build()); // 작성자를 찾을 수 없음.
+    }
 
-### API 테스트
+    @PutMapping("/{id}")
+    public ResponseEntity<Post> updatePost(@PathVariable Long id, @RequestBody Post postDetails) {
+        return postRepository.findById(id)
+                .map(post -> {
+                    post.setTitle(postDetails.getTitle());
+                    post.setContent(postDetails.getContent());
+                    // 게시물의 작성자는 일반적으로 변경해서는 안 됩니다.
+                    Post updatedPost = postRepository.save(post);
+                    return ResponseEntity.ok(updatedPost);
+                })
+                .orElse(ResponseEntity.notFound().build());
+    }
 
-새로운 API를 구현한 후에는 Postman, Insomnia 또는 `curl`과 같은 도구를 사용하여 테스트합니다.
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletePost(@PathVariable Long id) {
+        return postRepository.findById(id)
+                .map(post -> {
+                    postRepository.delete(post);
+                    return ResponseEntity.noContent().<Void>build();
+                })
+                .orElse(ResponseEntity.notFound().build());
+    }
+}
+```
 
-*   **애플리케이션 재시작:**
+### 4단계: 데이터베이스 마이그레이션 추가
 
-    ```bash
-    npm run stop
-    npm run dev
-    ```
+마지막으로, 데이터베이스에 `posts` 테이블을 생성하기 위한 Flyway 마이그레이션 스크립트를 만듭니다.
 
-*   **예시 테스트 시나리오 (Post API):**
+**파일:** `backend/src/main/resources/db/migration/V2__Create_posts_table.sql`
 
-    *   **새로운 사용자 생성 (먼저):**
-        `POST http://localhost:8080/api/users`
-        Body: `{"username": "testuser", "email": "test@example.com"}`
+```sql
+-- V2__Create_posts_table.sql
+CREATE TABLE posts (
+    id BIGSERIAL PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    content TEXT NOT NULL,
+    author_id BIGINT NOT NULL,
+    created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    updated_at TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    CONSTRAINT fk_author
+        FOREIGN KEY (author_id)
+        REFERENCES users(id)
+        ON DELETE CASCADE -- 선택 사항: 작성자가 삭제되면 게시물도 삭제합니다.
+);
+```
 
-    *   **새로운 게시물 생성:**
-        `POST http://localhost:8080/api/posts`
-        Body: `{"title": "첫 번째 게시물", "content": "이것은 첫 번째 게시물의 내용입니다.", "author": {"id": 1}}` (여기서 `author.id`는 위에서 생성된 사용자의 ID입니다.)
+### 5단계: API 테스트
 
-    *   **모든 게시물 조회:**
-        `GET http://localhost:8080/api/posts`
+백엔드 애플리케이션을 다시 시작한 후, `curl`이나 Postman과 같은 도구를 사용하여 새 엔드포인트를 테스트합니다.
 
-    *   **특정 게시물 조회:**
-        `GET http://localhost:8080/api/posts/1`
+1.  **먼저 사용자 생성:**
+    *   `POST /api/users` 요청, body: `{"username": "testuser", "email": "test@example.com"}`
 
-    *   **게시물 업데이트:**
-        `PUT http://localhost:8080/api/posts/1`
-        Body: `{"title": "업데이트된 게시물", "content": "내용이 업데이트되었습니다.", "author": {"id": 1}}`
+2.  **게시물 생성:**
+    *   `POST /api/posts` 요청, body: `{"title": "My First Post", "content": "Hello World!", "author": {"id": 1}}`
 
-    *   **게시물 삭제:**
-        `DELETE http://localhost:8080/api/posts/1`
-
-이 가이드를 통해 Spring Boot 백엔드에 새로운 기능을 추가하는 과정을 이해하고, 프로젝트를 확장해 나갈 수 있습니다.
+3.  **모든 게시물 조회:**
+    *   `GET /api/posts`
