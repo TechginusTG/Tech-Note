@@ -8,6 +8,7 @@ public class TechnoteApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(TechnoteApplication.class, args);
+    System.out.printf("Backen seerver Started");
 	}
 
 }
