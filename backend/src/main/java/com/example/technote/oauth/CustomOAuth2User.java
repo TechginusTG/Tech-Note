@@ -28,10 +28,10 @@ public class CustomOAuth2User implements OAuth2User {
 
     @Override
     public String getName() {
-        return oauth2User.getName();
+        return (String) attributes.get("name");
     }
 
-    public String getProvider() {
-        return provider;
+    public String getEmail() {
+        return (String) attributes.get("email");
     }
 }
