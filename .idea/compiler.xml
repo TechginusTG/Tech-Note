@@ -11,4 +11,11 @@
       </profile>
     </annotationProcessing>
   </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="technote" options="-parameters" />
+      <module name="technote.main" options="-parameters" />
+      <module name="technote.test" options="-parameters" />
+    </option>
+  </component>
 </project>
