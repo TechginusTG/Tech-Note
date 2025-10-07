@@ -7,7 +7,7 @@ import { ReduxProvider } from "./store/provider";
 import ThemeInitializer from '@/components/ThemeInitializer';
 import Link from "next/link";
 
-import AuthProvider from "./auth-provider";
+import { AuthProvider } from "./auth-provider";
 import Header from "@/components/Header";
 import I18nProvider from "./i18n-provider";
 
