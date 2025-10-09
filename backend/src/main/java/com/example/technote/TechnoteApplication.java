@@ -1,4 +1,4 @@
-package com.example.technote;
+package com.example.technote.controller;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
