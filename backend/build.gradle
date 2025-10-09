@@ -44,4 +44,7 @@ dependencies {
 
     // Test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    // Devtools
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
 }
