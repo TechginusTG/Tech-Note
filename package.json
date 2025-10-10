@@ -4,10 +4,10 @@
   "private": true,
   "scripts": {
     "dev:db": "podman-compose up -d",
-    "dev:backend": "dotenv -e .env -- ./backend/gradlew bootRun",
+    "dev:backend": "dotenv -e .env -- sh -c 'cd backend && ./gradlew bootRun'",
     "dev:frontend": "next dev --turbopack",
-    "dev": "trap 'kill 0' SIGINT; npm run dev:db & npm run dev:backend & npm run dev:frontend",
-    "stop": "echo 'Database not running via compose.'",
+    "dev": "trap 'kill 0' SIGINT; npm run dev:db & npm run dev:frontend & npm run dev:backend",
+    "stop:db": "podman-compose down",
     "build": "next build --turbopack",
     "start": "next start",
     "lint": "eslint"
