@@ -5,7 +5,7 @@
   "scripts": {
     "dev:db": "podman-compose up -d",
     "dev:frontend": "next dev",
-    "dev": "npm install && npm run prisma migrate dev && trap 'echo \"\\nStopping services...\"; npm run stop:db; kill 0;' SIGINT; npm run dev:db & npm run dev:frontend",
+    "dev": "npm install && npm run dev:db && echo 'Waiting for DB to start...' && sleep 5 && npm run prisma migrate dev && trap 'echo \"\\nStopping services...\"; npm run stop:db; kill 0;' SIGINT; npm run dev:frontend",
     "stop:db": "podman-compose down",
     "build": "next build --turbopack",
     "start": "next start",
