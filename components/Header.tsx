@@ -9,7 +9,8 @@ const Header = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.post("http://localhost:8080/api/logout", {}, { withCredentials: true });
+      // The external API call for logout is removed as it's part of the old architecture.
+      // NextAuth will handle session invalidation.
     } catch (error) {
       console.error("Logout failed", error);
     } finally {
