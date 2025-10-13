@@ -1,18 +1,18 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { useSearchParams } from 'next/navigation';
-import { useTranslation } from 'react-i18next';
-import { fetchPosts } from '@/lib/api';
-import PostsRenderer from '@/components/PostsRenderer';
-import SearchFilters from '@/components/SearchFilters';
-import CategoryPanel from '@/components/CategoryPanel';
-import styles from './page.module.css';
-import Link from 'next/link';
+import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
+import { useTranslation } from "react-i18next";
+import { fetchPosts } from "@/lib/prisma";
+import PostsRenderer from "@/components/PostsRenderer";
+import SearchFilters from "@/components/SearchFilters";
+import CategoryPanel from "@/components/CategoryPanel";
+import styles from "./page.module.css";
+import Link from "next/link";
 
 function excerpt(text: string | undefined, len = 120) {
-  if (!text) return '';
-  return text.length > len ? text.slice(0, len).trimEnd() + '…' : text;
+  if (!text) return "";
+  return text.length > len ? text.slice(0, len).trimEnd() + "…" : text;
 }
 
 export default function BlogPage() {
@@ -23,7 +23,7 @@ export default function BlogPage() {
   useEffect(() => {
     const getPosts = async () => {
       const fetchedPosts = (await fetchPosts()) || [];
-      setPosts(fetchedPosts.filter((p: any) => p.category !== 'community'));
+      setPosts(fetchedPosts.filter((p: any) => p.category !== "community"));
     };
     getPosts();
   }, []);
@@ -31,69 +31,94 @@ export default function BlogPage() {
   const perPage = 10;
 
   // compute categories from posts
-  const categoryMap: Record<string, { key: string; name: string; count: number }> = {};
+  const categoryMap: Record<
+    string,
+    { key: string; name: string; count: number }
+  > = {};
   posts.forEach((p: any) => {
-    const cat = p.category ?? (Array.isArray(p.tags) && p.tags.length ? p.tags[0] : '기타');
+    const cat =
+      p.category ??
+      (Array.isArray(p.tags) && p.tags.length ? p.tags[0] : "기타");
     const key = String(cat);
     if (!categoryMap[key]) categoryMap[key] = { key, name: key, count: 0 };
     categoryMap[key].count += 1;
   });
-  const categories = Object.values(categoryMap).sort((a, b) => b.count - a.count);
+  const categories = Object.values(categoryMap).sort(
+    (a, b) => b.count - a.count,
+  );
 
   // extract filter params from query
-  const titleQuery = searchParams.get('q') ?? '';
-  const dateFrom = searchParams.get('from') ?? '';
-  const dateTo = searchParams.get('to') ?? '';
-  const numMin = searchParams.get('min') ?? '';
-  const numMax = searchParams.get('max') ?? '';
-  const sort = searchParams.get('sort') ?? 'newest';
-  const categoryFilter = searchParams.get('category') ?? '';
+  const titleQuery = searchParams.get("q") ?? "";
+  const dateFrom = searchParams.get("from") ?? "";
+  const dateTo = searchParams.get("to") ?? "";
+  const numMin = searchParams.get("min") ?? "";
+  const numMax = searchParams.get("max") ?? "";
+  const sort = searchParams.get("sort") ?? "newest";
+  const categoryFilter = searchParams.get("category") ?? "";
 
   // filtering
   let filtered = posts.slice();
 
   if (categoryFilter) {
     filtered = filtered.filter((p: any) => {
-      const cat = p.category ?? (Array.isArray(p.tags) && p.tags.length ? p.tags[0] : '기타');
+      const cat =
+        p.category ??
+        (Array.isArray(p.tags) && p.tags.length ? p.tags[0] : "기타");
       return String(cat) === String(categoryFilter);
     });
   }
 
   if (titleQuery) {
     const q = titleQuery.toLowerCase();
-    filtered = filtered.filter((p: any) => (p.title || '').toLowerCase().includes(q));
+    filtered = filtered.filter((p: any) =>
+      (p.title || "").toLowerCase().includes(q),
+    );
   }
 
   if (dateFrom) {
     const from = new Date(dateFrom).getTime();
-    if (!Number.isNaN(from)) filtered = filtered.filter((p: any) => new Date(p.createdAt).getTime() >= from);
+    if (!Number.isNaN(from))
+      filtered = filtered.filter(
+        (p: any) => new Date(p.createdAt).getTime() >= from,
+      );
   }
   if (dateTo) {
     const to = new Date(dateTo).getTime();
-    if (!Number.isNaN(to)) filtered = filtered.filter((p: any) => new Date(p.createdAt).getTime() <= to);
+    if (!Number.isNaN(to))
+      filtered = filtered.filter(
+        (p: any) => new Date(p.createdAt).getTime() <= to,
+      );
   }
 
   if (numMin) {
     const n = parseInt(numMin, 10);
-    if (!Number.isNaN(n)) filtered = filtered.filter((_: any, idx: number) => idx + 1 >= n);
+    if (!Number.isNaN(n))
+      filtered = filtered.filter((_: any, idx: number) => idx + 1 >= n);
   }
   if (numMax) {
     const n = parseInt(numMax, 10);
-    if (!Number.isNaN(n)) filtered = filtered.filter((_: any, idx: number) => idx + 1 <= n);
+    if (!Number.isNaN(n))
+      filtered = filtered.filter((_: any, idx: number) => idx + 1 <= n);
   }
 
   // sort
-  if (sort === 'oldest') {
-    filtered = filtered.sort((a: any, b: any) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
+  if (sort === "oldest") {
+    filtered = filtered.sort(
+      (a: any, b: any) =>
+        new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
+    );
   } else {
     // newest
-    filtered = filtered.sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    filtered = filtered.sort(
+      (a: any, b: any) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+    );
   }
 
   // pagination params
   let page = 1;
-  if (searchParams.get('page')) {
-    const p = parseInt(searchParams.get('page') as string, 10);
+  if (searchParams.get("page")) {
+    const p = parseInt(searchParams.get("page") as string, 10);
     page = Number.isFinite(p) && p > 0 ? p : 1;
   }
 
@@ -131,7 +156,7 @@ export default function BlogPage() {
   return (
     <main className={styles.main}>
       <div className={styles.header}>
-        <h1 className={styles.title}>{t('blog')}</h1>
+        <h1 className={styles.title}>{t("blog")}</h1>
         <div className={styles.categoryPanel}>
           {/* category panel button */}
           <CategoryPanel categories={categories} currentFilters={baseFilters} />
@@ -158,7 +183,7 @@ export default function BlogPage() {
       />
       <div className={styles.writeButtonContainer}>
         <Link href="/admin/blog/new" className={styles.writeButton}>
-          {t('write')}
+          {t("write")}
         </Link>
       </div>
     </main>

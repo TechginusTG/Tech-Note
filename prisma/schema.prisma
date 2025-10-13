@@ -30,3 +30,57 @@ model Post {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+//
+// ## Prisma Schema 규칙 설명 예시 ##
+//
+// model [모델명] {
+//   [필드명] [타입] [속성...]
+// }
+//
+// --- 타입 (Type) ---
+// String, Boolean, Int, Float, DateTime, Json
+// 사용자 정의 타입 (enum)
+//
+// --- 속성 (Attribute) ---
+// @id: 기본 키 (Primary Key)
+// @default([값]): 기본값 설정. e.g., @default(now()), @default(autoincrement()), @default(false)
+// @unique: 고유 제약 조건 (Unique Constraint)
+// @relation: 관계 정의.
+//   - fields: 관계를 맺는 현재 모델의 필드
+//   - references: 관계를 맺는 다른 모델의 필드
+// @updatedAt: 레코드가 업데이트될 때마다 자동으로 현재 시간으로 설정
+//
+// --- 관계 (Relation) ---
+// 일대일 (One-to-One):
+// model User {
+//   id      Int     @id
+//   profile Profile?
+// }
+// model Profile {
+//   id     Int  @id
+//   user   User @relation(fields: [userId], references: [id])
+//   userId Int  @unique // 일대일 관계를 위해 unique 속성 추가
+// }
+//
+// 일대다 (One-to-Many): (현재 스키마의 User-Post 관계)
+// model User {
+//   id    Int    @id
+//   posts Post[]
+// }
+// model Post {
+//   id       Int  @id
+//   author   User @relation(fields: [authorId], references: [id])
+//   authorId Int
+// }
+//
+// 다대다 (Many-to-Many):
+// model Post {
+//   id         Int        @id
+//   categories Category[]
+// }
+// model Category {
+//   id    Int    @id
+//   posts Post[]
+// }
+//

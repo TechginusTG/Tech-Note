@@ -1,7 +1,6 @@
-
-import { fetchPostBySlug } from '@/lib/api';
-import styles from './page.module.css';
-import Link from 'next/link';
+import { fetchPostBySlug } from "@/lib/prisma";
+import styles from "./page.module.css";
+import Link from "next/link";
 
 type Props = {
   params: { slug: string };
@@ -18,7 +17,9 @@ export default async function BlogPostPage({ params }: Props) {
     <main className={styles.main}>
       <article className={styles.article}>
         <h1>{post.title}</h1>
-        <p className={styles.date}>Published on {new Date(post.createdAt).toLocaleDateString()}</p>
+        <p className={styles.date}>
+          Published on {new Date(post.createdAt).toLocaleDateString()}
+        </p>
         <div dangerouslySetInnerHTML={{ __html: post.content }} />
       </article>
       <div className={styles.writeButtonContainer}>
@@ -29,3 +30,4 @@ export default async function BlogPostPage({ params }: Props) {
     </main>
   );
 }
+
