@@ -13,7 +13,9 @@ import {
   FaFileCode, FaQuoteLeft, FaMinus, FaArrowDown, FaImage, FaUndo, FaRedo
 } from 'react-icons/fa';
 
-const MenuBar = ({ editor }) => {
+import { Editor as TiptapEditor } from '@tiptap/react';
+
+const MenuBar = ({ editor }: { editor: TiptapEditor | null }) => {
   if (!editor) {
     return null;
   }
@@ -26,7 +28,7 @@ const MenuBar = ({ editor }) => {
     }
   }, [editor]);
 
-  const handleFontSizeChange = (event) => {
+  const handleFontSizeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const size = event.target.value;
     if (size) {
       editor.chain().focus().setFontSize(`${size}px`).run();
@@ -75,7 +77,11 @@ const MenuBar = ({ editor }) => {
   );
 };
 
-export default function Editor({ onContentChange }) {
+type EditorProps = {
+  onContentChange?: (content: string) => void;
+};
+
+export default function Editor({ onContentChange }: EditorProps) {
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
