@@ -24,10 +24,10 @@ const Header = () => {
           Tech-Note
         </Link>
         <ClientOnly>
-          <div className="hidden md:flex items-center space-x-6">
-            <Link href="/about" className="bg-white text-gray-900 py-1 px-3 rounded-full text-sm font-semibold">{t('about')}</Link>
-            <Link href="/blog" className="hover:text-white">{t('blog')}</Link>
-            <Link href="/community" className="hover:text-white">{t('community')}</Link>
+          <div className="hidden md:flex items-center space-x-4">
+            <Link href="/about" className="bg-white text-gray-900 py-1 px-3 rounded-full text-sm font-semibold hover:bg-gray-200 transition-colors">{t('about')}</Link>
+            <Link href="/blog" className="bg-white text-gray-900 py-1 px-3 rounded-full text-sm font-semibold hover:bg-gray-200 transition-colors">{t('blog')}</Link>
+            <Link href="/community" className="bg-white text-gray-900 py-1 px-3 rounded-full text-sm font-semibold hover:bg-gray-200 transition-colors">{t('community')}</Link>
             {/* Add more links as needed */}
           </div>
         </ClientOnly>
