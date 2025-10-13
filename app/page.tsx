@@ -4,28 +4,21 @@ import styles from './page.module.css';
 export default function Home() {
   return (
     <main className={styles.main}>
-      <div className={styles.textCenter}>
-        <h1 className={styles.title}>Welcome to Tech-Note</h1>
+      <div className={styles.heroSection}>
+        <h1 className={styles.title}>
+          Dive into the World of Technology
+        </h1>
         <p className={styles.description}>
-          Your new platform for tech blogs and community discussions.
+          Explore, share, and connect with a community of developers and tech enthusiasts.
         </p>
-      </div>
-
-      <div className={styles.grid}>
-        <Link href="/blog" className={`${styles.card} ${styles.blogCard}`}>
-          <h2 className={styles.cardTitle}>Read the Blog</h2>
-          <p className={styles.cardText}>Explore articles and tutorials on the latest in technology.</p>
-        </Link>
-
-        <Link href="/admin/blog/new" className={`${styles.card} ${styles.newPostCard}`}>
-          <h2 className={styles.cardTitle}>Write a Post</h2>
-          <p className={styles.cardText}>Share your knowledge and write a new blog post.</p>
-        </Link>
-
-        <Link href="/community" className={`${styles.card} ${styles.communityCard}`}>
-          <h2 className={styles.cardTitle}>Join the Community</h2>
-          <p className={styles.cardText}>Engage in discussions and connect with other developers.</p>
-        </Link>
+        <div className={styles.ctaButtons}>
+          <Link href="/blog" className={styles.primaryButton}>
+            Explore Blog
+          </Link>
+          <Link href="/admin/blog/new" className={styles.secondaryButton}>
+            Write a Post
+          </Link>
+        </div>
       </div>
     </main>
   );

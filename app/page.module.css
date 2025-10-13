@@ -1,82 +1,62 @@
 .main {
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  min-height: 100vh;
+  align-items: center;
+  min-height: calc(100vh - 80px); /* Adjust based on header height */
   padding: 2rem;
+  background-color: #f9fafb;
 }
 
-.textCenter {
+.heroSection {
   text-align: center;
+  max-width: 800px;
 }
 
 .title {
-  font-size: 3.75rem; /* 5xl */
-  font-weight: 800; /* extrabold */
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: #111827;
+  line-height: 1.2;
   margin-bottom: 1rem;
 }
 
 .description {
-  font-size: 1.25rem; /* xl */
-  color: #4b5563; /* gray-600 */
-  margin-bottom: 3rem;
+  font-size: 1.25rem;
+  color: #4b5563;
+  margin-bottom: 2.5rem;
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 2rem;
-  max-width: 64rem; /* max-w-4xl */
-  width: 100%;
+.ctaButtons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
 }
 
-@media (min-width: 768px) {
-  .grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+.primaryButton {
+  background-color: #3b82f6;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 0.2s;
 }
 
-.card {
-  display: block;
-  padding: 2rem;
-  border: 1px solid #e5e7eb; /* border */
-  border-radius: 0.5rem; /* rounded-lg */
-  transition: all 0.2s ease-in-out;
+.primaryButton:hover {
+  background-color: #2563eb;
 }
 
-.card:hover {
-  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); /* hover:shadow-lg */
+.secondaryButton {
+  background-color: #e5e7eb;
+  color: #1f2937;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 0.2s;
 }
 
-.blogCard:hover {
-    border-color: #3b82f6; /* hover:border-blue-500 */
-}
-
-.newPostCard:hover {
-    border-color: #22c55e; /* hover:border-green-500 */
-}
-
-.communityCard:hover {
-    border-color: #8b5cf6; /* hover:border-purple-500 */
-}
-
-.cardTitle {
-  font-size: 1.875rem; /* 3xl */
-  font-weight: 700; /* bold */
-  margin-bottom: 0.5rem;
-}
-
-.cardText {
-  /* No specific class, but we can add one if needed */
-}
-
-.communityCard {
-  composes: card;
-}
-
-@media (min-width: 768px) {
-  .communityCard {
-    grid-column: span 2 / span 2;
-  }
+.secondaryButton:hover {
+  background-color: #d1d5db;
 }

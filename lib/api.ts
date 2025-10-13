@@ -18,3 +18,16 @@ export const prisma =
   });
 
 if (process.env.NODE_ENV !== 'production') global.prisma = prisma;
+
+export async function fetchPosts() {
+  try {
+    const response = await fetch('/api/posts');
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return await response.json();
+  } catch (error) {
+    console.error('Failed to fetch posts:', error);
+    return [];
+  }
+}
