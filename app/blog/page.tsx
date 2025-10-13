@@ -23,7 +23,7 @@ export default function BlogPage() {
   useEffect(() => {
     const getPosts = async () => {
       const fetchedPosts = (await fetchPosts()) || [];
-      setPosts(fetchedPosts);
+      setPosts(fetchedPosts.filter((p: any) => p.category !== 'community'));
     };
     getPosts();
   }, []);

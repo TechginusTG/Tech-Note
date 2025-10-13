@@ -9,3 +9,17 @@ export async function GET() {
   });
   return NextResponse.json(posts);
 }
+
+export async function POST(request: Request) {
+  const data = await request.json();
+  const { title, content, category } = data;
+  const post = await prisma.post.create({
+    data: {
+      title,
+      content,
+      category,
+      authorId: 1, // TODO: Replace with actual authorId from session
+    },
+  });
+  return NextResponse.json(post);
+}

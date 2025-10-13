@@ -11,5 +11,7 @@
   "title": "Title",
   "enter_post_title": "Enter post title",
   "content": "Content",
-  "publish_post": "Publish Post"
+  "publish_post": "Publish Post",
+  "category": "Category",
+  "enter_post_category": "Enter post category"
 }

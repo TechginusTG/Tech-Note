@@ -14,5 +14,7 @@
   "publish_post": "포스트 발행",
   "edit_post": "포스트 수정",
   "editing_post_id": "{{id}}번 포스트 수정 중",
-  "update_post": "포스트 업데이트"
+  "update_post": "포스트 업데이트",
+  "category": "카테고리",
+  "enter_post_category": "포스트 카테고리를 입력하세요"
 }

@@ -75,9 +75,7 @@ const MenuBar = ({ editor }) => {
   );
 };
 
-export default function Editor() {
-  const [content, setContent] = useState('');
-
+export default function Editor({ onContentChange }) {
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
@@ -94,7 +92,9 @@ export default function Editor() {
     immediatelyRender: false,
     content: '', // Start with empty content
     onUpdate: ({ editor }) => {
-      setContent(editor.getHTML());
+      if (onContentChange) {
+        onContentChange(editor.getHTML());
+      }
     },
     editorProps: {
       attributes: {
@@ -107,13 +107,6 @@ export default function Editor() {
     <div>
       <MenuBar editor={editor} />
       <EditorContent editor={editor} />
-      <div className="mt-8">
-        <h3 className="text-lg font-semibold">Preview</h3>
-        <div
-          className="prose mt-2 p-4 border rounded-md"
-          dangerouslySetInnerHTML={{ __html: content }}
-        />
-      </div>
     </div>
   );
 }
