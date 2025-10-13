@@ -15,7 +15,7 @@ const Header = () => {
   };
 
   return (
-    <header className="bg-gray-900/90 backdrop-blur-md text-gray-200 shadow-sm sticky top-0 z-50">
+    <header className="bg-gray-900/90 backdrop-blur-md text-gray-200 shadow-lg border-b border-gray-700 sticky top-0 z-50">
       <nav className="container mx-auto px-6 py-3 flex justify-between items-center">
         <Link href="/" className="text-2xl font-bold text-white">
           Tech-Note
