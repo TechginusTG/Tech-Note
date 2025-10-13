@@ -1,6 +1,6 @@
 services:
   db:
-    image: postgres
+    image: docker.io/library/postgres
     container_name: technote
     restart: unless-stopped
     environment:

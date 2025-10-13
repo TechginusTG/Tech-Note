@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useAuth } from "@/app/auth-provider";
 import { useTranslation } from "react-i18next";
+import ClientOnly from "./ClientOnly";
 
 const Header = () => {
   const { user, setUser, isLoading } = useAuth();
@@ -22,34 +23,38 @@ const Header = () => {
         <Link href="/" className="text-2xl font-bold text-white">
           Tech-Note
         </Link>
-        <div className="hidden md:flex items-center space-x-6">
-          <Link href="/about" className="bg-white text-gray-900 py-1 px-3 rounded-full text-sm font-semibold">{t('about')}</Link>
-          <Link href="/blog" className="hover:text-white">{t('blog')}</Link>
-          <Link href="/community" className="hover:text-white">{t('community')}</Link>
-          {/* Add more links as needed */}
-        </div>
-        <div>
-          {isLoading ? (
-            <div className="h-8 w-20 bg-gray-700 rounded animate-pulse"></div>
-          ) : user ? (
-            <div className="flex items-center space-x-4">
-              <span className="text-sm">Welcome, {user.name}</span>
-              <button
-                onClick={handleLogout}
-                className="bg-gray-700 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded-lg text-sm"
+        <ClientOnly>
+          <div className="hidden md:flex items-center space-x-6">
+            <Link href="/about" className="bg-white text-gray-900 py-1 px-3 rounded-full text-sm font-semibold">{t('about')}</Link>
+            <Link href="/blog" className="hover:text-white">{t('blog')}</Link>
+            <Link href="/community" className="hover:text-white">{t('community')}</Link>
+            {/* Add more links as needed */}
+          </div>
+        </ClientOnly>
+        <ClientOnly>
+          <div>
+            {isLoading ? (
+              <div className="h-8 w-20 bg-gray-700 rounded animate-pulse"></div>
+            ) : user ? (
+              <div className="flex items-center space-x-4">
+                <span className="text-sm">Welcome, {user.name}</span>
+                <button
+                  onClick={handleLogout}
+                  className="bg-gray-700 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded-lg text-sm"
+                >
+                  Logout
+                </button>
+              </div>
+            ) : (
+              <Link
+                href="/login"
+                className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg text-sm"
               >
-                Logout
-              </button>
-            </div>
-          ) : (
-            <Link
-              href="/login"
-              className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg text-sm"
-            >
-              {t('login')}
-            </Link>
-          )}
-        </div>
+                {t('login')}
+              </Link>
+            )}
+          </div>
+        </ClientOnly>
       </nav>
     </header>
   );
