@@ -2,9 +2,11 @@
 
 import Link from "next/link";
 import { useAuth } from "@/app/auth-provider";
+import { useTranslation } from "react-i18next";
 
 const Header = () => {
   const { user, setUser, isLoading } = useAuth();
+  const { t } = useTranslation();
 
   const handleLogout = () => {
     // In a real app, you'd call your sign-out endpoint.
@@ -21,8 +23,9 @@ const Header = () => {
           Tech-Note
         </Link>
         <div className="hidden md:flex items-center space-x-6">
-          <Link href="/blog" className="hover:text-white">Blog</Link>
-          <Link href="/community" className="hover:text-white">Community</Link>
+          <Link href="/about" className="bg-white text-gray-900 py-1 px-3 rounded-full text-sm font-semibold">{t('about')}</Link>
+          <Link href="/blog" className="hover:text-white">{t('blog')}</Link>
+          <Link href="/community" className="hover:text-white">{t('community')}</Link>
           {/* Add more links as needed */}
         </div>
         <div>
@@ -43,7 +46,7 @@ const Header = () => {
               href="/login"
               className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg text-sm"
             >
-              Login
+              {t('login')}
             </Link>
           )}
         </div>
