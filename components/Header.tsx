@@ -4,10 +4,12 @@ import Link from "next/link";
 import { useAuth } from "@/app/auth-provider";
 import { useTranslation } from "react-i18next";
 import ClientOnly from "./ClientOnly";
+import { useState } from "react";
 
 const Header = () => {
   const { user, setUser, isLoading } = useAuth();
   const { t } = useTranslation();
+  const [isLearnMoreOpen, setLearnMoreOpen] = useState(false);
 
   const handleLogout = () => {
     // In a real app, you'd call your sign-out endpoint.
@@ -25,7 +27,22 @@ const Header = () => {
         </Link>
         <ClientOnly>
           <div className="hidden md:flex items-center space-x-4">
-            <Link href="/about" className="bg-white text-gray-900 py-1 px-3 rounded-full text-sm font-semibold hover:bg-gray-200 transition-colors">{t('about')}</Link>
+            <div
+              className="relative"
+              onMouseEnter={() => setLearnMoreOpen(true)}
+              onMouseLeave={() => setLearnMoreOpen(false)}
+            >
+              <button className="bg-white text-gray-900 py-1 px-3 rounded-full text-sm font-semibold hover:bg-gray-200 transition-colors">
+                {t('learn_more')}
+              </button>
+              {isLearnMoreOpen && (
+                <div className="absolute mt-2 w-48 bg-white rounded-md shadow-lg z-10">
+                  <div className="py-1">
+                    <Link href="/about" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">{t('about')}</Link>
+                  </div>
+                </div>
+              )}
+            </div>
             <Link href="/blog" className="bg-white text-gray-900 py-1 px-3 rounded-full text-sm font-semibold hover:bg-gray-200 transition-colors">{t('blog')}</Link>
             <Link href="/community" className="bg-white text-gray-900 py-1 px-3 rounded-full text-sm font-semibold hover:bg-gray-200 transition-colors">{t('community')}</Link>
             {/* Add more links as needed */}
@@ -61,4 +78,3 @@ const Header = () => {
 };
 
 export default Header;
-
