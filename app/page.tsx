@@ -64,7 +64,7 @@ export default function Home() {
       </section>
 
       {/* Achievers Section */}
-      <section className="w-full py-20 px-4 md:px-8 lg:px-16 bg-gray-50">
+      <section className="relative z-10 w-full py-20 px-4 md:px-8 lg:px-16 bg-gray-50 shadow-2xl">
         <div className="max-w-6xl mx-auto text-center">
           <h2 className="text-4xl font-bold mb-4">Achievers Determined to Push Ahead</h2>
           <p className="text-lg text-gray-600 mb-12">Connecting people, investing in the future, and growing globally.</p>
