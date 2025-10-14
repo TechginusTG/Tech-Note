@@ -48,7 +48,7 @@ const Header = () => {
                     </button>
                     {isSnsExpanded && (
                       <div className="flex justify-around p-2">
-                        <Link href="#" target="_blank" rel="noopener noreferrer" className="text-gray-700 hover:text-pink-500">
+                        <Link href="https://www.instagram.com/team_techginus/" target="_blank" rel="noopener noreferrer" className="text-gray-700 hover:text-pink-500">
                           <FaInstagram size={24} />
                         </Link>
                         <Link href="#" target="_blank" rel="noopener noreferrer" className="text-gray-700 hover:text-gray-900">
