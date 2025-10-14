@@ -41,7 +41,7 @@ const Header = () => {
                 {t('learn_more')}
               </button>
               {isLearnMoreOpen && (
-                <div className={`absolute mt-2 bg-white rounded-md shadow-lg z-10 transition-all duration-300 ${isSnsExpanded ? 'w-64' : 'w-48'}`}>
+                <div className={`absolute top-full bg-white rounded-md shadow-lg z-10 transition-all duration-300 ${isSnsExpanded ? 'w-64' : 'w-48'}`}>
                   <div className="py-1">
                     <button onClick={() => setSnsExpanded(!isSnsExpanded)} className="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                       {t('sns')}
