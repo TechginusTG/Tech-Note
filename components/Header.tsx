@@ -5,11 +5,13 @@ import { useAuth } from "@/app/auth-provider";
 import { useTranslation } from "react-i18next";
 import ClientOnly from "./ClientOnly";
 import { useState } from "react";
+import { FaInstagram, FaGithub } from "react-icons/fa";
 
 const Header = () => {
   const { user, setUser, isLoading } = useAuth();
   const { t } = useTranslation();
   const [isLearnMoreOpen, setLearnMoreOpen] = useState(false);
+  const [isSnsExpanded, setSnsExpanded] = useState(false);
 
   const handleLogout = () => {
     // In a real app, you'd call your sign-out endpoint.
@@ -33,15 +35,27 @@ const Header = () => {
             <div
               className="relative"
               onMouseEnter={() => setLearnMoreOpen(true)}
-              onMouseLeave={() => setLearnMoreOpen(false)}
+              onMouseLeave={() => { setLearnMoreOpen(false); setSnsExpanded(false); }}
             >
               <button className="bg-white text-gray-900 py-1 px-3 rounded-full text-sm font-semibold hover:bg-gray-200 transition-colors">
                 {t('learn_more')}
               </button>
               {isLearnMoreOpen && (
-                <div className="absolute mt-2 w-48 bg-white rounded-md shadow-lg z-10">
+                <div className={`absolute mt-2 bg-white rounded-md shadow-lg z-10 transition-all duration-300 ${isSnsExpanded ? 'w-64' : 'w-48'}`}>
                   <div className="py-1">
-                    <Link href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">{t('sns')}</Link>
+                    <button onClick={() => setSnsExpanded(!isSnsExpanded)} className="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                      {t('sns')}
+                    </button>
+                    {isSnsExpanded && (
+                      <div className="flex justify-around p-2">
+                        <Link href="#" target="_blank" rel="noopener noreferrer" className="text-gray-700 hover:text-pink-500">
+                          <FaInstagram size={24} />
+                        </Link>
+                        <Link href="#" target="_blank" rel="noopener noreferrer" className="text-gray-700 hover:text-gray-900">
+                          <FaGithub size={24} />
+                        </Link>
+                      </div>
+                    )}
                   </div>
                 </div>
               )}
