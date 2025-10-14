@@ -51,7 +51,7 @@ const Header = () => {
                         <Link href="https://www.instagram.com/team_techginus/" target="_blank" rel="noopener noreferrer" className="text-gray-700 hover:text-pink-500">
                           <FaInstagram size={24} />
                         </Link>
-                        <Link href="#" target="_blank" rel="noopener noreferrer" className="text-gray-700 hover:text-gray-900">
+                        <Link href="https://github.com/TechginusTG" target="_blank" rel="noopener noreferrer" className="text-gray-700 hover:text-gray-900">
                           <FaGithub size={24} />
                         </Link>
                       </div>
