@@ -27,6 +27,9 @@ const Header = () => {
         </Link>
         <ClientOnly>
           <div className="hidden md:flex items-center space-x-4">
+            <Link href="/about" className="bg-white text-gray-900 py-1 px-3 rounded-full text-sm font-semibold hover:bg-gray-200 transition-colors">{t('about')}</Link>
+            <Link href="/blog" className="bg-white text-gray-900 py-1 px-3 rounded-full text-sm font-semibold hover:bg-gray-200 transition-colors">{t('blog')}</Link>
+            <Link href="/community" className="bg-white text-gray-900 py-1 px-3 rounded-full text-sm font-semibold hover:bg-gray-200 transition-colors">{t('community')}</Link>
             <div
               className="relative"
               onMouseEnter={() => setLearnMoreOpen(true)}
@@ -39,12 +42,11 @@ const Header = () => {
                 <div className="absolute mt-2 w-48 bg-white rounded-md shadow-lg z-10">
                   <div className="py-1">
                     <Link href="/about" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">{t('about')}</Link>
+                    <Link href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Placeholder</Link>
                   </div>
                 </div>
               )}
             </div>
-            <Link href="/blog" className="bg-white text-gray-900 py-1 px-3 rounded-full text-sm font-semibold hover:bg-gray-200 transition-colors">{t('blog')}</Link>
-            <Link href="/community" className="bg-white text-gray-900 py-1 px-3 rounded-full text-sm font-semibold hover:bg-gray-200 transition-colors">{t('community')}</Link>
             {/* Add more links as needed */}
           </div>
         </ClientOnly>
