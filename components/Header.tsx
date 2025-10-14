@@ -41,8 +41,7 @@ const Header = () => {
               {isLearnMoreOpen && (
                 <div className="absolute mt-2 w-48 bg-white rounded-md shadow-lg z-10">
                   <div className="py-1">
-                    <Link href="/about" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">{t('about')}</Link>
-                    <Link href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Placeholder</Link>
+                    <Link href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">{t('sns')}</Link>
                   </div>
                 </div>
               )}
