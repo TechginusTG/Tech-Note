@@ -17,7 +17,7 @@ const AboutPage: FC = () => {
     },
     {
       title: 'Privacy Matters',
-      text: 'We have a deep respect for user privacy. We are committed to being transparent about how we handle data and protecting our users' information.',
+      text: 'We have a deep respect for user privacy. We are committed to being transparent about how we handle data and protecting our users\' information.',
     },
     {
       title: 'Lifelong Learning',
