@@ -46,6 +46,7 @@ export async function GET(request: Request) {
     // 성공적으로 조회된 게시물 목록과 페이지 정보를 JSON으로 반환합니다.
     return NextResponse.json({
       posts,
+      totalPosts,
       totalPages: Math.ceil(totalPosts / limit),
       currentPage: page,
     });
