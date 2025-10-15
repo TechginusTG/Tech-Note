@@ -1,0 +1,32 @@
+.heroSection {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  overflow: hidden; /* Ensures the video doesn't spill out */
+}
+
+.backgroundVideo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1; /* Places the video behind the content */
+}
+
+.animatedSection {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.isVisible {
+  opacity: 1;
+  transform: translateY(0);
+}

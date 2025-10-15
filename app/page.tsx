@@ -1,10 +1,20 @@
+'use client';
+
 import Link from 'next/link';
+import { useIntersectionObserver } from '../lib/hooks/useIntersectionObserver';
+import styles from './page.module.css';
 
 export default function Home() {
+  const { ref: pioneersRef, isVisible: pioneersIsVisible } = useIntersectionObserver({ threshold: 0.1 });
+  const { ref: explorersRef, isVisible: explorersIsVisible } = useIntersectionObserver({ threshold: 0.1 });
+  const { ref: achieversRef, isVisible: achieversIsVisible } = useIntersectionObserver({ threshold: 0.1 });
+  const { ref: companyInfoRef, isVisible: companyInfoIsVisible } = useIntersectionObserver({ threshold: 0.1 });
+
   return (
     <main className="flex flex-col items-center bg-white text-gray-800">
       {/* Hero Section */}
-      <section className="w-full h-screen bg-cover bg-center flex flex-col justify-center items-center text-white" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=2070&auto=format&fit=crop')" }}>
+      <section className={styles.heroSection}>
+        <video src="/videos/main-video.mp4" className={styles.backgroundVideo} autoPlay loop muted />
         <div className="text-center bg-black bg-opacity-50 p-8 rounded-lg">
           <h1 className="text-5xl md:text-7xl font-bold mb-4">Creators of Change</h1>
           <p className="text-lg md:text-2xl">We are on a journey to build a better world with technology.</p>
@@ -12,7 +22,9 @@ export default function Home() {
       </section>
 
       {/* Pioneers Section */}
-      <section className="w-full py-20 px-4 md:px-8 lg:px-16 bg-gray-50">
+      <section 
+        ref={pioneersRef}
+        className={`w-full py-20 px-4 md:px-8 lg:px-16 bg-gray-50 ${styles.animatedSection} ${pioneersIsVisible ? styles.isVisible : ''}`}>
         <div className="max-w-6xl mx-auto text-center">
           <h2 className="text-4xl font-bold mb-4">Pioneers of New Beginnings</h2>
           <p className="text-lg text-gray-600 mb-12">A history of our challenges and innovations.</p>
@@ -42,7 +54,9 @@ export default function Home() {
       </section>
 
       {/* Explorers Section */}
-      <section className="w-full py-20 px-4 md:px-8 lg:px-16">
+      <section 
+        ref={explorersRef}
+        className={`w-full py-20 px-4 md:px-8 lg:px-16 ${styles.animatedSection} ${explorersIsVisible ? styles.isVisible : ''}`}>
         <div className="max-w-6xl mx-auto text-center">
           <h2 className="text-4xl font-bold mb-4">Explorers Who Always Find a Way</h2>
           <p className="text-lg text-gray-600 mb-12">Our core service areas driving innovation.</p>
@@ -64,7 +78,9 @@ export default function Home() {
       </section>
 
       {/* Achievers Section */}
-      <section className="relative z-10 w-full py-20 px-4 md:px-8 lg:px-16 bg-gray-50 shadow-2xl">
+      <section 
+        ref={achieversRef}
+        className={`relative z-10 w-full py-20 px-4 md:px-8 lg:px-16 bg-gray-50 shadow-2xl ${styles.animatedSection} ${achieversIsVisible ? styles.isVisible : ''}`}>
         <div className="max-w-6xl mx-auto text-center">
           <h2 className="text-4xl font-bold mb-4">Achievers Determined to Push Ahead</h2>
           <p className="text-lg text-gray-600 mb-12">Connecting people, investing in the future, and growing globally.</p>
@@ -86,7 +102,9 @@ export default function Home() {
       </section>
 
       {/* Company Info Section */}
-      <section className="w-full py-20 px-4 md:px-8 lg:px-16 bg-gray-800 text-white">
+      <section 
+        ref={companyInfoRef}
+        className={`w-full py-20 px-4 md:px-8 lg:px-16 bg-gray-800 text-white ${styles.animatedSection} ${companyInfoIsVisible ? styles.isVisible : ''}`}>
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8">
           <div>
             <h2 className="text-3xl font-bold mb-4">Our Company</h2>
