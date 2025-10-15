@@ -16,17 +16,19 @@ import {
 import { Editor as TiptapEditor } from '@tiptap/react';
 
 const MenuBar = ({ editor }: { editor: TiptapEditor | null }) => {
+  const addImage = useCallback(() => {
+    if (editor) {
+      const url = window.prompt('Enter image URL');
+
+      if (url) {
+        editor.chain().focus().setImage({ src: url }).run();
+      }
+    }
+  }, [editor]);
+
   if (!editor) {
     return null;
   }
-
-  const addImage = useCallback(() => {
-    const url = window.prompt('Enter image URL');
-
-    if (url) {
-      editor.chain().focus().setImage({ src: url }).run();
-    }
-  }, [editor]);
 
   const handleFontSizeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const size = event.target.value;

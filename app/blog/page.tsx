@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { useTranslation } from "react-i18next";
-import { fetchPosts } from "@/lib/prisma";
+import { fetchPosts } from "@/lib/api";
 import PostsRenderer from "@/components/PostsRenderer";
 import SearchFilters from "@/components/SearchFilters";
 import CategoryPanel from "@/components/CategoryPanel";

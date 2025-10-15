@@ -1,4 +1,4 @@
-import { fetchPostBySlug, fetchPosts } from "@/lib/prisma";
+import { fetchPostBySlug, fetchPosts } from "@/lib/api";
 import styles from "./page.module.css";
 import CategoryPanel from "@/components/CategoryPanel";
 

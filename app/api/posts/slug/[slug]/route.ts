@@ -2,11 +2,11 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
-export async function GET(request: Request, { params }: { params: { id: string } }) {
+export async function GET(request: Request, { params }: { params: { slug: string } }) {
   try {
     const post = await prisma.post.findUnique({
       where: {
-        id: params.id,
+        slug: params.slug,
       },
       include: {
         author: true,
@@ -21,7 +21,7 @@ export async function GET(request: Request, { params }: { params: { id: string }
 
     return NextResponse.json(post);
   } catch (error) {
-    console.error(`Failed to fetch post with id ${params.id}:`, error);
+    console.error(`Failed to fetch post with slug ${params.slug}:`, error);
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }
