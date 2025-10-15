@@ -1,45 +1,44 @@
 import { FC } from 'react';
+import styles from './page.module.css';
 
 const AboutPage: FC = () => {
-  return (
-    <div className="bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-3xl mx-auto">
-        <h1 className="text-4xl font-extrabold text-gray-900 text-center mb-8">
-          Meet Our Team
-        </h1>
-        <div className="space-y-12">
-          <div className="flex flex-col md:flex-row items-center gap-8">
-            <div className="md:w-1/3 text-center">
-              <div className="inline-block rounded-full bg-gray-200 p-2">
-                {/* Placeholder for an image */}
-                <div className="w-32 h-32 rounded-full bg-gray-400 mx-auto"></div>
-              </div>
-              <h2 className="mt-4 text-2xl font-bold text-gray-800">John Doe</h2>
-              <p className="text-indigo-600 font-semibold">Lead Developer</p>
-            </div>
-            <div className="md:w-2/3">
-              <p className="text-lg text-gray-600">
-                John is the visionary behind Tech-Note, with over 10 years of experience in web development. He's passionate about creating scalable and user-friendly applications. When not coding, he enjoys hiking and photography.
-              </p>
-            </div>
-          </div>
+  const values = [
+    {
+      title: 'Accessibility for All',
+      text: 'We believe technology should be accessible to everyone. We are committed to creating content that is inclusive and easy to understand for a diverse audience.',
+    },
+    {
+      title: 'Innovation at the Core',
+      text: 'We are passionate about exploring the latest trends and advancements in technology. Our goal is to share cutting-edge knowledge and inspire innovation.',
+    },
+    {
+      title: 'Community and Collaboration',
+      text: 'We foster a strong sense of community by encouraging discussions and knowledge sharing. We believe that collaboration is key to growth and learning.',
+    },
+    {
+      title: 'Privacy Matters',
+      text: 'We have a deep respect for user privacy. We are committed to being transparent about how we handle data and protecting our users' information.',
+    },
+    {
+      title: 'Lifelong Learning',
+      text: 'The world of technology is always evolving. We are dedicated to continuous learning and sharing our journey with our readers.',
+    },
+    {
+      title: 'Quality and Excellence',
+      text: 'We strive for the highest standards of quality in our content. Our commitment to excellence ensures that our readers receive accurate and valuable information.',
+    },
+  ];
 
-          <div className="flex flex-col md:flex-row-reverse items-center gap-8">
-            <div className="md:w-1/3 text-center">
-              <div className="inline-block rounded-full bg-gray-200 p-2">
-                {/* Placeholder for an image */}
-                <div className="w-32 h-32 rounded-full bg-gray-400 mx-auto"></div>
-              </div>
-              <h2 className="mt-4 text-2xl font-bold text-gray-800">Jane Smith</h2>
-              <p className="text-indigo-600 font-semibold">UI/UX Designer</p>
-            </div>
-            <div className="md:w-2/3">
-              <p className="text-lg text-gray-600">
-                Jane is the creative mind who designed the look and feel of Tech-Note. She believes in minimalist design that is both beautiful and functional. In her free time, she loves painting and visiting art museums.
-              </p>
-            </div>
+  return (
+    <div className={styles.container}>
+      <h1 className={styles.title}>Our Core Values</h1>
+      <div className={styles.grid}>
+        {values.map((value, index) => (
+          <div key={index} className={styles.card}>
+            <h2 className={styles.cardTitle}>{value.title}</h2>
+            <p className={styles.cardText}>{value.text}</p>
           </div>
-        </div>
+        ))}
       </div>
     </div>
   );
