@@ -15,10 +15,7 @@ export default function Home() {
       {/* Hero Section */}
       <section className={styles.heroSection}>
         <video src="/videos/main-video.mp4" className={styles.backgroundVideo} autoPlay loop muted />
-        <div className="text-center bg-black bg-opacity-50 p-8 rounded-lg">
-          <h1 className="text-5xl md:text-7xl font-bold mb-4">Creators of Change</h1>
-          <p className="text-lg md:text-2xl">We are on a journey to build a better world with technology.</p>
-        </div>
+
       </section>
 
       {/* Pioneers Section */}
@@ -133,3 +130,4 @@ export default function Home() {
     </main>
   );
 }
+ 
