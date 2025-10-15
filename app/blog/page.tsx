@@ -1,4 +1,6 @@
-import { redirect } from 'next/navigation';
+"use server";
+
+import { redirect } from "next/navigation";
 
 // Server route: redirect plain /blog to the default locale blog at /ko/blog
 export default function BlogRedirectPage() {
