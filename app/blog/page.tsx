@@ -155,32 +155,31 @@ export default function BlogPage() {
 
   return (
     <main className={styles.main}>
-      <div className={styles.header}>
-        <h1 className={styles.title}>{t("blog")}</h1>
-        <div className={styles.categoryPanel}>
-          {/* category panel button */}
+      <div className={styles.container}>
+        <div className={styles.content}>
+          <h1 className={styles.title}>{t("blog")}</h1>
+          <SearchFilters
+            titleQuery={titleQuery}
+            dateFrom={dateFrom}
+            dateTo={dateTo}
+            numMin={numMin}
+            numMax={numMax}
+            sort={sort}
+          />
+          <PostsRenderer
+            posts={clientPosts}
+            total={total}
+            start={start}
+            perPage={perPage}
+            baseFilters={baseFilters}
+            page={page}
+            totalPages={totalPages}
+          />
+        </div>
+        <div className={styles.sidebar}>
           <CategoryPanel categories={categories} currentFilters={baseFilters} />
         </div>
       </div>
-
-      <SearchFilters
-        titleQuery={titleQuery}
-        dateFrom={dateFrom}
-        dateTo={dateTo}
-        numMin={numMin}
-        numMax={numMax}
-        sort={sort}
-      />
-
-      <PostsRenderer
-        posts={clientPosts}
-        total={total}
-        start={start}
-        perPage={perPage}
-        baseFilters={baseFilters}
-        page={page}
-        totalPages={totalPages}
-      />
       <div className={styles.writeButtonContainer}>
         <Link href="/admin/blog/new" className={styles.writeButton}>
           {t("write")}
