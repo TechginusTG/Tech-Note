@@ -1,6 +1,7 @@
 import { fetchPostBySlug, fetchPosts } from "@/lib/api";
 import styles from "./page.module.css";
 import CategoryPanel from "@/components/CategoryPanel";
+import Link from "next/link";
 
 type Props = {
   params: { slug: string };
@@ -8,7 +9,7 @@ type Props = {
 
 export default async function BlogPostPage({ params }: Props) {
   const post = await fetchPostBySlug(params.slug);
-  const posts = await fetchPosts() || [];
+  const posts = (await fetchPosts()) || [];
 
   if (!post) {
     return <div>Post not found!</div>;
@@ -31,7 +32,6 @@ export default async function BlogPostPage({ params }: Props) {
     (a, b) => b.count - a.count,
   );
 
-
   return (
     <main className={styles.main}>
       <div className={styles.container}>
@@ -45,10 +45,15 @@ export default async function BlogPostPage({ params }: Props) {
           </article>
         </div>
         <div className={styles.sidebar}>
-            <CategoryPanel categories={categories} />
+          <CategoryPanel categories={categories} currentFilters={{}} />
         </div>
+      </div>
+
+      <div className={styles.writeButtonContainer}>
+        <Link href="/admin/blog/new" className={styles.writeButton}>
+          글쓰기
+        </Link>
       </div>
     </main>
   );
 }
-
