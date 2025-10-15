@@ -4,5 +4,5 @@ import { redirect } from 'next/navigation';
 export default function BlogRedirectPage() {
   // If you want to detect browser language and redirect accordingly,
   // you can add logic here. For now, redirect to Korean default.
-  redirect('/ko/blog');
+  redirect('/en/blog');
 }
