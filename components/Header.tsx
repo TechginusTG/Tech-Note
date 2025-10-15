@@ -19,14 +19,14 @@ const Header = () => {
     // For this example, we'll just clear the user state.
     setUser(null);
     // Redirect to home or login page after logout
-    window.location.href = `/${locale}`;
+    window.location.href = `/`;
   };
 
   return (
     <header className="bg-gray-900/90 backdrop-blur-md text-gray-200 shadow-lg border-b border-gray-700 sticky top-0 z-50">
       <nav className="container mx-auto px-6 py-3 flex justify-between items-center">
         <ClientOnly>
-          <Link href={`/${locale}`} className="text-2xl font-bold text-white">
+          <Link href={`/`} className="text-2xl font-bold text-white">
             Tech-Note
           </Link>
         </ClientOnly>
