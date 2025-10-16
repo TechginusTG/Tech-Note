@@ -8,8 +8,8 @@ import ServiceCard from '@/components/ServiceCard';
 interface Service {
   name: string;
   description: string;
-  tags: string[];
   link: string;
+  imageUrl?: string;
 }
 
 // Define the props for the ServicesList component
@@ -31,8 +31,8 @@ const ServicesList: React.FC<ServicesListProps> = ({ services }) => {
                         key={service.name}
                         name={service.name}
                         description={service.description}
-                        tags={service.tags}
                         link={service.link}
+                        imageUrl={service.imageUrl}
                     />
                 ))}
             </div>
