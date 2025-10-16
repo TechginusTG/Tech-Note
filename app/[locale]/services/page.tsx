@@ -8,8 +8,8 @@ const services = [
   {
     name: 'Antinomy',
     description: 'A general-purpose service for various applications. High performance and reliability.',
-    link: '#',
-    imageUrl: 'https://via.placeholder.com/40',
+    link: 'https://syncro.tg-antinomy.kro.kr/app',
+    imageUrl: '/antinomy.jpg',
   },
 ];
 
