@@ -1,23 +1,15 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from '@prisma/client';
 
-// PrismaClient is attached to the `global` object in development to prevent
-// exhausting your database connection limit.
-//
-// Learn more: https://pris.ly/d/help/next-js-best-practices
-
+// 개발 환경에서 hot-reload 시 PrismaClient가 계속 새로 생성되는 것을 방지하기 위한 코드
 declare global {
-  // allow global `var` declarations
   // eslint-disable-next-line no-var
   var prisma: PrismaClient | undefined;
 }
 
-export const prisma =
-  global.prisma ||
-  new PrismaClient({
-    log: process.env.NODE_ENV === "development" ? ["query"] : [],
-  });
+const prisma = global.prisma || new PrismaClient();
 
-if (process.env.NODE_ENV !== "production") global.prisma = prisma;
+if (process.env.NODE_ENV !== 'production') {
+  global.prisma = prisma;
+}
 
-
-
+export default prisma;
