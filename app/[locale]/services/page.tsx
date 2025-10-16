@@ -7,7 +7,7 @@ import ServicesList from '@/components/ServicesList';
 const services = [
   {
     name: 'Antinomy',
-    description: 'A general-purpose service for various applications. High performance and reliability.',
+    description: '주도적 문제해결을 위한 편리한 가이드',
     link: 'https://syncro.tg-antinomy.kro.kr/app',
     imageUrl: '/antinomy.jpg',
   },
