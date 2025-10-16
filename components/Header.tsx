@@ -46,7 +46,7 @@ const Header = () => {
               {isLearnMoreOpen && (
                 <div className={`absolute top-full bg-white rounded-md shadow-lg z-10 transition-all duration-300 ${isSnsExpanded ? 'w-64' : 'w-56'}`}>
                   <div className="py-1">
-                    <Link href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">{t('service_list')}</Link>
+                    <Link href={`/${locale}/services`} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">{t('service_list')}</Link>
                     <button onClick={() => setSnsExpanded(!isSnsExpanded)} className="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                       {t('sns')}
                     </button>
