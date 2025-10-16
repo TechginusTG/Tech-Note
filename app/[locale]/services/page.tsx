@@ -17,7 +17,7 @@ export function generateStaticParams() {
   return getStaticParams();
 }
 
-const ServicesPage = ({ params: { locale } }: { params: { locale: string } }) => {
+const ServicesPage = async ({ params: { locale } }: { params: { locale: string } }) => {
 
   return (
     <I18nProvider locale={locale} namespaces={["common"]}>
