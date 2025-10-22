@@ -23,30 +23,8 @@ export default function Home() {
         ref={pioneersRef}
         className={`w-full py-20 px-4 md:px-8 lg:px-16 bg-gray-50 ${styles.animatedSection} ${pioneersIsVisible ? styles.isVisible : ''}`}>
         <div className="max-w-6xl mx-auto text-center">
-          <h2 className="text-4xl font-bold mb-4">Pioneers of New Beginnings</h2>
-          <p className="text-lg text-gray-600 mb-12">A history of our challenges and innovations.</p>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
-            <div className="text-center">
-              <div className="text-3xl font-bold text-blue-600">2010</div>
-              <p className="mt-2">Founded</p>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-blue-600">2012</div>
-              <p className="mt-2">First Service Launch</p>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-blue-600">2015</div>
-              <p className="mt-2">Global Expansion</p>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-blue-600">2020</div>
-              <p className="mt-2">Reached 1M Users</p>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-blue-600">2024</div>
-              <p className="mt-2">AI Integration</p>
-            </div>
-          </div>
+          <h2 className="text-4xl font-bold mb-4">새로운 시작의 개척자들</h2>
+          <p className="text-lg text-gray-600 mb-12">새로운 기술을 탐구하고 혁신적인 솔루션을 만드는 데 열정을 가진 개발자 팀입니다. 우리는 함께 배우고, 성장하며, 더 나은 미래를 만들기 위해 노력합니다.</p>
         </div>
       </section>
 
@@ -55,20 +33,20 @@ export default function Home() {
         ref={explorersRef}
         className={`w-full py-20 px-4 md:px-8 lg:px-16 ${styles.animatedSection} ${explorersIsVisible ? styles.isVisible : ''}`}>
         <div className="max-w-6xl mx-auto text-center">
-          <h2 className="text-4xl font-bold mb-4">Explorers Who Always Find a Way</h2>
-          <p className="text-lg text-gray-600 mb-12">Our core service areas driving innovation.</p>
+          <h2 className="text-4xl font-bold mb-4">도전의 역사</h2>
+          <p className="text-lg text-gray-600 mb-12">우리가 걸어온 도전과 성취의 길입니다.</p>
           <div className="grid md:grid-cols-3 gap-12">
             <div className="p-8 border border-gray-200 rounded-lg shadow-lg">
-              <h3 className="text-2xl font-bold mb-4">SEARCH</h3>
-              <p>Delivering the most relevant and comprehensive search results.</p>
+              <h3 className="text-2xl font-bold mb-4">2023 해커톤 대상</h3>
+              <p>혁신적인 아이디어와 뛰어난 기술력으로 대상을 수상했습니다.</p>
             </div>
             <div className="p-8 border border-gray-200 rounded-lg shadow-lg">
-              <h3 className="text-2xl font-bold mb-4">COMMERCE</h3>
-              <p>Providing a seamless and enjoyable shopping experience for everyone.</p>
+              <h3 className="text-2xl font-bold mb-4">2022 앱 챌린지 우수상</h3>
+              <p>사용자 중심의 디자인과 기능으로 우수상을 받았습니다.</p>
             </div>
             <div className="p-8 border border-gray-200 rounded-lg shadow-lg">
-              <h3 className="text-2xl font-bold mb-4">FINTECH</h3>
-              <p>Innovating financial services to be more accessible and secure.</p>
+              <h3 className="text-2xl font-bold mb-4">2021 AI 경진대회 1위</h3>
+              <p>독창적인 AI 모델을 개발하여 1위를 차지했습니다.</p>
             </div>
           </div>
         </div>
