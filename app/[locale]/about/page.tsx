@@ -40,13 +40,7 @@ const AboutPage = () => {
         ))}
       </div>
 
-      <div className="text-center my-16 p-8 bg-gray-800 rounded-lg">
-        <h2 className="text-3xl font-bold mb-4">{t('community')}</h2>
-        <p className="text-lg mb-8">{t('community_description')}</p>
-        <Link href="#" className="inline-block bg-sky-600 text-white font-semibold py-3 px-8 rounded-lg hover:bg-sky-700 transition-colors focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-opacity-50">
-          {t('community')}
-        </Link>
-      </div>
+
 
       <h2 className="text-3xl font-bold text-center mb-8">{t('sns')}</h2>
       <div className="flex justify-center gap-8">

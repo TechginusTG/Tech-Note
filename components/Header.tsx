@@ -34,6 +34,7 @@ const Header = () => {
           <div className="hidden md:flex items-center space-x-4">
             <Link href={`/${locale}/about`} className="bg-white text-gray-900 py-1 px-3 rounded-full text-sm font-semibold hover:bg-gray-200 transition-colors">{t('about')}</Link>
             <Link href={`/${locale}/blog`} className="bg-white text-gray-900 py-1 px-3 rounded-full text-sm font-semibold hover:bg-gray-200 transition-colors">{t('blog')}</Link>
+            <Link href={`/${locale}/community`} className="bg-white text-gray-900 py-1 px-3 rounded-full text-sm font-semibold hover:bg-gray-200 transition-colors">{t('community')}</Link>
             <div
               className="relative"
               onMouseEnter={() => setLearnMoreOpen(true)}
