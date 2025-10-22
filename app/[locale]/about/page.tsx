@@ -1,5 +1,5 @@
-import { useTranslation } from 'next-i18next';
-import { getStaticPaths, makeStaticProps } from '../../i18n';
+'use client';
+import { useTranslation } from 'react-i18next';
 import ServiceCard from '@/components/ServiceCard';
 
 const AboutPage = () => {
@@ -59,8 +59,5 @@ const AboutPage = () => {
     </div>
   );
 };
-
-const getStaticProps = makeStaticProps(['common']);
-export { getStaticPaths, getStaticProps };
 
 export default AboutPage;
