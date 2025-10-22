@@ -40,24 +40,12 @@ const AboutPage = () => {
         ))}
       </div>
 
-      <h2 className="text-3xl font-bold text-center mb-8">{t('community_title')}</h2>
-      <p className="text-lg text-center mb-8">
-        {t('community_description')}
-      </p>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-        {/* Example forum/discussion posts */}
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h2 className="text-2xl font-bold mb-2">Forum Post 1</h2>
-          <p className="text-gray-700">This is a sample discussion topic. Members can share their thoughts and ideas here.</p>
-        </div>
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h2 className="text-2xl font-bold mb-2">Forum Post 2</h2>
-          <p className="text-gray-700">Another interesting topic for our community to engage with.</p>
-        </div>
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h2 className="text-2xl font-bold mb-2">Forum Post 3</h2>
-          <p className="text-gray-700">A third topic to foster collaboration and knowledge sharing.</p>
-        </div>
+      <div className="text-center my-16 p-8 bg-gray-800 rounded-lg">
+        <h2 className="text-3xl font-bold mb-4">{t('community')}</h2>
+        <p className="text-lg mb-8">{t('community_description')}</p>
+        <Link href="#" className="inline-block bg-sky-600 text-white font-semibold py-3 px-8 rounded-lg hover:bg-sky-700 transition-colors focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-opacity-50">
+          {t('community')}
+        </Link>
       </div>
 
       <h2 className="text-3xl font-bold text-center mb-8">{t('sns')}</h2>
