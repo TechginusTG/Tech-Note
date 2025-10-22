@@ -1,6 +1,8 @@
 'use client';
 import { useTranslation } from 'react-i18next';
 import ServiceCard from '@/components/ServiceCard';
+import { FaInstagram, FaGithub } from 'react-icons/fa';
+import Link from 'next/link';
 
 const AboutPage = () => {
   const { t } = useTranslation('common');
@@ -41,7 +43,7 @@ const AboutPage = () => {
       <p className="text-lg text-center mb-8">
         {t('community_description')}
       </p>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
         {/* Example forum/discussion posts */}
         <div className="bg-white rounded-lg shadow-md p-6">
           <h2 className="text-2xl font-bold mb-2">Forum Post 1</h2>
@@ -55,6 +57,16 @@ const AboutPage = () => {
           <h2 className="text-2xl font-bold mb-2">Forum Post 3</h2>
           <p className="text-gray-700">A third topic to foster collaboration and knowledge sharing.</p>
         </div>
+      </div>
+
+      <h2 className="text-3xl font-bold text-center mb-8">{t('sns')}</h2>
+      <div className="flex justify-center gap-8">
+        <Link href="https://www.instagram.com/team_techginus/" target="_blank" rel="noopener noreferrer" className="text-gray-700 hover:text-pink-500">
+          <FaInstagram size={48} />
+        </Link>
+        <Link href="https://github.com/TechginusTG" target="_blank" rel="noopener noreferrer" className="text-gray-700 hover:text-gray-900">
+          <FaGithub size={48} />
+        </Link>
       </div>
     </div>
   );
