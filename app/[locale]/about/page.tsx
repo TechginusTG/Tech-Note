@@ -1,47 +1,66 @@
-import { FC } from 'react';
-import styles from './page.module.css';
+import { useTranslation } from 'next-i18next';
+import { getStaticPaths, makeStaticProps } from '../../i18n';
+import ServiceCard from '@/components/ServiceCard';
 
-const AboutPage: FC = () => {
-  const values = [
+const AboutPage = () => {
+  const { t } = useTranslation('common');
+
+  const services = [
     {
-      title: 'Accessibility for All',
-      text: 'We believe technology should be accessible to everyone. We are committed to creating content that is inclusive and easy to understand for a diverse audience.',
+      title: t('service1_title'),
+      description: t('service1_description'),
+      link: '#',
     },
     {
-      title: 'Innovation at the Core',
-      text: 'We are passionate about exploring the latest trends and advancements in technology. Our goal is to share cutting-edge knowledge and inspire innovation.',
+      title: t('service2_title'),
+      description: t('service2_description'),
+      link: '#',
     },
     {
-      title: 'Community and Collaboration',
-      text: 'We foster a strong sense of community by encouraging discussions and knowledge sharing. We believe that collaboration is key to growth and learning.',
-    },
-    {
-      title: 'Privacy Matters',
-      text: 'We have a deep respect for user privacy. We are committed to being transparent about how we handle data and protecting our users\' information.',
-    },
-    {
-      title: 'Lifelong Learning',
-      text: 'The world of technology is always evolving. We are dedicated to continuous learning and sharing our journey with our readers.',
-    },
-    {
-      title: 'Quality and Excellence',
-      text: 'We strive for the highest standards of quality in our content. Our commitment to excellence ensures that our readers receive accurate and valuable information.',
+      title: t('service3_title'),
+      description: t('service3_description'),
+      link: '#',
     },
   ];
 
   return (
-    <div className={styles.container}>
-      <h1 className={styles.title}>Our Core Values</h1>
-      <div className={styles.grid}>
-        {values.map((value, index) => (
-          <div key={index} className={styles.card}>
-            <h2 className={styles.cardTitle}>{value.title}</h2>
-            <p className={styles.cardText}>{value.text}</p>
-          </div>
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-4xl font-bold mb-4">{t('about_us')}</h1>
+      <p className="text-lg mb-12">
+        {t('about_us_description')}
+      </p>
+
+      <h2 className="text-3xl font-bold text-center mb-8">{t('our_services')}</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+        {services.map((service, index) => (
+          <ServiceCard key={index} title={service.title} description={service.description} link={service.link} />
         ))}
+      </div>
+
+      <h2 className="text-3xl font-bold text-center mb-8">{t('community_title')}</h2>
+      <p className="text-lg text-center mb-8">
+        {t('community_description')}
+      </p>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* Example forum/discussion posts */}
+        <div className="bg-white rounded-lg shadow-md p-6">
+          <h2 className="text-2xl font-bold mb-2">Forum Post 1</h2>
+          <p className="text-gray-700">This is a sample discussion topic. Members can share their thoughts and ideas here.</p>
+        </div>
+        <div className="bg-white rounded-lg shadow-md p-6">
+          <h2 className="text-2xl font-bold mb-2">Forum Post 2</h2>
+          <p className="text-gray-700">Another interesting topic for our community to engage with.</p>
+        </div>
+        <div className="bg-white rounded-lg shadow-md p-6">
+          <h2 className="text-2xl font-bold mb-2">Forum Post 3</h2>
+          <p className="text-gray-700">A third topic to foster collaboration and knowledge sharing.</p>
+        </div>
       </div>
     </div>
   );
 };
+
+const getStaticProps = makeStaticProps(['common']);
+export { getStaticPaths, getStaticProps };
 
 export default AboutPage;

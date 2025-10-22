@@ -34,7 +34,6 @@ const Header = () => {
           <div className="hidden md:flex items-center space-x-4">
             <Link href={`/${locale}/about`} className="bg-white text-gray-900 py-1 px-3 rounded-full text-sm font-semibold hover:bg-gray-200 transition-colors">{t('about')}</Link>
             <Link href={`/${locale}/blog`} className="bg-white text-gray-900 py-1 px-3 rounded-full text-sm font-semibold hover:bg-gray-200 transition-colors">{t('blog')}</Link>
-            <Link href={`/${locale}/community`} className="bg-white text-gray-900 py-1 px-3 rounded-full text-sm font-semibold hover:bg-gray-200 transition-colors">{t('community')}</Link>
             <div
               className="relative"
               onMouseEnter={() => setLearnMoreOpen(true)}
@@ -46,7 +45,6 @@ const Header = () => {
               {isLearnMoreOpen && (
                 <div className={`absolute top-full bg-white rounded-md shadow-lg z-10 transition-all duration-300 ${isSnsExpanded ? 'w-64' : 'w-56'}`}>
                   <div className="py-1">
-                    <Link href={`/${locale}/services`} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">{t('service_list')}</Link>
                     <Link href={`/${locale}/mypage`} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">{t('mypage')}</Link>
                     <button onClick={() => setSnsExpanded(!isSnsExpanded)} className="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                       {t('sns')}
