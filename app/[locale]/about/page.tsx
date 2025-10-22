@@ -9,9 +9,10 @@ const AboutPage = () => {
 
   const services = [
     {
-      title: t('service1_title'),
+      title: 'Antinomy',
       description: t('service1_description'),
       link: 'https://syncro.tg-antinomy.kro.kr/', // Placeholder link
+      imageUrl: '/antinomy.jpg',
     },
     {
       title: t('service2_title'),
@@ -35,7 +36,7 @@ const AboutPage = () => {
       <h2 className="text-3xl font-bold text-center mb-8">{t('our_services')}</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
         {services.map((service, index) => (
-          <ServiceCard key={index} name={service.title} description={service.description} link={service.link} />
+          <ServiceCard key={index} name={service.title} description={service.description} link={service.link} imageUrl={service.imageUrl} />
         ))}
       </div>
 
