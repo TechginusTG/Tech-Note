@@ -10,8 +10,6 @@ import { FaInstagram, FaGithub } from "react-icons/fa";
 const Header = () => {
   const { user, setUser, isLoading } = useAuth();
   const { t, i18n } = useTranslation();
-  const [isLearnMoreOpen, setLearnMoreOpen] = useState(false);
-  const [isSnsExpanded, setSnsExpanded] = useState(false);
   const locale = i18n.language;
 
   const handleLogout = () => {
@@ -35,22 +33,7 @@ const Header = () => {
             <Link href={`/${locale}/about`} className="bg-white text-gray-900 py-1 px-3 rounded-full text-sm font-semibold hover:bg-gray-200 transition-colors">{t('about')}</Link>
             <Link href={`/${locale}/blog`} className="bg-white text-gray-900 py-1 px-3 rounded-full text-sm font-semibold hover:bg-gray-200 transition-colors">{t('blog')}</Link>
             <Link href={`/${locale}/community`} className="bg-white text-gray-900 py-1 px-3 rounded-full text-sm font-semibold hover:bg-gray-200 transition-colors">{t('community')}</Link>
-            <div
-              className="relative"
-              onMouseEnter={() => setLearnMoreOpen(true)}
-              onMouseLeave={() => { setLearnMoreOpen(false); setSnsExpanded(false); }}
-            >
-              <button className="bg-white text-gray-900 py-1 px-3 rounded-full text-sm font-semibold hover:bg-gray-200 transition-colors">
-                {t('learn_more')}
-              </button>
-              {isLearnMoreOpen && (
-                <div className={`absolute top-full bg-white rounded-md shadow-lg z-10 transition-all duration-300 w-56`}>
-                  <div className="py-1">
-                    <Link href={`/${locale}/mypage`} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">{t('mypage')}</Link>
-                  </div>
-                </div>
-              )}
-            </div>
+            <Link href={`/${locale}/mypage`} className="bg-white text-gray-900 py-1 px-3 rounded-full text-sm font-semibold hover:bg-gray-200 transition-colors">{t('mypage')}</Link>
             {/* Add more links as needed */}
           </div>
         </ClientOnly>
