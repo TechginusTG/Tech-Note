@@ -37,8 +37,8 @@ export default function Home() {
           <p className="text-lg text-gray-600 mb-12">우리가 걸어온 도전과 성취의 길입니다.</p>
           <div className="grid md:grid-cols-3 gap-12">
             <div className="p-8 border border-gray-200 rounded-lg shadow-lg">
-              <h3 className="text-2xl font-bold mb-4">2023 해커톤 대상</h3>
-              <p>혁신적인 아이디어와 뛰어난 기술력으로 대상을 수상했습니다.</p>
+              <h3 className="text-2xl font-bold mb-4">제10회 AI SW 해커톤 참여</h3>
+              <p>antinomy,기억에 남을 첫 시작</p>
             </div>
             <div className="p-8 border border-gray-200 rounded-lg shadow-lg">
               <h3 className="text-2xl font-bold mb-4">2022 앱 챌린지 우수상</h3>
