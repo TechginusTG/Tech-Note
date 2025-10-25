@@ -20,7 +20,7 @@ const AboutPage = () => {
       imageUrl: '/antinomy.jpg',
     },
     {
-      title: t('service2_title'),
+      title: 'Astral',
       description: t('service2_description'),
       link: '#',
     },
