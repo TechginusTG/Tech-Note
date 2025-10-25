@@ -1,9 +1,10 @@
+'use client';
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./styles/tailwind.css";
 import "./styles/theme.css";
 import "./styles/globals.css";
-// import { ReduxProvider } from "./store/provider";
+import { ReduxProvider } from "./store/provider";
 import ThemeInitializer from '@/components/ThemeInitializer';
 import Link from "next/link";
 
@@ -39,7 +40,7 @@ export default function RootLayout({
       >
         {/* Inline script to ensure theme classes are set before hydration to avoid flash */}
         <script dangerouslySetInnerHTML={{ __html: `(function(){try{var t=localStorage.getItem('blog:theme');if(t==='dark'){document.documentElement.classList.add('theme-inverted','dark');}else{document.documentElement.classList.remove('theme-inverted','dark');}}catch(e){} })();` }} />
-        {/* <ReduxProvider> */}
+        <ReduxProvider>
           <SessionProvider>
             <AuthProvider>
               <I18nProvider>
@@ -49,7 +50,7 @@ export default function RootLayout({
               </I18nProvider>
             </AuthProvider>
           </SessionProvider>
-        {/* </ReduxProvider> */}
+        </ReduxProvider>
       </body>
     </html>
   );
