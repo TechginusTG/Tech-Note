@@ -3,13 +3,14 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./styles/tailwind.css";
 import "./styles/theme.css";
 import "./styles/globals.css";
-import { ReduxProvider } from "./store/provider";
+// import { ReduxProvider } from "./store/provider";
 import ThemeInitializer from '@/components/ThemeInitializer';
 import Link from "next/link";
 
 import { AuthProvider } from "./auth-provider";
 import Header from "@/components/Header";
 import I18nProvider from "./i18n-provider";
+import { SessionProvider } from "next-auth/react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -38,15 +39,17 @@ export default function RootLayout({
       >
         {/* Inline script to ensure theme classes are set before hydration to avoid flash */}
         <script dangerouslySetInnerHTML={{ __html: `(function(){try{var t=localStorage.getItem('blog:theme');if(t==='dark'){document.documentElement.classList.add('theme-inverted','dark');}else{document.documentElement.classList.remove('theme-inverted','dark');}}catch(e){} })();` }} />
-        <ReduxProvider>
-          <AuthProvider>
-            <I18nProvider>
-              <Header />
-              <ThemeInitializer />
-              {children}
-            </I18nProvider>
-          </AuthProvider>
-        </ReduxProvider>
+        {/* <ReduxProvider> */}
+          <SessionProvider>
+            <AuthProvider>
+              <I18nProvider>
+                <Header />
+                <ThemeInitializer />
+                {children}
+              </I18nProvider>
+            </AuthProvider>
+          </SessionProvider>
+        {/* </ReduxProvider> */}
       </body>
     </html>
   );

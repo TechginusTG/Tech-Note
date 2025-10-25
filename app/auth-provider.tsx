@@ -1,47 +1,26 @@
-"use client";
+'use client';
 
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import axios from 'axios';
-
-interface User {
-    name: string;
-    email: string;
-    // Add other user properties as needed
-}
+import { useSession } from 'next-auth/react';
+import React, { createContext, useContext, ReactNode } from 'react';
 
 interface AuthContextType {
-    user: User | null;
-    setUser: (user: User | null) => void;
+    user: any | null;
     isLoading: boolean;
+    setUser: (user: any | null) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Configure axios to include credentials (cookies)
-const apiClient = axios.create({
-    baseURL: 'http://localhost:8080',
-    withCredentials: true,
-});
-
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-    const [user, setUser] = useState<User | null>(null);
-    const [isLoading, setIsLoading] = useState(true);
+    const { data: session, status, update } = useSession();
+    const isLoading = status === 'loading';
 
-    useEffect(() => {
-        apiClient.get('/api/user/me')
-            .then(response => {
-                setUser(response.data);
-            })
-            .catch(() => {
-                setUser(null);
-            })
-            .finally(() => {
-                setIsLoading(false);
-            });
-    }, []);
+    const setUser = (user: any | null) => {
+        update(user);
+    }
 
     return (
-        <AuthContext.Provider value={{ user, setUser, isLoading }}>
+        <AuthContext.Provider value={{ user: session?.user || null, isLoading, setUser }}>
             {children}
         </AuthContext.Provider>
     );
@@ -54,4 +33,3 @@ export const useAuth = () => {
     }
     return context;
 };
-
