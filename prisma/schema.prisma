@@ -93,16 +93,9 @@ model Post {
 
   categoryId Int?
   category   Category? @relation(fields: [categoryId], references: [id])
-  tags       Tag[]
 }
 
 model Category {
-  id    Int    @id @default(autoincrement())
-  name  String @unique
-  posts Post[]
-}
-
-model Tag {
   id    Int    @id @default(autoincrement())
   name  String @unique
   posts Post[]
