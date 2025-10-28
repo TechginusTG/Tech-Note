@@ -39,7 +39,9 @@
     "redux": "^5.0.1"
   },
   "devDependencies": {
+    "@eslint/create-config": "^1.11.0",
     "@eslint/eslintrc": "^3.3.1",
+    "@eslint/js": "^9.38.0",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
@@ -48,9 +50,13 @@
     "dotenv-cli": "^10.0.0",
     "eslint": "^9.38.0",
     "eslint-config-next": "^16.0.0",
+    "eslint-plugin-react": "^7.37.5",
+    "globals": "^16.4.0",
+    "jiti": "^2.6.1",
     "prisma": "^6.17.1",
     "tailwindcss": "^4",
     "tsx": "^4.20.6",
-    "typescript": "^5"
+    "typescript": "^5",
+    "typescript-eslint": "^8.46.2"
   }
 }
