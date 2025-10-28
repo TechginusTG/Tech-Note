@@ -1,20 +1,23 @@
-// This file is no longer used for OAuth providers.
-// Authentication is now handled by the backend.
-// We are adding a CredentialsProvider here ONLY for the development-mode test login.
-
-import NextAuth from "next-auth";
+//CredentialsProvider is only for test.
+//We are servicing Github Oauth.
+import NextAuth, { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import GitHubProvider from "next-auth/providers/github";
 import prisma from "@/lib/prisma";
 
-export const authOptions = {
+export const authOptions: AuthOptions = {
   providers: [
+    GitHubProvider({
+      clientId: process.env.GITHUB_CLIENT_ID!,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET!,
+    }),
     CredentialsProvider({
-      name: 'Credentials',
+      name: "Credentials",
       credentials: {
         email: { label: "Email", type: "text" },
       },
       async authorize(credentials, req) {
-        if (process.env.NODE_ENV !== 'development') {
+        if (process.env.NODE_ENV !== "development") {
           throw new Error("Test login is only available in development.");
         }
         if (!credentials?.email) {
@@ -22,7 +25,9 @@ export const authOptions = {
         }
 
         try {
-          console.log(`(Server) Searching for user with email: ${credentials.email}`);
+          console.log(
+            `(Server) Searching for user with email: ${credentials.email}`,
+          );
           const user = await prisma.user.findUnique({
             where: { email: credentials.email },
           });
@@ -32,15 +37,20 @@ export const authOptions = {
             return user;
           } else {
             console.error("(Server) Test user not found in database.");
-            throw new Error("Test user with that email not found in the database.");
+            throw new Error(
+              "Test user with that email not found in the database.",
+            );
           }
         } catch (e) {
           console.error("(Server) Error in authorize function:", e);
           throw new Error("An error occurred during authentication.");
         }
-      }
-    })
+      },
+    }),
   ],
+  pages: {
+    signIn: "/login",
+  },
   callbacks: {
     async jwt({ token, user }) {
       // user 객체는 로그인 직후에만 사용 가능합니다.
@@ -63,4 +73,3 @@ export const authOptions = {
 const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };
-

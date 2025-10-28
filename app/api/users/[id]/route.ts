@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/app/api/auth/[...nextauth]";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import bcrypt from "bcrypt";
 
 export async function PUT(
@@ -38,7 +38,7 @@ export async function PUT(
     }
 
     const updatedUser = await prisma.user.update({
-      where: { id: parseInt(id, 10) },
+      where: { id: id },
       data: dataToUpdate,
     });
 
