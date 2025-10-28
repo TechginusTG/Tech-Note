@@ -19,7 +19,7 @@ enum Role {
 model User {
   id            String    @id @default(cuid())
   name          String?
-  nickname      String
+  nickname      String?
   email         String?   @unique
   emailVerified DateTime?
   image         String? // next-auth 호환을 위해 'image' 사용

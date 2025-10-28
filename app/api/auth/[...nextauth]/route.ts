@@ -56,46 +56,26 @@ export const authOptions: AuthOptions = {
   },
   callbacks: {
     async signIn({ user, account, profile }) {
-      // GitHub OAuth로 가입하는 경우
+      // GitHub OAuth로 가입하고 프로필이 있는 경우
       if (account?.provider === "github" && profile) {
-        try {
-          // GitHub name을 nickname으로 저장하고 name은 null로
-          await prisma.user.update({
-            where: { id: user.id },
-            data: {
-              nickname: profile.name || profile.login, // GitHub 이름 또는 username을 닉네임으로
-              name: null, // 실명 필드는 비워둠
-            },
-          });
-        } catch (error) {
-          console.error("Error in signIn callback:", error);
-        }
+        // user 객체에 nickname과 name 값을 직접 설정합니다.
+        // 이렇게 하면 Prisma 어댑터가 이 정보를 사용하여 사용자를 생성합니다.
+        user.nickname = profile.name || profile.login;
+        user.name = null; // 기존 로직에 따라 name은 null로 설정
       }
-
       return true;
     },
-    async jwt({ token, user, account, profile }) {
+    async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
         token.email = user.email;
-
-        // DB에서 nickname 가져오기
-        const dbUser = await prisma.user.findUnique({
-          where: { id: user.id },
-          select: { nickname: true, name: true },
-        });
-
-        token.nickname = dbUser?.nickname;
-        token.name = dbUser?.name; // 실명 (처음엔 null)
       }
       return token;
     },
-    async session({ session, token, user }) {
+    async session({ session, token }) {
       if (token && session.user) {
         session.user.id = token.id as string;
         session.user.email = token.email as string;
-        session.user.name = token.name as string; // 실명
-        session.user.nickname = token.nickname as string; // 닉네임
       }
       return session;
     },
