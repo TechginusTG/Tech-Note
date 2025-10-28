@@ -1,13 +1,11 @@
-import { NextApiResponse } from "next";
 import prisma from "@/lib/prisma";
-import { allowedNodeEnvironmentFlags } from "process";
 import { NextResponse } from "next/server";
 
 export async function GET(
-  requst: Request,
-  { params }: { params: { slug: string } },
+  request: Request,
+  { params }: { params: Promise<{ slug: string }> },
 ) {
-  const slug = params.slug;
+  const { slug } = await params;
 
   try {
     const post = await prisma.post.findUnique({

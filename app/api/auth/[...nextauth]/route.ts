@@ -1,11 +1,16 @@
 //CredentialsProvider is only for test.
 //We are servicing Github Oauth.
+import { PrismaAdapter } from "@auth/prisma-adapter";
 import NextAuth, { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GitHubProvider from "next-auth/providers/github";
 import prisma from "@/lib/prisma";
 
 export const authOptions: AuthOptions = {
+  adapter: PrismaAdapter(prisma),
+  session: {
+    strategy: "jwt",
+  },
   providers: [
     GitHubProvider({
       clientId: process.env.GITHUB_CLIENT_ID!,
@@ -23,7 +28,6 @@ export const authOptions: AuthOptions = {
         if (!credentials?.email) {
           throw new Error("Email not provided for test login.");
         }
-
         try {
           console.log(
             `(Server) Searching for user with email: ${credentials.email}`,
@@ -31,7 +35,6 @@ export const authOptions: AuthOptions = {
           const user = await prisma.user.findUnique({
             where: { email: credentials.email },
           });
-
           if (user) {
             console.log("(Server) Test user found:", user);
             return user;
@@ -52,18 +55,47 @@ export const authOptions: AuthOptions = {
     signIn: "/login",
   },
   callbacks: {
-    async jwt({ token, user }) {
-      // user 객체는 로그인 직후에만 사용 가능합니다.
-      // 이 user 객체의 id를 token에 저장합니다.
+    async signIn({ user, account, profile }) {
+      // GitHub OAuth로 가입하는 경우
+      if (account?.provider === "github" && profile) {
+        try {
+          // GitHub name을 nickname으로 저장하고 name은 null로
+          await prisma.user.update({
+            where: { id: user.id },
+            data: {
+              nickname: profile.name || profile.login, // GitHub 이름 또는 username을 닉네임으로
+              name: null, // 실명 필드는 비워둠
+            },
+          });
+        } catch (error) {
+          console.error("Error in signIn callback:", error);
+        }
+      }
+
+      return true;
+    },
+    async jwt({ token, user, account, profile }) {
       if (user) {
         token.id = user.id;
+        token.email = user.email;
+
+        // DB에서 nickname 가져오기
+        const dbUser = await prisma.user.findUnique({
+          where: { id: user.id },
+          select: { nickname: true, name: true },
+        });
+
+        token.nickname = dbUser?.nickname;
+        token.name = dbUser?.name; // 실명 (처음엔 null)
       }
       return token;
     },
-    async session({ session, token }) {
-      // 위 jwt 콜백에서 저장한 token의 id를 session.user에 넣어줍니다.
-      if (session.user) {
+    async session({ session, token, user }) {
+      if (token && session.user) {
         session.user.id = token.id as string;
+        session.user.email = token.email as string;
+        session.user.name = token.name as string; // 실명
+        session.user.nickname = token.nickname as string; // 닉네임
       }
       return session;
     },
@@ -71,5 +103,4 @@ export const authOptions: AuthOptions = {
 };
 
 const handler = NextAuth(authOptions);
-
 export { handler as GET, handler as POST };

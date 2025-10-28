@@ -10,7 +10,8 @@ async function main() {
     update: {},
     create: {
       email: "test@example.com",
-      name: "Test User",
+      nickname: "Test User",
+      name: "TEST",
     },
   });
 
@@ -18,15 +19,15 @@ async function main() {
   await prisma.account.upsert({
     where: {
       provider_providerAccountId: {
-        provider: 'credentials',
+        provider: "credentials",
         providerAccountId: testUser.id,
       },
     },
     update: {},
     create: {
       userId: testUser.id,
-      type: 'credentials',
-      provider: 'credentials',
+      type: "credentials",
+      provider: "credentials",
       providerAccountId: testUser.id,
     },
   });
