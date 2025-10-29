@@ -1,6 +1,7 @@
 import PostsRenderer from '@/components/PostsRenderer';
 import { fetchPosts } from '@/lib/fetchPosts';
 import { Post } from '@/lib/definitions';
+import Link from 'next/link';
 
 export default async function BlogPage({ params }: { params: { locale: string } }) {
   const { locale } = params;
@@ -8,7 +9,15 @@ export default async function BlogPage({ params }: { params: { locale: string } 
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-4xl font-bold mb-8">Blog</h1>
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-4xl font-bold">Blog</h1>
+        <Link 
+          href={`/${locale}/blog/new`}
+          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md transition-colors duration-200"
+        >
+          글쓰기
+        </Link>
+      </div>
       <PostsRenderer 
         posts={posts} 
         total={totalPosts} 
