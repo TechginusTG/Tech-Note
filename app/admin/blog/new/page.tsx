@@ -15,14 +15,14 @@ export default function NewPostPage() {
   const [content, setContent] = useState('');
   const [category, setCategory] = useState(searchParams.get('category') || '');
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handlePublish = async (e: React.FormEvent) => {
     e.preventDefault();
     const response = await fetch('/api/posts', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ title, content, category }),
+      body: JSON.stringify({ title, content, category, published: true }),
     });
 
     if (response.ok) {
@@ -33,10 +33,29 @@ export default function NewPostPage() {
     }
   };
 
+  const handleSaveDraft = async (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log('Save draft');
+    // const response = await fetch('/api/posts', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify({ title, content, category, published: false }),
+    // });
+    //
+    // if (response.ok) {
+    //   router.push('/admin/drafts');
+    // } else {
+    //   // Handle error
+    //   console.error('Failed to save draft');
+    // }
+  };
+
   return (
     <main className={styles.main}>
       <h1 className={styles.title}>{t('create_new_post')}</h1>
-      <form onSubmit={handleSubmit}>
+      <form>
         <div className={styles.formGroup}>
           <label htmlFor="title" className={styles.label}>{t('title')}</label>
           <input
@@ -67,12 +86,22 @@ export default function NewPostPage() {
             <Editor onContentChange={setContent} />
           </ClientOnly>
         </div>
-        <button
-          type="submit"
-          className={styles.button}
-        >
-          {t('publish_post')}
-        </button>
+        <div className={styles.buttonGroup}>
+          <button
+            type="button"
+            className={styles.button}
+            onClick={handleSaveDraft}
+          >
+            {t('save_draft')}
+          </button>
+          <button
+            type="submit"
+            className={styles.button}
+            onClick={handlePublish}
+          >
+            {t('publish_post')}
+          </button>
+        </div>
       </form>
     </main>
   );
