@@ -43,12 +43,12 @@ const AboutPage = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
           <div className="flex flex-col items-center text-center">
             <img src="https://via.placeholder.com/150" alt="Founder 1" className="w-40 h-40 rounded-full mb-4" />
-            <h3 className="text-2xl font-bold">Founder 1</h3>
+            <h3 className="text-2xl font-bold">naya1228</h3>
             <p className="text-lg text-gray-600">{t('founder_bio')}</p>
           </div>
           <div className="flex flex-col items-center text-center">
             <img src="https://via.placeholder.com/150" alt="Founder 2" className="w-40 h-40 rounded-full mb-4" />
-            <h3 className="text-2xl font-bold">Founder 2</h3>
+            <h3 className="text-2xl font-bold">system0105</h3>
             <p className="text-lg text-gray-600">{t('founder_bio')}</p>
           </div>
           <div className="flex flex-col items-center text-center">
