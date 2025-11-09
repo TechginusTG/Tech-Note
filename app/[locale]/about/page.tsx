@@ -53,12 +53,12 @@ const AboutPage = () => {
           </div>
           <div className="flex flex-col items-center text-center">
             <img src="https://via.placeholder.com/150" alt="Founder 3" className="w-40 h-40 rounded-full mb-4" />
-            <h3 className="text-2xl font-bold">Founder 3</h3>
+            <h3 className="text-2xl font-bold">GOCACOLA</h3>
             <p className="text-lg text-gray-600">{t('founder_bio')}</p>
           </div>
           <div className="flex flex-col items-center text-center">
             <img src="https://via.placeholder.com/150" alt="Founder 4" className="w-40 h-40 rounded-full mb-4" />
-            <h3 className="text-2xl font-bold">Founder 4</h3>
+            <h3 className="text-2xl font-bold">gganwoor</h3>
             <p className="text-lg text-gray-600">{t('founder_bio')}</p>
           </div>
         </div>
