@@ -2,6 +2,7 @@
   "name": "technote",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev:db": "podman-compose up -d",
     "dev:frontend": "next dev",
