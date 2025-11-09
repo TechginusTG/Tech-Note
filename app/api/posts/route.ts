@@ -80,7 +80,12 @@ export async function POST(req: NextRequest) {
         content,
         slug,
         authorId: user.id,
-        categoryName: categoryName || 'uncategorized',
+        category: {
+          connectOrCreate: {
+            where: { name: categoryName || 'uncategorized' },
+            create: { name: categoryName || 'uncategorized' },
+          },
+        },
       },
     });
 
