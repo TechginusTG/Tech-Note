@@ -96,7 +96,7 @@ export default function Home() {
             </div>
             <div>
               <h4 className="font-bold">Core Business</h4>
-              <p>Search, Commerce, Fintech</p>
+              <p>블로그, 커뮤니티, AI활용 서비스</p>
             </div>
             <div>
               <h4 className="font-bold">멤버 수</h4>
