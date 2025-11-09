@@ -4,18 +4,18 @@ import { useState } from 'react';
 import Editor from '@/components/editor/Editor';
 import { useRouter } from 'next/navigation';
 
-export default function NewBlogPost() {
+export default function NewCommunityPost() {
   const router = useRouter();
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [categoryName, setCategoryName] = useState('Tech');
-  const categories = ['Tech', 'Life', 'Travel'];
+  const [categoryName, setCategoryName] = useState('General');
+  const categories = ['General', 'Q&A', 'Events'];
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     try {
-      const response = await fetch('/api/posts', {
+      const response = await fetch('/api/community', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -25,7 +25,7 @@ export default function NewBlogPost() {
 
       if (response.ok) {
         const data = await response.json();
-        router.push(`/blog/${data.slug}`);
+        router.push(`/community/${data.slug}`);
       } else {
         throw new Error('Failed to create post');
       }
