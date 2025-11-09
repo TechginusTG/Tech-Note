@@ -88,7 +88,7 @@ export default function Home() {
           <div className="grid grid-cols-2 gap-8">
             <div>
               <h4 className="font-bold">Founded</h4>
-              <p>2010</p>
+              <p>2025</p>
             </div>
             <div>
               <h4 className="font-bold">Headquarters</h4>
@@ -99,8 +99,8 @@ export default function Home() {
               <p>Search, Commerce, Fintech</p>
             </div>
             <div>
-              <h4 className="font-bold">Employees</h4>
-              <p>5,000+</p>
+              <h4 className="font-bold">멤버 수</h4>
+              <p>4명</p>
             </div>
           </div>
         </div>
