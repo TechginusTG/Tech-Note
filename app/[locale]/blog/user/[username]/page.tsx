@@ -1,13 +1,28 @@
 import PostsRenderer from '@/components/PostsRenderer';
 import { getPosts } from '@/lib/api';
-import { Post } from '@/lib/definitions';
 import Link from 'next/link';
+import { Metadata } from 'next';
 
-export default async function UserBlogPage({ params }: { params: { locale: string, username: string } }) {
+type Props = {
+  params: Promise<{ locale: string; username: string }>;
+  searchParams: Promise<{ page?: string }>; // searchParams를 Promise로 변경
+};
+
+export async function generateMetadata({ params: paramsPromise }: Props): Promise<Metadata> {
+  const params = await paramsPromise;
   const { locale, username } = params;
-  const { posts = [], totalPosts = 0, totalPages = 0, currentPage = 1 } = await getPosts({ page: 1, limit: 10, username: username });
+  return {
+    title: `${username}'s Blog`,
+  };
+}
 
-  // 포스트, 닉네임, 사용자 이름 순으로 페이지 제목을 정합니다.
+export default async function UserBlogPage({ params: paramsPromise, searchParams: searchParamsPromise }: Props) {
+  const params = await paramsPromise;
+  const searchParams = await searchParamsPromise; // searchParams를 await로 해결
+  const { locale, username } = params;
+  const page = searchParams.page ? parseInt(searchParams.page) : 1;
+  const { posts = [], totalPosts = 0, totalPages = 0, currentPage = 1 } = await getPosts({ page, limit: 10, username });
+
   const authorDisplayName = posts[0]?.author.name || posts[0]?.author.nickname || posts[0]?.author.username;
   const pageTitle = authorDisplayName ? `${authorDisplayName}의 블로그` : '블로그';
 

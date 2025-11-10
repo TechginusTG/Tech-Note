@@ -2,20 +2,40 @@ import { getPostBySlug, getCategoriesWithPostCounts } from "@/lib/api";
 import styles from "./page.module.css";
 import CategoryPanel from "@/components/CategoryPanel";
 import Link from "next/link";
+import { notFound } from 'next/navigation';
+import { Metadata } from 'next';
 
 type Props = {
-  params: { slug: string };
+  params: Promise<{ slug: string; locale: string }>;
 };
 
-export default async function BlogPostPage({ params }: Props) {
+export async function generateMetadata({ params: paramsPromise }: Props): Promise<Metadata> {
+  const params = await paramsPromise;
+  const { slug, locale } = params;
+  const post = await getPostBySlug(slug);
+
+  if (!post) {
+    return {};
+  }
+
+  return {
+    title: post.title,
+    description: post.content?.substring(0, 150),
+  };
+}
+
+export default async function BlogPostPage({ params: paramsPromise }: Props) {
+  const params = await paramsPromise;
+  const { slug, locale } = params;
+
   // 포스트 상세 정보와 카테고리 목록을 병렬로 가져옵니다.
   const [post, categories] = await Promise.all([
-    getPostBySlug(params.slug),
+    getPostBySlug(slug),
     getCategoriesWithPostCounts(),
   ]);
 
   if (!post) {
-    return <div>Post not found!</div>;
+    notFound();
   }
 
   return (
@@ -36,7 +56,7 @@ export default async function BlogPostPage({ params }: Props) {
       </div>
 
       <div className={styles.writeButtonContainer}>
-        <Link href="/admin/blog/new" className={styles.writeButton}>
+        <Link href={`/${locale}/admin/blog/new`} className={styles.writeButton}>
           글쓰기
         </Link>
       </div>
