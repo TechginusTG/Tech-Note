@@ -12,6 +12,8 @@ const Header = () => {
   const { t, i18n } = useTranslation();
   const locale = i18n.language;
 
+  const blogHref = user && user.username ? `/${locale}/blog/user/${user.username}` : `/${locale}/blog`;
+
   const handleLogout = () => {
     // In a real app, you'd call your sign-out endpoint.
     // For this example, we'll just clear the user state.
@@ -31,7 +33,7 @@ const Header = () => {
         <ClientOnly>
           <div className="hidden md:flex items-center space-x-4">
             <Link href={`/${locale}/about`} className="bg-white text-gray-900 py-1 px-3 rounded-full text-sm font-semibold hover:bg-gray-200 transition-colors">{t('about')}</Link>
-            <Link href={`/${locale}/blog`} className="bg-white text-gray-900 py-1 px-3 rounded-full text-sm font-semibold hover:bg-gray-200 transition-colors">{t('blog')}</Link>
+            <Link href={blogHref} className="bg-white text-gray-900 py-1 px-3 rounded-full text-sm font-semibold hover:bg-gray-200 transition-colors">{t('blog')}</Link>
             <Link href={`/${locale}/community`} className="bg-white text-gray-900 py-1 px-3 rounded-full text-sm font-semibold hover:bg-gray-200 transition-colors">{t('community')}</Link>
             <Link href={`/${locale}/mypage`} className="bg-white text-gray-900 py-1 px-3 rounded-full text-sm font-semibold hover:bg-gray-200 transition-colors">{t('mypage')}</Link>
             {/* Add more links as needed */}
