@@ -32,3 +32,7 @@ export default async function Page({ params: paramsPromise, searchParams: search
 ```
 
 **Reason:** This avoids errors like `TypeError: Cannot read properties of undefined` or Next.js warnings about unwrapping Promises, which occur when accessing `params.dynamic` directly on the unresolved Promise.
+
+---
+- In the 'Tech-Note' Next.js project, `params` and `searchParams` in async Server Components are Promises and must be awaited before their properties can be accessed. The correct pattern is: `async function Page({ params: paramsPromise }) { const params = await paramsPromise; ... }`.
+- When working on the project with the user, I must avoid making hasty judgments. I should be more deliberate by thoroughly investigating, communicating my plan, explaining my reasoning for changes, and asking for confirmation on significant modifications before proceeding. The user wants me to act as a thoughtful and collaborative partner.
