@@ -5,6 +5,27 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import GitHubProvider from "next-auth/providers/github";
 import prisma from "@/lib/prisma";
 
+/**
+ * Generates a unique username based on a nickname.
+ * If the nickname is already taken, it appends a number until a unique username is found.
+ * @param nickname The base nickname to use.
+ */
+async function generateUniqueUsername(nickname: string): Promise<string> {
+  let username = nickname;
+  let userWithSameUsername = await prisma.user.findUnique({
+    where: { username: username },
+  });
+  let counter = 1;
+  while (userWithSameUsername) {
+    username = `${nickname}${counter}`;
+    userWithSameUsername = await prisma.user.findUnique({
+      where: { username: username },
+    });
+    counter++;
+  }
+  return username;
+}
+
 export const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma),
   session: {
@@ -14,11 +35,15 @@ export const authOptions: AuthOptions = {
     GitHubProvider({
       clientId: process.env.GITHUB_CLIENT_ID!,
       clientSecret: process.env.GITHUB_CLIENT_SECRET!,
-      profile(profile) {
+      async profile(profile) {
+        const nickname = profile.name || profile.login;
+        const username = await generateUniqueUsername(nickname);
+
         return {
           id: profile.id.toString(),
           name: profile.name || profile.login,
-          nickname: profile.name || profile.login,
+          nickname: nickname,
+          username: username,
           email: profile.email,
           image: profile.avatar_url,
         };
@@ -56,6 +81,7 @@ export const authOptions: AuthOptions = {
             id: user.id,
             name: user.name,
             nickname: user.nickname,
+            username: user.username,
             email: user.email,
             image: user.image,
           };
@@ -70,11 +96,44 @@ export const authOptions: AuthOptions = {
     signIn: "/login",
   },
   callbacks: {
+    async signIn({ user }) {
+      if (user.id) {
+        const dbUser = await prisma.user.findUnique({
+          where: { id: user.id },
+        });
+
+        if (dbUser && !dbUser.username) {
+          const baseUsername = dbUser.nickname || dbUser.name;
+          if (baseUsername) {
+            let username = baseUsername;
+            let existingUser = await prisma.user.findUnique({
+              where: { username: username },
+            });
+            let counter = 1;
+            while (existingUser && existingUser.id !== dbUser.id) {
+              username = `${baseUsername}${counter}`;
+              existingUser = await prisma.user.findUnique({
+                where: { username: username },
+              });
+              counter++;
+            }
+            await prisma.user.update({
+              where: { id: dbUser.id },
+              data: { username: username },
+            });
+            // Mutate the user object to reflect the change in the same login flow
+            user.username = username;
+          }
+        }
+      }
+      return true;
+    },
     async jwt({ token, user }) {
       // 최초 로그인 시에만 user 객체가 존재
       if (user) {
         token.id = user.id;
         token.email = user.email;
+        token.username = user.username;
       }
       return token;
     },
@@ -83,6 +142,7 @@ export const authOptions: AuthOptions = {
       if (token && session.user) {
         session.user.id = token.id as string;
         session.user.email = token.email as string;
+        session.user.username = token.username as string;
       }
       return session;
     },
