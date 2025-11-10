@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/app/auth-provider';
 import { useState, useEffect } from 'react';
 import { signOut } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 const MyPage = () => {
   const { t } = useTranslation();
@@ -13,6 +14,7 @@ const MyPage = () => {
   const [newPassword, setNewPassword] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
   const [profilePicture, setProfilePicture] = useState('');
+  const router = useRouter();
 
   useEffect(() => {
     if (user) {
@@ -72,8 +74,12 @@ const MyPage = () => {
     return <div>Loading...</div>;
   }
 
-  if (!user) {
-    return <div>Please log in to view this page.</div>;
+  if (!user && !isLoading) {
+    useEffect(() => {
+      alert('Please log in to view this page.');
+      router.push('/');
+    }, [router]);
+    return null;
   }
 
   return (
