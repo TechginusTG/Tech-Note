@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { signOut } from "next-auth/react";
 import { useAuth } from "@/app/auth-provider";
 import { useTranslation } from "react-i18next";
 import ClientOnly from "./ClientOnly";
@@ -8,18 +9,14 @@ import { useState } from "react";
 import { FaInstagram, FaGithub } from "react-icons/fa";
 
 const Header = () => {
-  const { user, setUser, isLoading } = useAuth();
+  const { user, isLoading } = useAuth();
   const { t, i18n } = useTranslation();
   const locale = i18n.language;
 
   const blogHref = user && user.username ? `/${locale}/blog/user/${user.username}` : `/${locale}/blog`;
 
   const handleLogout = () => {
-    // In a real app, you'd call your sign-out endpoint.
-    // For this example, we'll just clear the user state.
-    setUser(null);
-    // Redirect to home or login page after logout
-    window.location.href = `/`;
+    signOut({ callbackUrl: `/` });
   };
 
   return (
