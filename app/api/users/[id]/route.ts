@@ -5,7 +5,7 @@ export async function GET(
   request: Request,
   { params }: { params: { id: string } },
 ) {
-  const { id } = await params;
+  const { id } = params;
   try {
     const user = await prisma.user.findUnique({
       where: {
@@ -25,3 +25,7 @@ export async function GET(
     );
   }
 }
+
+export const PUT = async ({ params }: { params: { id: string } }) => {
+  const { id } = params;
+};

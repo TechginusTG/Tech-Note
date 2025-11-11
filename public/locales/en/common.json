@@ -19,5 +19,27 @@
   "sns": "SNS",
   "service_list": "Service List",
   "service_list_title": "Service List",
-  "mypage": "My Page"
+  "mypage": {
+    "title": "My Page",
+    "profile": "Profile",
+    "posts": "My Posts",
+    "activities": "My Activities",
+    "profile_title": "Basic Information",
+    "profile_picture_title": "Profile Picture",
+    "profile_picture_url": "Profile Picture URL",
+    "name": "Name",
+    "nickname": "Nickname",
+    "username": "Username",
+    "email": "Email",
+    "password_change_title": "Change Password",
+    "current_password": "Current Password",
+    "new_password": "New Password",
+    "confirm_new_password": "Confirm New Password",
+    "change_password_button": "Change Password",
+    "logout_title": "Logout",
+    "posts_placeholder": "Your posts will be displayed here.",
+    "activities_placeholder": "Posts you've liked or commented on will be displayed here."
+  },
+  "save": "Save",
+  "logout": "Logout"
 }
