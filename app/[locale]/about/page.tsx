@@ -57,7 +57,7 @@ const AboutPage = () => {
             <p className="text-lg text-gray-600">{t('founder_bio')}</p>
           </div>
           <div className={`flex flex-col items-center text-center ${styles.founderCard}`}>
-            <img src="https://via.placeholder.com/150" alt="Founder 4" className="w-40 h-40 rounded-full mb-4" />
+            <img src="https://avatars.githubusercontent.com/u/139461535?v=4" alt="Founder 4" className="w-40 h-40 rounded-full mb-4" />
             <h3 className="text-2xl font-bold">gganwoor</h3>
             <p className="text-lg text-gray-600">{t('founder_bio')}</p>
           </div>
