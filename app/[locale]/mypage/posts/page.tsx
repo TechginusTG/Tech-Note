@@ -6,9 +6,10 @@ export default function MyPostsPage() {
   const { t } = useTranslation();
 
   return (
-    <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6">
+    <div className="bg-white dark:bg-gray-800 shadow-sm border border-gray-200 dark:border-gray-700 rounded-lg p-6">
       <h1 className="text-2xl font-bold mb-4">{t('mypage.posts', '글 관리')}</h1>
-      <p>{t('mypage.posts_placeholder', '내가 작성한 글 목록이 여기에 표시됩니다.')}</p>
+      <div className="border-t border-gray-200 dark:border-gray-700 my-4"></div>
+      <p className="text-gray-600 dark:text-gray-400">{t('mypage.posts_placeholder', '내가 작성한 글 목록이 여기에 표시됩니다.')}</p>
     </div>
   );
 }

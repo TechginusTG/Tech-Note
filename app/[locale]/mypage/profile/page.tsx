@@ -59,15 +59,15 @@ const ProfilePage = () => {
 
   return (
     <div className="flex flex-col gap-8">
-        <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6">
-            <h3 className="text-xl font-bold mb-4">{t('mypage.profile_title', '기본 정보')}</h3>
+        <div className="bg-white dark:bg-gray-800 shadow-sm border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+            <h3 className="text-xl font-bold mb-6">{t('mypage.profile_title', '기본 정보')}</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {/* Profile Picture */}
                 <div className="md:col-span-1 flex justify-center items-start">
                     <img
                         src={profilePicture || 'https://via.placeholder.com/150'}
                         alt="Profile Picture"
-                        className="w-32 h-32 object-cover rounded-md" // Square image
+                        className="w-32 h-32 object-cover rounded-lg" // Square image
                     />
                 </div>
 
@@ -78,7 +78,7 @@ const ProfilePage = () => {
                             {t('mypage.name', '이름')}
                         </label>
                         <input
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"
+                            className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"
                             id="name"
                             type="text"
                             value={name}
@@ -90,7 +90,7 @@ const ProfilePage = () => {
                             {t('mypage.nickname', '닉네임')}
                         </label>
                         <input
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"
+                            className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"
                             id="nickname"
                             type="text"
                             value={nickname}
@@ -106,7 +106,7 @@ const ProfilePage = () => {
                     {t('mypage.username', '사용자명')}
                 </label>
                 <input
-                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"
+                    className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"
                     id="username"
                     type="text"
                     value={username}
@@ -118,16 +118,16 @@ const ProfilePage = () => {
                     {t('mypage.email', '이메일')}
                 </label>
                 <input
-                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 bg-gray-200 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-600 dark:border-gray-500 dark:text-gray-400"
+                    className="appearance-none border rounded w-full py-2 px-3 text-gray-700 bg-gray-100 leading-tight focus:outline-none dark:bg-gray-700/50 dark:border-gray-600 dark:text-gray-400"
                     id="email"
                     type="email"
                     value={user.email}
                     disabled
                 />
             </div>
-            <div className="flex items-center justify-end">
+            <div className="flex items-center justify-end mt-6">
               <button
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
                 type="button"
                 onClick={handleProfileUpdate}
               >
@@ -136,11 +136,12 @@ const ProfilePage = () => {
             </div>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6">
+        <div className="bg-white dark:bg-gray-800 shadow-sm border border-gray-200 dark:border-gray-700 rounded-lg p-6">
             <h3 className="text-xl font-bold mb-4">{t('mypage.logout_title', '로그아웃')}</h3>
+            <p className="text-gray-600 dark:text-gray-400 mb-4">{t('mypage.logout_description', '세션을 종료하고 로그아웃합니다.')}</p>
             <button 
                 onClick={() => signOut()} 
-                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded w-full">
+                className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors">
                 {t('logout', '로그아웃')}
             </button>
         </div>
