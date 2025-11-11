@@ -36,77 +36,64 @@ export default function NewPostPage() {
   const handleSaveDraft = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Save draft");
-    // const response = await fetch('/api/posts', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify({ title, content, category, published: false }),
-    // });
-    //
-    // if (response.ok) {
-    //   router.push('/admin/drafts');
-    // } else {
-    //   // Handle error
-    //   console.error('Failed to save draft');
-    // }
+    // ... (draft saving logic)
   };
 
   return (
-    <main className={styles.main}>
-      <h1 className={styles.title}>{t("create_new_post")}</h1>
-      <form>
-        <div className={styles.formGroup}>
-          <label htmlFor="title" className={styles.label}>
-            {t("title")}
-          </label>
-          <input
-            type="text"
-            id="title"
-            name="title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            className={styles.input}
-            placeholder={t("enter_post_title")}
-          />
-        </div>
-        <div className={styles.formGroup}>
-          <label htmlFor="category" className={styles.label}>
-            {t("category")}
-          </label>
-          <input
-            type="text"
-            id="category"
-            name="category"
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-            className={styles.input}
-            placeholder={t("enter_post_category")}
-          />
-        </div>
-        <div className={styles.formGroupLarge}>
-          <label className={styles.label}>{t("content")}</label>
-          <ClientOnly>
+    <ClientOnly>
+      <main className={styles.main}>
+        <h1 className={styles.title}>{t("create_new_post")}</h1>
+        <form>
+          <div className={styles.formGroup}>
+            <label htmlFor="title" className={styles.label}>
+              {t("title")}
+            </label>
+            <input
+              type="text"
+              id="title"
+              name="title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              className={styles.input}
+              placeholder={t("enter_post_title")}
+            />
+          </div>
+          <div className={styles.formGroup}>
+            <label htmlFor="category" className={styles.label}>
+              {t("category")}
+            </label>
+            <input
+              type="text"
+              id="category"
+              name="category"
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              className={styles.input}
+              placeholder={t("enter_post_category")}
+            />
+          </div>
+          <div className={styles.formGroupLarge}>
+            <label className={styles.label}>{t("content")}</label>
             <Editor onContentChange={setContent} />
-          </ClientOnly>
-        </div>
-        <div className={styles.buttonGroup}>
-          <button
-            type="button"
-            className={styles.button}
-            onClick={handleSaveDraft}
-          >
-            {t("save_draft")}
-          </button>
-          <button
-            type="submit"
-            className={styles.button}
-            onClick={handlePublish}
-          >
-            {t("publish_post")}
-          </button>
-        </div>
-      </form>
-    </main>
+          </div>
+          <div className={styles.buttonGroup}>
+            <button
+              type="button"
+              className={styles.button}
+              onClick={handleSaveDraft}
+            >
+              {t("save_draft")}
+            </button>
+            <button
+              type="submit"
+              className={styles.button}
+              onClick={handlePublish}
+            >
+              {t("publish_post")}
+            </button>
+          </div>
+        </form>
+      </main>
+    </ClientOnly>
   );
 }
