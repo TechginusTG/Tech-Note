@@ -126,6 +126,7 @@ export default function Editor({ onContentChange }: EditorProps) {
     editorProps: {
       attributes: {
         class: 'prose dark:prose-invert prose-sm sm:prose-base lg:prose-lg xl:prose-2xl focus:outline-none w-full h-96 p-4 overflow-y-auto',
+        spellcheck: 'true',
       },
     },
   });
