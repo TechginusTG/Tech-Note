@@ -26,6 +26,32 @@ export async function GET(
   }
 }
 
-export const PUT = async ({ params }: { params: { id: string } }) => {
+export const PUT = async (
+  request: Request,
+  { params }: { params: { id: string } },
+) => {
   const { id } = params;
+  try {
+    const updatedData = await request.json();
+
+    const updatedUser = await prisma.user.update({
+      where: {
+        id: id,
+      },
+      data: updatedData,
+    });
+
+    return NextResponse.json(updatedUser);
+  } catch (error: any) {
+    // Prisma's P2025 error code means "Record to update not found".
+    if (error.code === "P2025") {
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
+
+    console.error("Error updating user", error);
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 },
+    );
+  }
 };
