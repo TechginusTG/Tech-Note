@@ -13,7 +13,7 @@ const Header = () => {
   const { t, i18n } = useTranslation();
   const locale = i18n.language;
 
-  const blogHref = user && user.username ? `/${locale}/blog/user/${user.username}` : `/${locale}/blog`;
+  const blogHref = `/${locale}/blog`;
 
   const handleLogout = () => {
     signOut({ callbackUrl: `/` });
