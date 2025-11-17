@@ -3,8 +3,9 @@ import prisma from "@/lib/prisma";
 
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } },
+  { params: paramsPromise }: { params: Promise<{ id: string }> },
 ) {
+  const params = await paramsPromise;
   const { id } = params;
   try {
     const user = await prisma.user.findUnique({
@@ -28,8 +29,9 @@ export async function GET(
 
 export const PUT = async (
   request: Request,
-  { params }: { params: { id: string } },
+  { params: paramsPromise }: { params: Promise<{ id: string }> },
 ) => {
+  const params = await paramsPromise;
   const { id } = params;
   try {
     const updatedData = await request.json();
