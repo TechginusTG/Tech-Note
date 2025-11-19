@@ -7,13 +7,12 @@ import { FaUserCircle, FaNewspaper, FaHeart } from 'react-icons/fa';
 
 export default function MyPageLayout({
   children,
-  params: { locale },
 }: {
   children: React.ReactNode;
-  params: { locale: string };
 }) {
   const { t } = useTranslation();
   const pathname = usePathname();
+  const locale = pathname.split('/')[1];
 
   const sidebarNavItems = [
     {
