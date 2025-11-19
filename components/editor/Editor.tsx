@@ -6,15 +6,17 @@ import Placeholder from '@tiptap/extension-placeholder';
 import Image from '@tiptap/extension-image';
 import { TextStyle } from '@tiptap/extension-text-style';
 import { FontSize } from './FontSize'; // Custom extension
-import { useCallback, useRef, ChangeEvent } from 'react';
+import { useCallback, useRef, ChangeEvent, useState } from 'react';
 import {
   FaBold, FaItalic, FaStrikethrough, FaCode, FaParagraph, FaHeading, FaListUl, FaListOl,
   FaFileCode, FaQuoteLeft, FaMinus, FaArrowDown, FaImage, FaUndo, FaRedo, FaSpellCheck
 } from 'react-icons/fa';
 import { Editor as TiptapEditor } from '@tiptap/react';
+import { SpellCheckExtension, spellCheckPluginKey } from './SpellCheckExtension';
 
 const MenuBar = ({ editor }: { editor: TiptapEditor | null }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isSpellCheckActive, setIsSpellCheckActive] = useState(false);
 
   const handleImageUpload = useCallback(async (event: ChangeEvent<HTMLInputElement>) => {
     if (!editor) return;
@@ -42,8 +44,16 @@ const MenuBar = ({ editor }: { editor: TiptapEditor | null }) => {
     fileInputRef.current?.click();
   }, []);
 
-  const checkSpelling = useCallback(async () => {
+  const toggleSpellCheck = useCallback(async () => {
     if (!editor) return;
+
+    if (isSpellCheckActive) {
+      const { view } = editor;
+      const transaction = view.state.tr.setMeta(spellCheckPluginKey, { matches: [] });
+      view.dispatch(transaction);
+      setIsSpellCheckActive(false);
+      return;
+    }
 
     const text = editor.getText();
     if (!text.trim()) {
@@ -60,27 +70,34 @@ const MenuBar = ({ editor }: { editor: TiptapEditor | null }) => {
 
       const response = await fetch('https://api.languagetool.org/v2/check', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: params,
       });
 
       const result = await response.json();
-
+      
       if (result.matches.length === 0) {
         alert('맞춤법 오류를 찾지 못했습니다.');
-      } else {
-        const suggestions = result.matches.map((match: any) => {
-          return `- "${match.context.text}"\n  - 오류: ${match.message}\n  - 추천: ${match.replacements.map((r: any) => r.value).join(', ')}`;
-        }).join('\n\n');
-        alert(`맞춤법 검사 결과:\n\n${suggestions}`);
+        return;
       }
+
+      const matches = result.matches.map((match: any) => ({
+        from: match.offset + 1,
+        to: match.offset + match.length + 1,
+        message: match.message,
+        replacements: match.replacements,
+      }));
+
+      const { view } = editor;
+      const transaction = view.state.tr.setMeta(spellCheckPluginKey, { matches });
+      view.dispatch(transaction);
+      setIsSpellCheckActive(true);
+
     } catch (error) {
       console.error('Error checking spelling:', error);
       alert('맞춤법 검사 중 오류가 발생했습니다.');
     }
-  }, [editor]);
+  }, [editor, isSpellCheckActive]);
 
 
   if (!editor) {
@@ -143,7 +160,7 @@ const MenuBar = ({ editor }: { editor: TiptapEditor | null }) => {
       </div>
 
       <div className="flex items-center gap-1 ml-auto pl-2">
-        <button type="button" onClick={checkSpelling} className={buttonClasses}><FaSpellCheck /></button>
+        <button type="button" onClick={toggleSpellCheck} className={`${buttonClasses} ${isSpellCheckActive ? activeClasses : ''}`}><FaSpellCheck /></button>
         <button type="button" onClick={() => editor.chain().focus().undo().run()} disabled={!editor.can().chain().focus().undo().run()} className={buttonClasses}><FaUndo /></button>
         <button type="button" onClick={() => editor.chain().focus().redo().run()} disabled={!editor.can().chain().focus().redo().run()} className={buttonClasses}><FaRedo /></button>
       </div>
@@ -163,6 +180,7 @@ export default function Editor({ onContentChange }: EditorProps) {
       Image,
       TextStyle,
       FontSize,
+      SpellCheckExtension,
     ],
     immediatelyRender: false,
     content: '',
@@ -172,7 +190,7 @@ export default function Editor({ onContentChange }: EditorProps) {
     editorProps: {
       attributes: {
         class: 'prose dark:prose-invert max-w-none focus:outline-none w-full h-96 p-6 overflow-y-auto',
-        spellcheck: 'true',
+        spellcheck: 'false', // Disable browser spellcheck to avoid duplicate underlines
       },
     },
   });

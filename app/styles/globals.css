@@ -10,6 +10,7 @@ html, body, #__next {
   min-height: 100%;
 }
 
-.prose :is(::-webkit-spelling-error, ::-moz-spelling-error, ::spelling-error) {
+.prose :is(::-webkit-spelling-error, ::-moz-spelling-error, ::spelling-error),
+.spell-error {
     text-decoration: underline wavy red;
 }
