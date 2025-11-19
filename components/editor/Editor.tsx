@@ -9,7 +9,7 @@ import { FontSize } from './FontSize'; // Custom extension
 import { useCallback, useRef, ChangeEvent } from 'react';
 import {
   FaBold, FaItalic, FaStrikethrough, FaCode, FaParagraph, FaHeading, FaListUl, FaListOl,
-  FaFileCode, FaQuoteLeft, FaMinus, FaArrowDown, FaImage, FaUndo, FaRedo
+  FaFileCode, FaQuoteLeft, FaMinus, FaArrowDown, FaImage, FaUndo, FaRedo, FaSpellCheck
 } from 'react-icons/fa';
 import { Editor as TiptapEditor } from '@tiptap/react';
 
@@ -41,6 +41,47 @@ const MenuBar = ({ editor }: { editor: TiptapEditor | null }) => {
   const addImage = useCallback(() => {
     fileInputRef.current?.click();
   }, []);
+
+  const checkSpelling = useCallback(async () => {
+    if (!editor) return;
+
+    const text = editor.getText();
+    if (!text.trim()) {
+      alert('내용이 없습니다.');
+      return;
+    }
+
+    alert('맞춤법 검사를 시작합니다...');
+
+    try {
+      const params = new URLSearchParams();
+      params.append('text', text);
+      params.append('language', 'ko-KR');
+
+      const response = await fetch('https://api.languagetool.org/v2/check', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: params,
+      });
+
+      const result = await response.json();
+
+      if (result.matches.length === 0) {
+        alert('맞춤법 오류를 찾지 못했습니다.');
+      } else {
+        const suggestions = result.matches.map((match: any) => {
+          return `- "${match.context.text}"\n  - 오류: ${match.message}\n  - 추천: ${match.replacements.map((r: any) => r.value).join(', ')}`;
+        }).join('\n\n');
+        alert(`맞춤법 검사 결과:\n\n${suggestions}`);
+      }
+    } catch (error) {
+      console.error('Error checking spelling:', error);
+      alert('맞춤법 검사 중 오류가 발생했습니다.');
+    }
+  }, [editor]);
+
 
   if (!editor) {
     return null;
@@ -102,6 +143,7 @@ const MenuBar = ({ editor }: { editor: TiptapEditor | null }) => {
       </div>
 
       <div className="flex items-center gap-1 ml-auto pl-2">
+        <button type="button" onClick={checkSpelling} className={buttonClasses}><FaSpellCheck /></button>
         <button type="button" onClick={() => editor.chain().focus().undo().run()} disabled={!editor.can().chain().focus().undo().run()} className={buttonClasses}><FaUndo /></button>
         <button type="button" onClick={() => editor.chain().focus().redo().run()} disabled={!editor.can().chain().focus().redo().run()} className={buttonClasses}><FaRedo /></button>
       </div>
