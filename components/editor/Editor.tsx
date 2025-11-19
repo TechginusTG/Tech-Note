@@ -66,13 +66,18 @@ const MenuBar = ({ editor }: { editor: TiptapEditor | null }) => {
     try {
       const params = new URLSearchParams();
       params.append('text', text);
-      params.append('language', 'ko-KR');
+      params.append('language', 'ko');
 
       const response = await fetch('https://api.languagetool.org/v2/check', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: params,
       });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`LanguageTool API error: ${response.status} ${response.statusText} - ${errorText}`);
+      }
 
       const result = await response.json();
       
@@ -95,7 +100,7 @@ const MenuBar = ({ editor }: { editor: TiptapEditor | null }) => {
 
     } catch (error) {
       console.error('Error checking spelling:', error);
-      alert('맞춤법 검사 중 오류가 발생했습니다.');
+      alert(`맞춤법 검사 중 오류가 발생했습니다: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   }, [editor, isSpellCheckActive]);
 
