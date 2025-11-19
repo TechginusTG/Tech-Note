@@ -66,7 +66,7 @@ const MenuBar = ({ editor }: { editor: TiptapEditor | null }) => {
     try {
       const params = new URLSearchParams();
       params.append('text', text);
-      params.append('language', 'ko');
+      params.append('language', 'en-US');
 
       const response = await fetch('https://api.languagetool.org/v2/check', {
         method: 'POST',
