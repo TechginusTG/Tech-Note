@@ -6,13 +6,11 @@ import Placeholder from '@tiptap/extension-placeholder';
 import Image from '@tiptap/extension-image';
 import { TextStyle } from '@tiptap/extension-text-style';
 import { FontSize } from './FontSize'; // Custom extension
-import { useState, useCallback, useRef, ChangeEvent } from 'react';
-
+import { useCallback, useRef, ChangeEvent } from 'react';
 import {
   FaBold, FaItalic, FaStrikethrough, FaCode, FaParagraph, FaHeading, FaListUl, FaListOl,
   FaFileCode, FaQuoteLeft, FaMinus, FaArrowDown, FaImage, FaUndo, FaRedo
 } from 'react-icons/fa';
-
 import { Editor as TiptapEditor } from '@tiptap/react';
 
 const MenuBar = ({ editor }: { editor: TiptapEditor | null }) => {
@@ -20,7 +18,6 @@ const MenuBar = ({ editor }: { editor: TiptapEditor | null }) => {
 
   const handleImageUpload = useCallback(async (event: ChangeEvent<HTMLInputElement>) => {
     if (!editor) return;
-
     const file = event.target.files?.[0];
     if (!file) return;
 
@@ -28,13 +25,8 @@ const MenuBar = ({ editor }: { editor: TiptapEditor | null }) => {
     formData.append('file', file);
 
     try {
-      const response = await fetch('/api/upload', {
-        method: 'POST',
-        body: formData,
-      });
-
+      const response = await fetch('/api/upload', { method: 'POST', body: formData });
       const result = await response.json();
-
       if (result.success && result.url) {
         editor.chain().focus().setImage({ src: result.url }).run();
       } else {
@@ -50,68 +42,53 @@ const MenuBar = ({ editor }: { editor: TiptapEditor | null }) => {
     fileInputRef.current?.click();
   }, []);
 
-
   if (!editor) {
     return null;
   }
 
   const handleFontSizeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const size = event.target.value;
-    if (size) {
-      editor.chain().focus().setFontSize(`${size}px`).run();
-    } else {
-      editor.chain().focus().unsetFontSize().run();
-    }
+    editor.chain().focus().setFontSize(size ? `${size}px` : '').run();
   };
 
+  const buttonClasses = 'p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors';
+  const activeClasses = 'is-active bg-slate-200 dark:bg-slate-700';
+
   return (
-    <div className="bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-t-lg p-2 flex flex-wrap gap-x-4 gap-y-2 items-center">
-      {/* File input for image upload */}
-      <input
-        type="file"
-        ref={fileInputRef}
-        onChange={handleImageUpload}
-        accept="image/*"
-        className="hidden"
-      />
+    <div className="bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-600 rounded-t-xl p-2 flex flex-wrap items-center gap-x-1">
+      <input type="file" ref={fileInputRef} onChange={handleImageUpload} accept="image/*" className="hidden" />
 
-      {/* Text style group */}
-      <div className="flex gap-1">
-        <button type="button" onClick={() => editor.chain().focus().toggleBold().run()} disabled={!editor.can().chain().focus().toggleBold().run()} className={`p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700 ${editor.isActive('bold') ? 'is-active bg-gray-300 dark:bg-gray-600' : ''}`}><FaBold /></button>
-        <button type="button" onClick={() => editor.chain().focus().toggleItalic().run()} disabled={!editor.can().chain().focus().toggleItalic().run()} className={`p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700 ${editor.isActive('italic') ? 'is-active bg-gray-300 dark:bg-gray-600' : ''}`}><FaItalic /></button>
-        <button type="button" onClick={() => editor.chain().focus().toggleStrike().run()} disabled={!editor.can().chain().focus().toggleStrike().run()} className={`p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700 ${editor.isActive('strike') ? 'is-active bg-gray-300 dark:bg-gray-600' : ''}`}><FaStrikethrough /></button>
-        <button type="button" onClick={() => editor.chain().focus().toggleCode().run()} disabled={!editor.can().chain().focus().toggleCode().run()} className={`p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700 ${editor.isActive('code') ? 'is-active bg-gray-300 dark:bg-gray-600' : ''}`}><FaCode /></button>
+      <div className="flex items-center gap-1 border-r border-gray-300 dark:border-gray-600 pr-2">
+        <button type="button" onClick={() => editor.chain().focus().toggleBold().run()} disabled={!editor.can().chain().focus().toggleBold().run()} className={`${buttonClasses} ${editor.isActive('bold') ? activeClasses : ''}`}><FaBold /></button>
+        <button type="button" onClick={() => editor.chain().focus().toggleItalic().run()} disabled={!editor.can().chain().focus().toggleItalic().run()} className={`${buttonClasses} ${editor.isActive('italic') ? activeClasses : ''}`}><FaItalic /></button>
+        <button type="button" onClick={() => editor.chain().focus().toggleStrike().run()} disabled={!editor.can().chain().focus().toggleStrike().run()} className={`${buttonClasses} ${editor.isActive('strike') ? activeClasses : ''}`}><FaStrikethrough /></button>
+        <button type="button" onClick={() => editor.chain().focus().toggleCode().run()} disabled={!editor.can().chain().focus().toggleCode().run()} className={`${buttonClasses} ${editor.isActive('code') ? activeClasses : ''}`}><FaCode /></button>
       </div>
 
-      {/* Heading and Paragraph group */}
-      <div className="flex gap-1">
-        <button type="button" onClick={() => editor.chain().focus().setParagraph().run()} className={`p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700 ${editor.isActive('paragraph') ? 'is-active bg-gray-300 dark:bg-gray-600' : ''}`}><FaParagraph /></button>
-        <button type="button" onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()} className={`p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700 ${editor.isActive('heading', { level: 1 }) ? 'is-active bg-gray-300 dark:bg-gray-600' : ''}`}><FaHeading />1</button>
-        <button type="button" onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()} className={`p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700 ${editor.isActive('heading', { level: 2 }) ? 'is-active bg-gray-300 dark:bg-gray-600' : ''}`}><FaHeading />2</button>
-        <button type="button" onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()} className={`p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700 ${editor.isActive('heading', { level: 3 }) ? 'is-active bg-gray-300 dark:bg-gray-600' : ''}`}><FaHeading />3</button>
+      <div className="flex items-center gap-1 border-r border-gray-300 dark:border-gray-600 px-2">
+        <button type="button" onClick={() => editor.chain().focus().setParagraph().run()} className={`${buttonClasses} ${editor.isActive('paragraph') ? activeClasses : ''}`}><FaParagraph /></button>
+        <button type="button" onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()} className={`${buttonClasses} ${editor.isActive('heading', { level: 1 }) ? activeClasses : ''}`}><FaHeading className="w-4 h-4" />1</button>
+        <button type="button" onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()} className={`${buttonClasses} ${editor.isActive('heading', { level: 2 }) ? activeClasses : ''}`}><FaHeading className="w-4 h-4" />2</button>
+        <button type="button" onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()} className={`${buttonClasses} ${editor.isActive('heading', { level: 3 }) ? activeClasses : ''}`}><FaHeading className="w-4 h-4" />3</button>
       </div>
 
-      {/* List group */}
-      <div className="flex gap-1">
-        <button type="button" onClick={() => editor.chain().focus().toggleBulletList().run()} className={`p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700 ${editor.isActive('bulletList') ? 'is-active bg-gray-300 dark:bg-gray-600' : ''}`}><FaListUl /></button>
-        <button type="button" onClick={() => editor.chain().focus().toggleOrderedList().run()} className={`p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700 ${editor.isActive('orderedList') ? 'is-active bg-gray-300 dark:bg-gray-600' : ''}`}><FaListOl /></button>
+      <div className="flex items-center gap-1 border-r border-gray-300 dark:border-gray-600 px-2">
+        <button type="button" onClick={() => editor.chain().focus().toggleBulletList().run()} className={`${buttonClasses} ${editor.isActive('bulletList') ? activeClasses : ''}`}><FaListUl /></button>
+        <button type="button" onClick={() => editor.chain().focus().toggleOrderedList().run()} className={`${buttonClasses} ${editor.isActive('orderedList') ? activeClasses : ''}`}><FaListOl /></button>
       </div>
 
-      {/* Block elements group */}
-      <div className="flex gap-1">
-        <button type="button" onClick={() => editor.chain().focus().toggleCodeBlock().run()} className={`p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700 ${editor.isActive('codeBlock') ? 'is-active bg-gray-300 dark:bg-gray-600' : ''}`}><FaFileCode /></button>
-        <button type="button" onClick={() => editor.chain().focus().toggleBlockquote().run()} className={`p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700 ${editor.isActive('blockquote') ? 'is-active bg-gray-300 dark:bg-gray-600' : ''}`}><FaQuoteLeft /></button>
+      <div className="flex items-center gap-1 border-r border-gray-300 dark:border-gray-600 px-2">
+        <button type="button" onClick={() => editor.chain().focus().toggleCodeBlock().run()} className={`${buttonClasses} ${editor.isActive('codeBlock') ? activeClasses : ''}`}><FaFileCode /></button>
+        <button type="button" onClick={() => editor.chain().focus().toggleBlockquote().run()} className={`${buttonClasses} ${editor.isActive('blockquote') ? activeClasses : ''}`}><FaQuoteLeft /></button>
       </div>
 
-      {/* Insertables group */}
-      <div className="flex gap-1">
-        <button type="button" onClick={() => editor.chain().focus().setHorizontalRule().run()} className="p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700"><FaMinus /></button>
-        <button type="button" onClick={() => editor.chain().focus().setHardBreak().run()} className="p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700"><FaArrowDown /></button>
-        <button type="button" onClick={addImage} className="p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700"><FaImage /></button>
+      <div className="flex items-center gap-1 border-r border-gray-300 dark:border-gray-600 px-2">
+        <button type="button" onClick={() => editor.chain().focus().setHorizontalRule().run()} className={buttonClasses}><FaMinus /></button>
+        <button type="button" onClick={() => editor.chain().focus().setHardBreak().run()} className={buttonClasses}><FaArrowDown /></button>
+        <button type="button" onClick={addImage} className={buttonClasses}><FaImage /></button>
       </div>
 
-      {/* Font size */}
-      <div>
+      <div className="flex items-center px-2">
         <label htmlFor="font-size" className="sr-only">Font size</label>
         <input
           id="font-size"
@@ -120,14 +97,13 @@ const MenuBar = ({ editor }: { editor: TiptapEditor | null }) => {
           max="72"
           placeholder="Size"
           onChange={handleFontSizeChange}
-          className="w-20 p-1 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-black dark:text-white"
+          className="w-20 p-1 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-black dark:text-white focus:ring-2 focus:ring-blue-500"
         />
       </div>
 
-      {/* Undo/Redo group */}
-      <div className="flex gap-1 ml-auto">
-        <button type="button" onClick={() => editor.chain().focus().undo().run()} disabled={!editor.can().chain().focus().undo().run()} className="p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700"><FaUndo /></button>
-        <button type="button" onClick={() => editor.chain().focus().redo().run()} disabled={!editor.can().chain().focus().redo().run()} className="p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700"><FaRedo /></button>
+      <div className="flex items-center gap-1 ml-auto pl-2">
+        <button type="button" onClick={() => editor.chain().focus().undo().run()} disabled={!editor.can().chain().focus().undo().run()} className={buttonClasses}><FaUndo /></button>
+        <button type="button" onClick={() => editor.chain().focus().redo().run()} disabled={!editor.can().chain().focus().redo().run()} className={buttonClasses}><FaRedo /></button>
       </div>
     </div>
   );
@@ -140,35 +116,29 @@ type EditorProps = {
 export default function Editor({ onContentChange }: EditorProps) {
   const editor = useEditor({
     extensions: [
-      StarterKit.configure({
-        heading: { levels: [1, 2, 3] },
-      }),
-      Placeholder.configure({
-        placeholder: 'Start writing your blog post here...',
-      }),
+      StarterKit.configure({ heading: { levels: [1, 2, 3] } }),
+      Placeholder.configure({ placeholder: 'Start writing your blog post here...' }),
       Image,
       TextStyle,
       FontSize,
     ],
     immediatelyRender: false,
-    content: '', // Start with empty content
+    content: '',
     onUpdate: ({ editor }) => {
-      if (onContentChange) {
-        onContentChange(editor.getHTML());
-      }
+      onContentChange?.(editor.getHTML());
     },
     editorProps: {
       attributes: {
-        class: 'prose dark:prose-invert prose-sm sm:prose-base lg:prose-lg xl:prose-2xl focus:outline-none w-full h-96 p-4 overflow-y-auto',
+        class: 'prose dark:prose-invert max-w-none focus:outline-none w-full h-96 p-6 overflow-y-auto',
         spellcheck: 'true',
       },
     },
   });
 
   return (
-    <div className="rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm">
+    <div className="rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm bg-white dark:bg-gray-900">
       <MenuBar editor={editor} />
-      <div className="p-4 bg-white dark:bg-gray-900 rounded-b-lg">
+      <div className="p-2">
         <EditorContent editor={editor} />
       </div>
     </div>
