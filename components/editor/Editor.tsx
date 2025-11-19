@@ -6,7 +6,7 @@ import Placeholder from '@tiptap/extension-placeholder';
 import Image from '@tiptap/extension-image';
 import { TextStyle } from '@tiptap/extension-text-style';
 import { FontSize } from './FontSize'; // Custom extension
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef, ChangeEvent } from 'react';
 
 import {
   FaBold, FaItalic, FaStrikethrough, FaCode, FaParagraph, FaHeading, FaListUl, FaListOl,
@@ -16,15 +16,40 @@ import {
 import { Editor as TiptapEditor } from '@tiptap/react';
 
 const MenuBar = ({ editor }: { editor: TiptapEditor | null }) => {
-  const addImage = useCallback(() => {
-    if (editor) {
-      const url = window.prompt('Enter image URL');
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-      if (url) {
-        editor.chain().focus().setImage({ src: url }).run();
+  const handleImageUpload = useCallback(async (event: ChangeEvent<HTMLInputElement>) => {
+    if (!editor) return;
+
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+      const response = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const result = await response.json();
+
+      if (result.success && result.url) {
+        editor.chain().focus().setImage({ src: result.url }).run();
+      } else {
+        alert('Image upload failed: ' + (result.message || 'Unknown error'));
       }
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      alert('Error uploading image. See console for details.');
     }
   }, [editor]);
+
+  const addImage = useCallback(() => {
+    fileInputRef.current?.click();
+  }, []);
+
 
   if (!editor) {
     return null;
@@ -41,6 +66,15 @@ const MenuBar = ({ editor }: { editor: TiptapEditor | null }) => {
 
   return (
     <div className="bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-t-lg p-2 flex flex-wrap gap-x-4 gap-y-2 items-center">
+      {/* File input for image upload */}
+      <input
+        type="file"
+        ref={fileInputRef}
+        onChange={handleImageUpload}
+        accept="image/*"
+        className="hidden"
+      />
+
       {/* Text style group */}
       <div className="flex gap-1">
         <button onClick={() => editor.chain().focus().toggleBold().run()} disabled={!editor.can().chain().focus().toggleBold().run()} className={`p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700 ${editor.isActive('bold') ? 'is-active bg-gray-300 dark:bg-gray-600' : ''}`}><FaBold /></button>
