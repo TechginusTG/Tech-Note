@@ -64,19 +64,15 @@ const MenuBar = ({ editor }: { editor: TiptapEditor | null }) => {
     alert('맞춤법 검사를 시작합니다...');
 
     try {
-      const params = new URLSearchParams();
-      params.append('text', text);
-      params.append('language', 'en-US');
-
-      const response = await fetch('https://api.languagetool.org/v2/check', {
+      const response = await fetch('/api/spellcheck', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: params,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text }),
       });
 
       if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`LanguageTool API error: ${response.status} ${response.statusText} - ${errorText}`);
+        const errorResult = await response.json();
+        throw new Error(errorResult.message || 'Spell check API failed');
       }
 
       const result = await response.json();
