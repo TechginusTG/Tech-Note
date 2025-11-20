@@ -4,7 +4,7 @@ import Link from "next/link";
 import { signOut } from "next-auth/react";
 import { useAuth } from "@/app/auth-provider";
 import { useTranslation } from "react-i18next";
-import ClientOnly from "./ClientOnly";
+import ClientOnly from "@/components/ui/ClientOnly";
 import { useState } from "react";
 import { FaInstagram, FaGithub } from "react-icons/fa";
 

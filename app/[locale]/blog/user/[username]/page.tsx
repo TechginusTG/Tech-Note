@@ -1,4 +1,4 @@
-import PostsRenderer from '@/components/PostsRenderer';
+import PostsRenderer from '@/components/features/blog/PostsRenderer';
 import { getPosts } from '@/lib/api';
 import Link from 'next/link';
 import { Metadata } from 'next';

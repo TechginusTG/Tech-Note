@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import ServiceCard from '@/components/ServiceCard';
+import ServiceCard from '@/components/features/services/ServiceCard';
 
 // Define the type for a single service
 interface Service {
