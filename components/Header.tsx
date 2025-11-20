@@ -29,9 +29,9 @@ const Header = () => {
         </ClientOnly>
         <ClientOnly>
           <div className="hidden md:flex items-center space-x-4">
-            <Link href={`/${locale}/about`} className="bg-white text-gray-900 py-1 px-3 rounded-full text-sm font-semibold hover:bg-gray-200 transition-colors">{t('about')}</Link>
-            <Link href={blogHref} className="bg-white text-gray-900 py-1 px-3 rounded-full text-sm font-semibold hover:bg-gray-200 transition-colors">{t('blog')}</Link>
-            <Link href={`/${locale}/mypage`} className="bg-white text-gray-900 py-1 px-3 rounded-full text-sm font-semibold hover:bg-gray-200 transition-colors">{t('mypage.title')}</Link>
+            <Link href={`/${locale}/about`} className="text-gray-200 py-1 px-3 rounded-full text-sm font-semibold hover:text-white transition-colors">{t('about')}</Link>
+            <Link href={blogHref} className="text-gray-200 py-1 px-3 rounded-full text-sm font-semibold hover:text-white transition-colors">{t('blog')}</Link>
+            <Link href={`/${locale}/mypage`} className="text-gray-200 py-1 px-3 rounded-full text-sm font-semibold hover:text-white transition-colors">{t('mypage.title')}</Link>
             {/* Add more links as needed */}
           </div>
         </ClientOnly>
