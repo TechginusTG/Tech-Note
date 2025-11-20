@@ -1,4 +1,4 @@
-import Editor from '@/components/features/editor/Editor';
+import Editor from '@/components/editor/Editor';
 import styles from './page.module.css';
 
 type Props = {

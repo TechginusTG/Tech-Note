@@ -1,6 +1,6 @@
 import { getPostBySlug, getCategoriesWithPostCounts } from "@/lib/api";
 import styles from "./page.module.css";
-import CategoryPanel from "@/components/features/blog/CategoryPanel";
+import CategoryPanel from "@/components/CategoryPanel";
 import Link from "next/link";
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';

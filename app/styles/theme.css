@@ -1,0 +1,145 @@
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+/* CSS custom properties for colors and fonts */
+:root {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial);
+  --font-mono: var(--font-geist-mono, ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono");
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+/* When the user chooses the 'inverted' dark theme, swap the main CSS variables */
+:root.theme-inverted {
+  --background: var(--foreground);
+  --foreground: var(--background);
+}
+
+/* Ensure images and media keep correct colors (undo filter inversion if used elsewhere) */
+:root.theme-inverted img,
+:root.theme-inverted picture,
+:root.theme-inverted video {
+  filter: none;
+}
+
+/* Override common Tailwind utility classes under inverted theme to achieve a full dark/inverted look */
+:root.theme-inverted {
+  --card-bg: #0b0b0b;
+  --muted: rgba(255,255,255,0.75);
+  --border-weak: rgba(255,255,255,0.12);
+}
+
+:root.theme-inverted .bg-white {
+  background-color: var(--card-bg) !important;
+}
+
+:root.theme-inverted .bg-gray-100 {
+  background-color: rgba(255,255,255,0.02) !important;
+}
+
+:root.theme-inverted .text-gray-700,
+:root.theme-inverted .text-gray-800,
+:root.theme-inverted .text-gray-600,
+:root.theme-inverted .text-gray-500,
+:root.theme-inverted .text-gray-400 {
+  color: var(--foreground) !important;
+}
+
+:root.theme-inverted .text-gray-500 { color: var(--muted) !important; }
+
+:root.theme-inverted .border {
+  border-color: var(--border-weak) !important;
+}
+
+:root.theme-inverted .prose,
+:root.theme-inverted .prose p,
+:root.theme-inverted p {
+  color: var(--foreground) !important;
+}
+
+:root.theme-inverted .shadow-sm {
+  box-shadow: none !important;
+}
+
+/* Buttons: make neutral buttons visible on dark bg while preserving primary color buttons */
+:root.theme-inverted .bg-white.text-black,
+:root.theme-inverted button.bg-white {
+  background-color: rgba(255,255,255,0.04) !important;
+  color: var(--foreground) !important;
+}
+
+/* pagination active style: ensure contrast */
+:root.theme-inverted .bg-blue-600 {
+  background-color: #1e40af !important; /* keep blue but adjust if needed */
+}
+
+/* Stronger overrides to ensure common utility classes and elements appear dark */
+html.theme-inverted,
+html.theme-inverted body {
+  background-color: #050505 !important;
+  color: #f3f4f6 !important; /* light text */
+}
+
+html.theme-inverted .container,
+html.theme-inverted main,
+html.theme-inverted section {
+  background-color: transparent !important;
+}
+
+/* Also force common root containers (Next.js root) to dark background when inverted */
+html.theme-inverted,
+html.theme-inverted body,
+html.theme-inverted #__next,
+html.theme-inverted main,
+html.theme-inverted section,
+html.theme-inverted .container,
+html.theme-inverted .app,
+html.theme-inverted .root {
+  background-color: #050505 !important;
+}
+
+html.theme-inverted .bg-white,
+html.theme-inverted .bg-gray-50,
+html.theme-inverted .bg-gray-100,
+html.theme-inverted .bg-gray-200 {
+  background-color: rgba(255,255,255,0.03) !important;
+  color: inherit !important;
+}
+
+html.theme-inverted .text-black,
+html.theme-inverted .text-gray-900,
+html.theme-inverted .text-gray-800 {
+  color: #ffffff !important;
+}
+
+html.theme-inverted .text-gray-600,
+html.theme-inverted .text-gray-500,
+html.theme-inverted .text-gray-400 {
+  color: rgba(255,255,255,0.75) !important;
+}
+
+html.theme-inverted .border,
+html.theme-inverted .divide-y {
+  border-color: rgba(255,255,255,0.08) !important;
+}
+
+html.theme-inverted button,
+html.theme-inverted a {
+  color: inherit !important;
+}
+
+/* Modal/backdrop should not add extra global darkness in theme-inverted */
+html.theme-inverted .fixed,
+html.theme-inverted .backdrop,
+html.theme-inverted .modal {
+  background-color: transparent !important;
+}

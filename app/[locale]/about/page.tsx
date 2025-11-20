@@ -1,6 +1,6 @@
 'use client';
 import { useTranslation } from 'react-i18next';
-import ServiceCard from '@/components/features/services/ServiceCard';
+import ServiceCard from '@/components/ServiceCard';
 import { FaInstagram, FaGithub } from 'react-icons/fa';
 import Link from 'next/link';
 import { useIntersectionObserver } from '../../../lib/hooks/useIntersectionObserver';

@@ -3,9 +3,9 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSearchParams, useRouter } from "next/navigation";
-import Editor from "@/components/features/editor/Editor";
+import Editor from "@/components/editor/Editor";
 import styles from "./page.module.css";
-import ClientOnly from "@/components/ui/ClientOnly";
+import ClientOnly from "@/components/ClientOnly";
 
 export default function NewPostPage() {
   const { t } = useTranslation();

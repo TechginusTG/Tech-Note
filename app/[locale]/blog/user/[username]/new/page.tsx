@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import Editor from '@/components/features/editor/Editor';
+import Editor from '@/components/editor/Editor';
 import { useRouter } from 'next/navigation';
 
 export default function NewBlogPost() {
