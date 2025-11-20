@@ -14,7 +14,6 @@ export default function Home() {
     <main className="flex flex-col items-center bg-white text-gray-800">
       {/* Hero Section */}
       <section className={styles.heroSection}>
-        <video src="/videos/main-video.mp4" className={styles.backgroundVideo} autoPlay loop muted />
 
       </section>
 
@@ -108,4 +107,6 @@ export default function Home() {
     </main>
   );
 }
+ 
+
  
