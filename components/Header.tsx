@@ -24,7 +24,7 @@ const Header = () => {
       <nav className="container mx-auto px-6 py-3 flex justify-between items-center">
         <ClientOnly>
           <Link href={`/`} className="text-2xl font-bold text-white">
-            <span className="text-blue-400">T</span>ech-<span className="text-blue-400">N</span>ote
+            Tech-Note
           </Link>
         </ClientOnly>
         <ClientOnly>
