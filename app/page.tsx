@@ -14,7 +14,14 @@ export default function Home() {
     <main className="flex flex-col items-center bg-white text-gray-800">
       {/* Hero Section */}
       <section className={styles.heroSection}>
-
+        <video autoPlay loop muted className={styles.backgroundVideo}>
+          <source src="/videos/main-video.mp4" type="video/mp4" />
+        </video>
+        <h1 className="text-5xl font-bold mb-4 text-shadow-lg">Tech-Note</h1>
+        <p className="text-xl mb-8 text-shadow">기술과 일상을 기록하고 공유하는 공간</p>
+        <Link href="/blog" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+          블로그 둘러보기
+        </Link>
       </section>
 
       {/* Pioneers Section */}
