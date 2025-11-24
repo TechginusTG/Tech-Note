@@ -1,14 +1,24 @@
 'use client';
 
 import Link from 'next/link';
+import { useState, useEffect } from 'react';
 import { useIntersectionObserver } from '../lib/hooks/useIntersectionObserver';
 import styles from './page.module.css';
+import { useTranslation } from 'react-i18next';
 
 export default function Home() {
   const { ref: pioneersRef, isVisible: pioneersIsVisible } = useIntersectionObserver({ threshold: 0.1 });
   const { ref: explorersRef, isVisible: explorersIsVisible } = useIntersectionObserver({ threshold: 0.1 });
   const { ref: achieversRef, isVisible: achieversIsVisible } = useIntersectionObserver({ threshold: 0.1 });
   const { ref: companyInfoRef, isVisible: companyInfoIsVisible } = useIntersectionObserver({ threshold: 0.1 });
+  const { i18n } = useTranslation();
+  const [blogUrl, setBlogUrl] = useState('/ko/blog');
+
+  useEffect(() => {
+    if (i18n.language) {
+      setBlogUrl(`/${i18n.language}/blog`);
+    }
+  }, [i18n.language]);
 
   return (
     <main className="flex flex-col items-center bg-white text-gray-800">
@@ -19,13 +29,13 @@ export default function Home() {
         </video>
         <h1 className="text-5xl font-bold mb-4 text-shadow-lg">Tech-Note</h1>
         <p className="text-xl mb-8 text-shadow">기술과 일상을 기록하고 공유하는 공간</p>
-        <Link href="/blog" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+        <Link href={blogUrl} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
           블로그 둘러보기
         </Link>
       </section>
 
       {/* Pioneers Section */}
-      <section 
+      <section
         ref={pioneersRef}
         className={`w-full py-20 px-4 md:px-8 lg:px-16 bg-gray-50 ${styles.animatedSection} ${pioneersIsVisible ? styles.isVisible : ''}`}>
         <div className="max-w-6xl mx-auto text-center">
@@ -35,7 +45,7 @@ export default function Home() {
       </section>
 
       {/* Explorers Section */}
-      <section 
+      <section
         ref={explorersRef}
         className={`w-full py-20 px-4 md:px-8 lg:px-16 ${styles.animatedSection} ${explorersIsVisible ? styles.isVisible : ''}`}>
         <div className="max-w-6xl mx-auto text-center">
@@ -59,7 +69,7 @@ export default function Home() {
       </section>
 
       {/* Achievers Section */}
-      <section 
+      <section
         ref={achieversRef}
         className={`relative z-10 w-full py-20 px-4 md:px-8 lg:px-16 bg-gray-50 shadow-2xl ${styles.animatedSection} ${achieversIsVisible ? styles.isVisible : ''}`}>
         <div className="max-w-6xl mx-auto text-center">
@@ -83,7 +93,7 @@ export default function Home() {
       </section>
 
       {/* Company Info Section */}
-      <section 
+      <section
         ref={companyInfoRef}
         className={`w-full py-20 px-4 md:px-8 lg:px-16 bg-gray-800 text-white ${styles.animatedSection} ${companyInfoIsVisible ? styles.isVisible : ''}`}>
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8">
@@ -114,6 +124,5 @@ export default function Home() {
     </main>
   );
 }
- 
 
- 
+
