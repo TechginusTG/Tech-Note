@@ -47,7 +47,7 @@ export default async function BlogPostPage({ params: paramsPromise }: Props) {
             <p className={styles.date}>
               by {post.author.name || post.author.nickname} on {new Date(post.createdAt).toLocaleDateString()}
             </p>
-            <div dangerouslySetInnerHTML={{ __html: post.content }} />
+            <div dangerouslySetInnerHTML={{ __html: post.content || "" }} />
           </article>
         </div>
         <div className={styles.sidebar}>

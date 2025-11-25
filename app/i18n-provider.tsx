@@ -6,8 +6,8 @@ import { ReactNode } from 'react';
 
 interface I18nProviderProps {
   children: ReactNode;
-  locale: string;
-  namespaces: string[];
+  locale?: string;
+  namespaces?: string[];
 }
 
 export default function I18nProvider({ children }: I18nProviderProps) {

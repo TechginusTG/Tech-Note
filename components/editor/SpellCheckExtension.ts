@@ -33,7 +33,7 @@ export const SpellCheckExtension = Extension.create({
         },
         props: {
           decorations(state) {
-            const { matches } = this.getState(state);
+            const { matches } = this.getState(state) || { matches: [] };
             if (!matches || matches.length === 0) {
               return DecorationSet.empty;
             }

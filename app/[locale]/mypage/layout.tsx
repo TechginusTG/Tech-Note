@@ -17,17 +17,17 @@ export default function MyPageLayout({
   const sidebarNavItems = [
     {
       href: `/${locale}/mypage/profile`,
-      title: t('mypage.profile', '개인정보'),
+      title: t('mypage.profile', '프로필'),
       icon: <FaUserCircle className="mr-3" />,
     },
     {
-      href: `/${locale}/mypage/posts`,
-      title: t('mypage.posts', '글 관리'),
+      href: `/${locale}/mypage/activities`,
+      title: t('mypage.activities', '내 활동'),
       icon: <FaNewspaper className="mr-3" />,
     },
     {
-      href: `/${locale}/mypage/activities`,
-      title: t('mypage.activities', '좋아요 및 댓글'),
+      href: `/${locale}/mypage/profile`, // TODO: '계정 관리' 페이지로 추후 연결
+      title: t('mypage.account', '계정 관리'),
       icon: <FaHeart className="mr-3" />,
     },
   ];
