@@ -31,7 +31,7 @@ export default async function EditPostPage({ params }: Props) {
         </div>
         <button
           type="submit"
-          className={styles.button}
+          className="btn btn-primary"
         >
           Update Post
         </button>

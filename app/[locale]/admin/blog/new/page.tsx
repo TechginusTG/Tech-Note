@@ -113,14 +113,14 @@ export default function NewPostPage() {
                   <div className="flex flex-col space-y-3">
                     <button
                       type="submit"
-                      className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition-colors"
+                      className="btn btn-primary w-full"
                     >
                       {t("publish_post")}
                     </button>
                     <button
                       type="button"
                       onClick={handleSaveDraft}
-                      className="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600 font-bold py-2 px-4 rounded-lg transition-colors"
+                      className="btn btn-secondary w-full"
                     >
                       {t("save_draft")}
                     </button>

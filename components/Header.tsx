@@ -44,7 +44,7 @@ const Header = () => {
                 <span className="text-sm">Welcome, {user.name}</span>
                 <button
                   onClick={handleLogout}
-                  className="bg-gray-700 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded-lg text-sm"
+                  className="btn btn-secondary"
                 >
                   Logout
                 </button>
@@ -52,7 +52,7 @@ const Header = () => {
             ) : (
               <Link
                 href={`/${locale}/login`}
-                className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg text-sm"
+                className="btn btn-primary"
               >
                 {t('login')}
               </Link>

@@ -16,13 +16,13 @@ export default function LanguageSwitcher() {
       <button 
         onClick={() => changeLanguage('ko')} 
         disabled={i18n.language === 'ko'}
-        className="px-3 py-1 rounded text-2xl">
+        className="btn btn-ghost btn-sm text-2xl">
         🇰🇷
       </button>
       <button 
         onClick={() => changeLanguage('en')} 
         disabled={i18n.language === 'en'}
-        className="px-3 py-1 rounded text-2xl">
+        className="btn btn-ghost btn-sm text-2xl">
         🇬🇧
       </button>
     </div>

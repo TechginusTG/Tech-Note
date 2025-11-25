@@ -4,14 +4,13 @@ import React, { useState } from 'react';
 export default function SearchFilters({ titleQuery, dateFrom, dateTo, numMin, numMax, sort }:
   { titleQuery?: string; dateFrom?: string; dateTo?: string; numMin?: string; numMax?: string; sort?: string }) {
   const [open, setOpen] = useState(false);
-  const btnBase = 'inline-flex items-center justify-center h-9 min-w-[64px] px-3 rounded-md whitespace-nowrap text-sm';
 
   return (
     <div className="mb-6">
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className={`${btnBase} border bg-white hover:bg-gray-50`}
+        className="btn btn-secondary"
         aria-expanded={open}
         aria-controls="detailed-search"
       >
@@ -36,8 +35,8 @@ export default function SearchFilters({ titleQuery, dateFrom, dateTo, numMin, nu
               <option value="newest">최신순</option>
               <option value="oldest">오래된순</option>
             </select>
-            <button type="submit" className={`${btnBase} bg-blue-600 text-white`}>적용</button>
-            <a href="/blog" className={`${btnBase} bg-gray-200 text-gray-700`}>초기화</a>
+            <button type="submit" className="btn btn-primary">적용</button>
+            <a href="/blog" className="btn btn-secondary">초기화</a>
           </div>
         </form>
       )}

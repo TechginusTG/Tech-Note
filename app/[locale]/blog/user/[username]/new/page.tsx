@@ -82,13 +82,13 @@ export default function NewBlogPost() {
           <button
             type="button"
             onClick={() => router.back()}
-            className="px-4 py-2 text-gray-600 border rounded-md hover:bg-gray-100"
+            className="btn btn-ghost"
           >
             취소
           </button>
           <button
             type="submit"
-            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+            className="btn btn-primary"
           >
             발행
           </button>
