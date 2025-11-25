@@ -13,7 +13,7 @@ const ProfilePage = () => {
 
   // 기존 상태
   const [nickname, setNickname] = useState('');
-  const [profilePicture, setProfilePicture] = useState('');
+  const [profilePicture, setProfilePicture] = useState('https://via.placeholder.com/150');
   
   // 새로운 상태 추가
   const [introduction, setIntroduction] = useState('');

@@ -26,7 +26,7 @@ export default function MyPageLayout({
       icon: <FaNewspaper className="mr-3" />,
     },
     {
-      href: `/${locale}/mypage/profile`, // TODO: '계정 관리' 페이지로 추후 연결
+      href: `/${locale}/mypage/account`, // TODO: '계정 관리' 페이지로 추후 연결
       title: t('mypage.account', '계정 관리'),
       icon: <FaHeart className="mr-3" />,
     },
