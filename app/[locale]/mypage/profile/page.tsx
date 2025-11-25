@@ -101,7 +101,7 @@ const ProfilePage = () => {
         <div className={`${styles.section} ${styles.profileImageSection}`}>
           <img src={profilePicture} alt="Profile" className={styles.profileImage} />
           <input type="file" id="imageUpload" hidden onChange={handleImageChange} accept="image/*" />
-          <button className={`${styles.button} ${styles.secondaryButton}`} onClick={() => document.getElementById('imageUpload')?.click()}>
+          <button className="btn btn-secondary" onClick={() => document.getElementById('imageUpload')?.click()}>
             이미지 변경
           </button>
         </div>
@@ -118,11 +118,11 @@ const ProfilePage = () => {
               readOnly={!isEditingNickname}
             />
             {isEditingNickname ? (
-              <button className={`${styles.button} ${styles.primaryButton} ${styles.smallButton}`} onClick={() => handleProfileUpdate('nickname', nickname)}>
+              <button className="btn btn-primary btn-sm" onClick={() => handleProfileUpdate('nickname', nickname)}>
                 저장
               </button>
             ) : (
-              <button className={`${styles.button} ${styles.secondaryButton} ${styles.smallButton}`} onClick={() => setIsEditingNickname(true)}>
+              <button className="btn btn-secondary btn-sm" onClick={() => setIsEditingNickname(true)}>
                 변경
               </button>
             )}
@@ -139,7 +139,7 @@ const ProfilePage = () => {
             placeholder="자신을 소개해보세요."
           />
           <div className="flex justify-end mt-4">
-            <button className={`${styles.button} ${styles.primaryButton}`} onClick={() => handleProfileUpdate('introduction', introduction)}>
+            <button className="btn btn-primary" onClick={() => handleProfileUpdate('introduction', introduction)}>
               소개 저장
             </button>
           </div>
@@ -156,7 +156,7 @@ const ProfilePage = () => {
               className={styles.input}
               placeholder="예: React, Next.js"
             />
-            <button className={`${styles.button} ${styles.primaryButton} ${styles.smallButton}`} onClick={handleAddTech}>
+            <button className="btn btn-primary btn-sm" onClick={handleAddTech}>
               추가
             </button>
           </div>
