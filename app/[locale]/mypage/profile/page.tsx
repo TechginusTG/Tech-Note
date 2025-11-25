@@ -118,11 +118,11 @@ const ProfilePage = () => {
               readOnly={!isEditingNickname}
             />
             {isEditingNickname ? (
-              <button className={`${styles.button} ${styles.primaryButton}`} onClick={() => handleProfileUpdate('nickname', nickname)}>
+              <button className={`${styles.button} ${styles.primaryButton} ${styles.smallButton}`} onClick={() => handleProfileUpdate('nickname', nickname)}>
                 저장
               </button>
             ) : (
-              <button className={`${styles.button} ${styles.secondaryButton}`} onClick={() => setIsEditingNickname(true)}>
+              <button className={`${styles.button} ${styles.secondaryButton} ${styles.smallButton}`} onClick={() => setIsEditingNickname(true)}>
                 변경
               </button>
             )}
@@ -156,7 +156,7 @@ const ProfilePage = () => {
               className={styles.input}
               placeholder="예: React, Next.js"
             />
-            <button className={`${styles.button} ${styles.primaryButton}`} onClick={handleAddTech}>
+            <button className={`${styles.button} ${styles.primaryButton} ${styles.smallButton}`} onClick={handleAddTech}>
               추가
             </button>
           </div>
