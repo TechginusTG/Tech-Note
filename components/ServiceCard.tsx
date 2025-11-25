@@ -10,7 +10,7 @@ interface ServiceCardProps {
 
 const ServiceCard: React.FC<ServiceCardProps> = ({ name, description, link, imageUrl }) => {
   return (
-    <div className="bg-gray-800/90 border border-gray-700 rounded-lg p-6 h-full transition-all duration-300 ease-in-out hover:bg-gray-700/80 hover:border-sky-500/50 hover:shadow-lg hover:shadow-sky-500/10 flex flex-col">
+    <div className="bg-gray-800 border border-gray-700 rounded-lg p-6 h-full transition-all duration-300 ease-in-out hover:bg-gray-700 hover:border-sky-500/50 hover:shadow-lg hover:shadow-sky-500/10 flex flex-col">
       <div className="flex-grow">
         <div className="flex items-center mb-2">
           {imageUrl && (
@@ -20,7 +20,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ name, description, link, imag
           )}
           <h3 className="text-xl font-bold text-gray-100 transition-colors">{name}</h3>
         </div>
-        <p className="text-gray-300 text-sm mb-4 leading-relaxed">{description}</p>
+        <p className="text-gray-200 text-sm mb-4 leading-relaxed">{description}</p>
       </div>
       <div className="mt-auto pt-4">
         <a 
