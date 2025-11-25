@@ -34,7 +34,7 @@ const AboutPage = () => {
   return (
     <div className={`container mx-auto px-4 py-8 ${styles.aboutContainer}`}>
       <h1 className="text-4xl font-bold mb-4 text-center">TeamTechGinus</h1>
-      <p className="text-lg mb-12 text-center">
+      <p className="text-lg mb-12 text-center text-gray-800">
         {t('about_us_description')}
       </p>
 
@@ -44,22 +44,22 @@ const AboutPage = () => {
           <div className={`flex flex-col items-center text-center ${styles.founderCard}`}>
             <img src="https://avatars.githubusercontent.com/u/58172848?v=4" alt="Founder 1" className="w-40 h-40 rounded-full mb-4" />
             <h3 className="text-2xl font-bold">naya1228</h3>
-            <p className="text-lg text-gray-600">{t('founder_bio')}</p>
+            <p className="text-lg text-gray-800">{t('founder_bio')}</p>
           </div>
           <div className={`flex flex-col items-center text-center ${styles.founderCard}`}>
             <img src="/uploads/system0105.png" alt="Founder 2" className="w-40 h-40 rounded-full mb-4" />
             <h3 className="text-2xl font-bold">system0105</h3>
-            <p className="text-lg text-gray-600">{t('founder_bio')}</p>
+            <p className="text-lg text-gray-800">{t('founder_bio')}</p>
           </div>
           <div className={`flex flex-col items-center text-center ${styles.founderCard}`}>
             <img src="https://avatars.githubusercontent.com/u/71206378?v=4" alt="Founder 3" className="w-40 h-40 rounded-full mb-4" />
             <h3 className="text-2xl font-bold">GOCACOLA</h3>
-            <p className="text-lg text-gray-600">{t('founder_bio')}</p>
+            <p className="text-lg text-gray-800">{t('founder_bio')}</p>
           </div>
           <div className={`flex flex-col items-center text-center ${styles.founderCard}`}>
             <img src="https://avatars.githubusercontent.com/u/139461535?v=4" alt="Founder 4" className="w-40 h-40 rounded-full mb-4" />
             <h3 className="text-2xl font-bold">gganwoor</h3>
-            <p className="text-lg text-gray-600">{t('founder_bio')}</p>
+            <p className="text-lg text-gray-800">{t('founder_bio')}</p>
           </div>
         </div>
       </div>
@@ -76,10 +76,10 @@ const AboutPage = () => {
       <div ref={snsRef} className={`${styles.animatedSection} ${snsIsVisible ? styles.isVisible : ''}`}>
         <h2 className={`text-3xl font-bold text-center mb-8 ${styles.sectionTitle}`}>{t('sns')}</h2>
         <div className="flex justify-center gap-8">
-          <Link href="https://www.instagram.com/team_techginus/" target="_blank" rel="noopener noreferrer" className="text-gray-700 hover:text-pink-500">
+          <Link href="https://www.instagram.com/team_techginus/" target="_blank" rel="noopener noreferrer" className="text-gray-800 hover:text-pink-500">
             <FaInstagram size={48} />
           </Link>
-          <Link href="https://github.com/TechginusTG" target="_blank" rel="noopener noreferrer" className="text-gray-700 hover:text-gray-900">
+          <Link href="https://github.com/TechginusTG" target="_blank" rel="noopener noreferrer" className="text-gray-800 hover:text-gray-900">
             <FaGithub size={48} />
           </Link>
         </div>

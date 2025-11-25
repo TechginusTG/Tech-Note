@@ -18,9 +18,9 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ name, description, link, imag
               <Image src={imageUrl} alt={`${name} logo`} width={40} height={40} className="rounded-full" />
             </div>
           )}
-          <h3 className="text-xl font-bold text-gray-100 transition-colors">{name}</h3>
+          <h3 className="text-xl font-bold text-white transition-colors">{name}</h3>
         </div>
-        <p className="text-gray-200 text-sm mb-4 leading-relaxed">{description}</p>
+        <p className="text-white text-sm mb-4 leading-relaxed">{description}</p>
       </div>
       <div className="mt-auto pt-4">
         <a 
