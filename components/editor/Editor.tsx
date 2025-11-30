@@ -206,7 +206,7 @@ const MenuBar = ({ editor }: { editor: TiptapEditor | null }) => {
       <div className="flex items-center gap-x-1 ml-auto pl-1">
         <button type="button" onClick={toggleSpellCheck} className={`${buttonClasses} ${isSpellCheckActive ? activeClasses : ''}`} title="Spell Check"><FaSpellCheck /></button>
       </div>
-    </div>;
+    </div>
 
 type EditorProps = {
   onContentChange?: (content: string) => void;
@@ -254,4 +254,5 @@ export default function Editor({ onContentChange, initialContent }: EditorProps)
       <EditorContent editor={editor} />
     </div>
   );
+};
 }
