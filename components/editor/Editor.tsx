@@ -257,4 +257,3 @@ export default function Editor({ onContentChange, initialContent }: EditorProps)
     </div>
   );
 };
-}
