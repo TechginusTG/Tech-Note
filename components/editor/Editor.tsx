@@ -1,6 +1,6 @@
 'use client';
 
-import { useEditor, EditorContent } from '@tiptap/react';
+import { useEditor, EditorContent, BubbleMenu } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Placeholder from '@tiptap/extension-placeholder';
 import Image from '@tiptap/extension-image';
@@ -109,41 +109,52 @@ const MenuBar = ({ editor }: { editor: TiptapEditor | null }) => {
     const size = event.target.value;
     editor.chain().focus().setFontSize(size ? `${size}px` : '').run();
   };
-
-  const buttonClasses = 'p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed';
-  const activeClasses = 'is-active bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-200';
+  
+  const buttonClasses = 'p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1';
+  const activeClasses = 'is-active bg-gray-200 dark:bg-gray-700';
 
   return (
-    <div className="bg-gray-100 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 rounded-t-lg p-2 flex flex-wrap items-center gap-x-1 sticky top-0 z-10">
+    <div className="bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 rounded-t-lg p-2 flex flex-wrap items-center gap-x-1 sticky top-0 z-10">
       <input type="file" ref={fileInputRef} onChange={handleImageUpload} accept="image/*" className="hidden" />
 
-      <div className="flex items-center gap-x-1 border-r border-gray-300 dark:border-gray-600 pr-2 mr-2">
+      {/* Undo/Redo Group */}
+      <div className="flex items-center gap-x-1 border-r border-gray-200 dark:border-gray-600 pr-2 mr-2">
+        <button type="button" onClick={() => editor.chain().focus().undo().run()} disabled={!editor.can().chain().focus().undo().run()} className={buttonClasses}><FaUndo /></button>
+        <button type="button" onClick={() => editor.chain().focus().redo().run()} disabled={!editor.can().chain().focus().redo().run()} className={buttonClasses}><FaRedo /></button>
+      </div>
+
+      {/* Style Group */}
+      <div className="flex items-center gap-x-1 border-r border-gray-200 dark:border-gray-600 pr-2 mr-2">
         <button type="button" onClick={() => editor.chain().focus().toggleBold().run()} disabled={!editor.can().chain().focus().toggleBold().run()} className={`${buttonClasses} ${editor.isActive('bold') ? activeClasses : ''}`}><FaBold /></button>
         <button type="button" onClick={() => editor.chain().focus().toggleItalic().run()} disabled={!editor.can().chain().focus().toggleItalic().run()} className={`${buttonClasses} ${editor.isActive('italic') ? activeClasses : ''}`}><FaItalic /></button>
         <button type="button" onClick={() => editor.chain().focus().toggleStrike().run()} disabled={!editor.can().chain().focus().toggleStrike().run()} className={`${buttonClasses} ${editor.isActive('strike') ? activeClasses : ''}`}><FaStrikethrough /></button>
         <button type="button" onClick={() => editor.chain().focus().toggleCode().run()} disabled={!editor.can().chain().focus().toggleCode().run()} className={`${buttonClasses} ${editor.isActive('code') ? activeClasses : ''}`}><FaCode /></button>
       </div>
       
-      <div className="flex items-center gap-x-1 border-r border-gray-300 dark:border-gray-600 pr-2 mr-2">
+      {/* Heading Group */}
+      <div className="flex items-center gap-x-1 border-r border-gray-200 dark:border-gray-600 pr-2 mr-2">
         <button type="button" onClick={() => editor.chain().focus().setParagraph().run()} className={`${buttonClasses} ${editor.isActive('paragraph') ? activeClasses : ''}`}><FaParagraph /></button>
-        <button type="button" onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()} className={`${buttonClasses} ${editor.isActive('heading', { level: 1 }) ? activeClasses : ''}`}><FaHeading className="w-4 h-4 inline-block mr-1" />1</button>
-        <button type="button" onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()} className={`${buttonClasses} ${editor.isActive('heading', { level: 2 }) ? activeClasses : ''}`}><FaHeading className="w-4 h-4 inline-block mr-1" />2</button>
-        <button type="button" onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()} className={`${buttonClasses} ${editor.isActive('heading', { level: 3 }) ? activeClasses : ''}`}><FaHeading className="w-4 h-4 inline-block mr-1" />3</button>
+        <button type="button" onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()} className={`${buttonClasses} ${editor.isActive('heading', { level: 1 }) ? activeClasses : ''}`}><FaHeading className="w-4 h-4" />1</button>
+        <button type="button" onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()} className={`${buttonClasses} ${editor.isActive('heading', { level: 2 }) ? activeClasses : ''}`}><FaHeading className="w-4 h-4" />2</button>
+        <button type="button" onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()} className={`${buttonClasses} ${editor.isActive('heading', { level: 3 }) ? activeClasses : ''}`}><FaHeading className="w-4 h-4" />3</button>
       </div>
 
-      <div className="flex items-center gap-x-1 border-r border-gray-300 dark:border-gray-600 pr-2 mr-2">
+      {/* List/Block Group */}
+      <div className="flex items-center gap-x-1 border-r border-gray-200 dark:border-gray-600 pr-2 mr-2">
         <button type="button" onClick={() => editor.chain().focus().toggleBulletList().run()} className={`${buttonClasses} ${editor.isActive('bulletList') ? activeClasses : ''}`}><FaListUl /></button>
         <button type="button" onClick={() => editor.chain().focus().toggleOrderedList().run()} className={`${buttonClasses} ${editor.isActive('orderedList') ? activeClasses : ''}`}><FaListOl /></button>
         <button type="button" onClick={() => editor.chain().focus().toggleCodeBlock().run()} className={`${buttonClasses} ${editor.isActive('codeBlock') ? activeClasses : ''}`}><FaFileCode /></button>
         <button type="button" onClick={() => editor.chain().focus().toggleBlockquote().run()} className={`${buttonClasses} ${editor.isActive('blockquote') ? activeClasses : ''}`}><FaQuoteLeft /></button>
       </div>
 
-      <div className="flex items-center gap-x-1 border-r border-gray-300 dark:border-gray-600 pr-2 mr-2">
+      {/* Insert Group */}
+      <div className="flex items-center gap-x-1 border-r border-gray-200 dark:border-gray-600 pr-2 mr-2">
         <button type="button" onClick={() => editor.chain().focus().setHorizontalRule().run()} className={buttonClasses}><FaMinus /></button>
         <button type="button" onClick={() => editor.chain().focus().setHardBreak().run()} className={buttonClasses}><FaArrowDown /></button>
         <button type="button" onClick={addImage} className={buttonClasses}><FaImage /></button>
       </div>
       
+      {/* Font Size Group */}
       <div className="flex items-center gap-x-2">
         <label htmlFor="font-size" className="sr-only">Font size</label>
         <input
@@ -153,14 +164,13 @@ const MenuBar = ({ editor }: { editor: TiptapEditor | null }) => {
           max="72"
           placeholder="Size"
           onChange={handleFontSizeChange}
-          className="w-20 p-1 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-black dark:text-white focus:ring-2 focus:ring-blue-500"
+          className="w-20 p-1 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-black dark:text-white focus:ring-2 focus:ring-blue-500"
         />
       </div>
 
+      {/* Tools Group */}
       <div className="flex items-center gap-x-1 ml-auto pl-2">
-        <button type="button" onClick={toggleSpellCheck} className={`${buttonClasses} ${isSpellCheckActive ? activeClasses : ''}`}><FaSpellCheck /></button>
-        <button type="button" onClick={() => editor.chain().focus().undo().run()} disabled={!editor.can().chain().focus().undo().run()} className={buttonClasses}><FaUndo /></button>
-        <button type="button" onClick={() => editor.chain().focus().redo().run()} disabled={!editor.can().chain().focus().redo().run()} className={buttonClasses}><FaRedo /></button>
+        <button type="button" onClick={toggleSpellCheck} className={`${buttonClasses} ${isSpellCheckActive ? activeClasses : ''}`} title="Spell Check"><FaSpellCheck /></button>
       </div>
     </div>
   );
@@ -168,9 +178,10 @@ const MenuBar = ({ editor }: { editor: TiptapEditor | null }) => {
 
 type EditorProps = {
   onContentChange?: (content: string) => void;
+  initialContent?: string;
 };
 
-export default function Editor({ onContentChange }: EditorProps) {
+export default function Editor({ onContentChange, initialContent }: EditorProps) {
   const editor = useEditor({
     extensions: [
       StarterKit.configure({ heading: { levels: [1, 2, 3] } }),
@@ -180,8 +191,8 @@ export default function Editor({ onContentChange }: EditorProps) {
       FontSize,
       SpellCheckExtension,
     ],
-    immediatelyRender: false,
-    content: '',
+    immediatelyRender:.false,
+    content: initialContent || '',
     onUpdate: ({ editor }) => {
       onContentChange?.(editor.getHTML());
     },
@@ -193,9 +204,19 @@ export default function Editor({ onContentChange }: EditorProps) {
     },
   });
 
+  const buttonClasses = 'p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1';
+  const activeClasses = 'is-active bg-gray-200 dark:bg-gray-700';
+
   return (
-    <div className="rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm bg-white dark:bg-gray-900 overflow-hidden">
+    <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 overflow-hidden shadow-sm hover:shadow-md transition-shadow">
       <MenuBar editor={editor} />
+      {editor && <BubbleMenu editor={editor} tippyOptions={{ duration: 100 }}>
+        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md shadow-lg flex gap-x-1 p-1">
+          <button type="button" onClick={() => editor.chain().focus().toggleBold().run()} className={`${buttonClasses} ${editor.isActive('bold') ? activeClasses : ''}`}><FaBold /></button>
+          <button type="button" onClick={() => editor.chain().focus().toggleItalic().run()} className={`${buttonClasses} ${editor.isActive('italic') ? activeClasses : ''}`}><FaItalic /></button>
+          <button type="button" onClick={() => editor.chain().focus().toggleStrike().run()} className={`${buttonClasses} ${editor.isActive('strike') ? activeClasses : ''}`}><FaStrikethrough /></button>
+        </div>
+      </BubbleMenu>}
       <EditorContent editor={editor} />
     </div>
   );
