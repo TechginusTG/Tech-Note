@@ -1,6 +1,6 @@
 'use client';
 
-import { useEditor, EditorContent } from '@tiptap/react';
+import { useEditor, EditorContent, ReactNodeViewRenderer } from '@tiptap/react';
 import { BubbleMenu } from '@tiptap/react/menus';
 import StarterKit from '@tiptap/starter-kit';
 import Placeholder from '@tiptap/extension-placeholder';
@@ -16,6 +16,8 @@ import {
 } from 'react-icons/fa';
 import { Editor as TiptapEditor } from '@tiptap/react';
 import { SpellCheckExtension, spellCheckPluginKey } from './SpellCheckExtension';
+import ImageEditor from './ImageEditor';
+import ImageView from './ImageView';
 
 const MenuBar = ({ editor }: { editor: TiptapEditor | null }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -31,7 +33,7 @@ const MenuBar = ({ editor }: { editor: TiptapEditor | null }) => {
     { name: 'Monospace', value: 'monospace' },
     { name: 'Cursive', value: 'cursive' },
   ];
-  
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (fontDropdownRef.current && !fontDropdownRef.current.contains(event.target as Node)) {
@@ -102,7 +104,7 @@ const MenuBar = ({ editor }: { editor: TiptapEditor | null }) => {
       }
 
       const result = await response.json();
-      
+
       if (result.matches.length === 0) {
         alert('맞춤법 오류를 찾지 못했습니다.');
         return;
@@ -137,7 +139,7 @@ const MenuBar = ({ editor }: { editor: TiptapEditor | null }) => {
   };
 
   const selectFontFamily = (fontFamily: string) => {
-    if(fontFamily === '') {
+    if (fontFamily === '') {
       editor.chain().focus().unsetFontFamily().run();
     } else {
       editor.chain().focus().setFontFamily(fontFamily).run();
@@ -148,7 +150,7 @@ const MenuBar = ({ editor }: { editor: TiptapEditor | null }) => {
   const handleColorChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     editor.chain().focus().setColor(event.target.value).run();
   };
-  
+
   const buttonClasses = 'p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1';
   const activeClasses = 'is-active bg-gray-200 dark:bg-gray-700';
 
@@ -259,12 +261,73 @@ type EditorProps = {
   initialContent?: string;
 };
 
+const CustomImage = Image.extend({
+  addNodeView() {
+    return ReactNodeViewRenderer(ImageView);
+  },
+});
+
 export default function Editor({ onContentChange, initialContent }: EditorProps) {
+  const [editingImageSrc, setEditingImageSrc] = useState<string | null>(null);
+
+  const openImageEditor = (src: string) => {
+    setEditingImageSrc(src);
+  };
+
+  const closeImageEditor = () => {
+    setEditingImageSrc(null);
+  };
+
+  const handleSaveImage = async (dataUrl: string) => {
+    if (!editor) return;
+
+    // 1. Convert data URL to Blob
+    const blob = await fetch(dataUrl).then(res => res.blob());
+    const file = new File([blob], "edited-image.png", { type: "image/png" });
+
+    // 2. Upload to server
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+      const response = await fetch('/api/upload', { method: 'POST', body: formData });
+      const result = await response.json();
+
+      if (result.success && result.url) {
+        const newSrc = result.url;
+        const oldSrc = editingImageSrc;
+
+        // 3. Update the image src in the editor
+        editor.chain().focus().command(({ tr }) => {
+          let imageNodePos: number | undefined;
+          tr.doc.descendants((node, pos) => {
+            if (node.type.name === 'image' && node.attrs.src === oldSrc) {
+              imageNodePos = pos;
+            }
+          });
+
+          if (imageNodePos !== undefined) {
+            tr.setNodeMarkup(imageNodePos, undefined, { ...tr.doc.nodeAt(imageNodePos)!.attrs, src: newSrc });
+            return true;
+          }
+          return false;
+        }).run();
+        
+        closeImageEditor();
+      } else {
+        alert('Image upload failed: ' + (result.message || 'Unknown error'));
+      }
+    } catch (error) {
+      console.error('Error uploading edited image:', error);
+      alert('Error uploading edited image. See console for details.');
+    }
+  };
+  
   const editor = useEditor({
     extensions: [
       StarterKit.configure({ heading: { levels: [1, 2, 3] } }),
       Placeholder.configure({ placeholder: 'Start writing your blog post here...' }),
-      Image,
+      CustomImage,
       TextStyle,
       FontSize,
       SpellCheckExtension,
@@ -279,8 +342,10 @@ export default function Editor({ onContentChange, initialContent }: EditorProps)
     editorProps: {
       attributes: {
         class: 'prose dark:prose-invert max-w-none focus:outline-none w-full min-h-[400px] p-6',
-        spellcheck: 'false', // Disable browser spellcheck to avoid duplicate underlines
+        spellcheck: 'false',
       },
+      // @ts-ignore
+      openImageEditor: openImageEditor,
     },
   });
 
@@ -298,6 +363,13 @@ export default function Editor({ onContentChange, initialContent }: EditorProps)
         </div>
       </BubbleMenu>}
       <EditorContent editor={editor} />
+      {editingImageSrc && (
+        <ImageEditor
+          src={editingImageSrc}
+          onSave={handleSaveImage}
+          onClose={closeImageEditor}
+        />
+      )}
     </div>
   );
 };
