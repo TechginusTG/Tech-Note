@@ -1,6 +1,7 @@
 'use client';
 
-import { useEditor, EditorContent, BubbleMenu } from '@tiptap/react';
+import { useEditor, EditorContent } from '@tiptap/react';
+import { BubbleMenu } from '@tiptap/react/menus';
 import StarterKit from '@tiptap/starter-kit';
 import Placeholder from '@tiptap/extension-placeholder';
 import Image from '@tiptap/extension-image';
@@ -191,7 +192,7 @@ export default function Editor({ onContentChange, initialContent }: EditorProps)
       FontSize,
       SpellCheckExtension,
     ],
-    immediatelyRender:.false,
+    immediatelyRender: false,
     content: initialContent || '',
     onUpdate: ({ editor }) => {
       onContentChange?.(editor.getHTML());
@@ -210,7 +211,7 @@ export default function Editor({ onContentChange, initialContent }: EditorProps)
   return (
     <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 overflow-hidden shadow-sm hover:shadow-md transition-shadow">
       <MenuBar editor={editor} />
-      {editor && <BubbleMenu editor={editor} tippyOptions={{ duration: 100 }}>
+      {editor && <BubbleMenu editor={editor}>
         <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md shadow-lg flex gap-x-1 p-1">
           <button type="button" onClick={() => editor.chain().focus().toggleBold().run()} className={`${buttonClasses} ${editor.isActive('bold') ? activeClasses : ''}`}><FaBold /></button>
           <button type="button" onClick={() => editor.chain().focus().toggleItalic().run()} className={`${buttonClasses} ${editor.isActive('italic') ? activeClasses : ''}`}><FaItalic /></button>
