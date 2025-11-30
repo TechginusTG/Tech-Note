@@ -1,17 +1,21 @@
-import { getPostBySlug, getCategoriesWithPostCounts } from "@/lib/api";
-import styles from "./page.module.css";
 import CategoryPanel from "@/components/CategoryPanel";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { getCategoriesWithPostCounts, getPostBySlug } from "@/lib/api";
 import Link from "next/link";
-import { notFound } from 'next/navigation';
-import { Metadata } from 'next';
+import { Metadata } from "next";
+import { getServerSession } from "next-auth";
+import { notFound } from "next/navigation";
+import styles from "./page.module.css";
 
-type Props = {
-  params: Promise<{ slug: string; locale: string }>;
+type Params = {
+  params: Promise<{
+    locale: string;
+    slug: string;
+  }>;
 };
 
-export async function generateMetadata({ params: paramsPromise }: Props): Promise<Metadata> {
-  const params = await paramsPromise;
-  const { slug, locale } = params;
+export async function generateMetadata({ params }: Params): Promise<Metadata> {
+  const { slug } = await params;
   const post = await getPostBySlug(slug);
 
   if (!post) {
@@ -24,19 +28,20 @@ export async function generateMetadata({ params: paramsPromise }: Props): Promis
   };
 }
 
-export default async function BlogPostPage({ params: paramsPromise }: Props) {
-  const params = await paramsPromise;
-  const { slug, locale } = params;
+export default async function BlogPostPage({ params }: Params) {
+  const { locale, slug } = await params;
 
-  // 포스트 상세 정보와 카테고리 목록을 병렬로 가져옵니다.
-  const [post, categories] = await Promise.all([
+  const [post, categories, session] = await Promise.all([
     getPostBySlug(slug),
     getCategoriesWithPostCounts(),
+    getServerSession(authOptions),
   ]);
 
   if (!post) {
     notFound();
   }
+
+  const canEdit = session?.user?.id === post.authorId;
 
   return (
     <main className={styles.main}>
@@ -45,7 +50,8 @@ export default async function BlogPostPage({ params: paramsPromise }: Props) {
           <article className={styles.article}>
             <h1>{post.title}</h1>
             <p className={styles.date}>
-              by {post.author.name || post.author.nickname} on {new Date(post.createdAt).toLocaleDateString()}
+              by {post.author.name || post.author.nickname} on{" "}
+              {new Date(post.createdAt).toLocaleDateString()}
             </p>
             <div dangerouslySetInnerHTML={{ __html: post.content || "" }} />
           </article>
@@ -55,11 +61,16 @@ export default async function BlogPostPage({ params: paramsPromise }: Props) {
         </div>
       </div>
 
-      <div className={styles.writeButtonContainer}>
-        <Link href={`/${locale}/admin/blog/new`} className={styles.writeButton}>
-          글쓰기
-        </Link>
-      </div>
+      {canEdit && (
+        <div className={styles.writeButtonContainer}>
+          <Link
+            href={`/${locale}/admin/blog/edit/${post.id}`}
+            className={styles.writeButton}
+          >
+            글 수정
+          </Link>
+        </div>
+      )}
     </main>
   );
 }

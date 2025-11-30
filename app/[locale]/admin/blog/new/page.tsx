@@ -46,11 +46,30 @@ export default function NewPostPage() {
     }
   };
 
-  const handleSaveDraft = (e: React.FormEvent) => {
+  const handleSaveDraft = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Save draft", { title, content, category, tags });
-    // Draft saving logic would be similar but might not require all fields
-    alert("Draft saved! (feature in development)");
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("content", content);
+    formData.append("category", category);
+    formData.append("published", "false"); // Set published to false for drafts
+    tags.forEach(tag => formData.append("tags", tag));
+    if (featuredImage) {
+      formData.append("featuredImage", featuredImage);
+    }
+
+    const response = await fetch("/api/posts", {
+      method: "POST",
+      body: formData,
+    });
+
+    if (response.ok) {
+      alert("Draft saved successfully!");
+      // Optionally, redirect or show a success message
+    } else {
+      console.error("Failed to save draft");
+      alert("Failed to save draft. Check the console for more details.");
+    }
   };
   
   const handleTagKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {

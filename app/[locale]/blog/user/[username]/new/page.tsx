@@ -2,32 +2,49 @@
 
 import { useState } from 'react';
 import Editor from '@/components/editor/Editor';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 
-export default function NewBlogPost() {
+const defaultCategories = ['Tech', 'Life', 'Travel'];
+
+export default function NewUserBlogPost() {
   const router = useRouter();
+  const params = useParams<{ locale: string; username: string }>();
+  const locale = params?.locale ?? 'ko';
+  const username = params?.username ?? '';
+
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [categoryName, setCategoryName] = useState('Tech');
-  const categories = ['Tech', 'Life', 'Travel'];
+  const [categoryName, setCategoryName] = useState(defaultCategories[0]);
+  const categories = defaultCategories;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     try {
       const response = await fetch('/api/posts', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ title, content, categoryName }),
+        body: JSON.stringify({
+          title,
+          content,
+          categoryName,
+          published: true,
+        }),
       });
 
-      if (response.ok) {
-        const data = await response.json();
-        router.push(`/blog/${data.slug}`);
-      } else {
+      if (!response.ok) {
         throw new Error('Failed to create post');
+      }
+
+      const data = await response.json();
+      const redirectSlug = data?.slug;
+
+      if (redirectSlug) {
+        router.push(`/${locale}/blog/${redirectSlug}`);
+      } else {
+        router.push(`/${locale}/blog/user/${username}`);
       }
     } catch (error) {
       console.error('Error creating post:', error);
@@ -70,11 +87,9 @@ export default function NewBlogPost() {
             ))}
           </select>
         </div>
-        
+
         <div>
-          <label className="block text-sm font-medium mb-2">
-            내용
-          </label>
+          <label className="block text-sm font-medium mb-2">내용</label>
           <Editor onContentChange={setContent} />
         </div>
 
@@ -86,10 +101,7 @@ export default function NewBlogPost() {
           >
             취소
           </button>
-          <button
-            type="submit"
-            className="btn btn-primary"
-          >
+          <button type="submit" className="btn btn-primary">
             발행
           </button>
         </div>

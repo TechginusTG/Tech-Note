@@ -26,29 +26,29 @@
 }
 
 .header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .title {
-  font-size: 2.25rem; /* 4xl */
-  font-weight: 700; /* bold */
+  font-size: 2.25rem;
+  font-weight: 700;
   margin-bottom: 1rem;
 }
 
 .writeButtonContainer {
-    position: fixed;
-    bottom: 2rem;
-    right: 2rem;
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
 }
 
 .writeButton {
-    background-color: #374151;
-    color: white;
-    padding: 1rem 1.5rem;
-    border-radius: 0.5rem;
-    text-decoration: none;
-    font-weight: 600;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: #374151;
+  color: white;
+  padding: 1rem 1.5rem;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  font-weight: 600;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
