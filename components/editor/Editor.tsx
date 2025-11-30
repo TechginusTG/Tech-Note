@@ -207,6 +207,8 @@ const MenuBar = ({ editor }: { editor: TiptapEditor | null }) => {
         <button type="button" onClick={toggleSpellCheck} className={`${buttonClasses} ${isSpellCheckActive ? activeClasses : ''}`} title="Spell Check"><FaSpellCheck /></button>
       </div>
     </div>
+  );
+};
 
 type EditorProps = {
   onContentChange?: (content: string) => void;
