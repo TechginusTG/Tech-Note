@@ -608,7 +608,7 @@ export default function Editor({ onContentChange, initialContent }: EditorProps)
   const activeClasses = 'is-active bg-gray-200 dark:bg-gray-700';
 
   return (
-    <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+    <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 shadow-sm hover:shadow-md transition-shadow">
       <MenuBar editor={editor} />
       {editor && <BubbleMenu editor={editor}>
         <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md shadow-lg flex gap-x-1 p-1">
