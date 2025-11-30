@@ -18,21 +18,30 @@ export async function getPosts({
   limit = 10,
   category,
   username,
+  includeDrafts = false,
 }: {
   page?: number;
   limit?: number;
   category?: string;
   username?: string;
+  includeDrafts?: boolean;
 } = {}) {
   const skip = (page - 1) * limit;
 
   try {
-    const where: any = { published: true }; // 공개된 포스트만 가져오도록 설정
+    const where: any = {};
+    if (!includeDrafts) {
+      where.published = true;
+    }
     if (category) {
       where.category = { name: category };
     }
     if (username) {
-      where.author = { username: username };
+      where.author = {
+        is: {
+          username,
+        },
+      };
     }
 
     const posts = await prisma.post.findMany({

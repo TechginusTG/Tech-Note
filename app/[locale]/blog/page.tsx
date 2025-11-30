@@ -17,7 +17,10 @@ export default async function Page({ params }: { params: { locale: string } }) {
         <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white tracking-tight">
           블로그
         </h1>
-        <Link href={`/${locale}/admin/blog/new`} className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+        <Link
+          href={`/${locale}/admin/blog/new`}
+          className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+        >
           새 글 작성
         </Link>
       </div>
@@ -29,6 +32,7 @@ export default async function Page({ params }: { params: { locale: string } }) {
         baseFilters={{ category: "blog" }}
         perPage={10}
         start={0}
+        locale={locale}
       />
     </div>
   );

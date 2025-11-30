@@ -66,7 +66,7 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const { title, content, categoryName } = await req.json();
+    const { title, content, categoryName, published } = await req.json();
 
     // Slug 생성 (간단한 버전)
     const slug = title
@@ -98,7 +98,8 @@ export async function POST(req: NextRequest) {
         content,
         slug,
         authorId: user.id,
-        categoryId: category.id, // 생성되거나 찾은 카테고리의 ID를 연결
+        categoryId: category.id,
+        published: published, // published 상태 추가
       },
     });
 

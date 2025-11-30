@@ -12,6 +12,7 @@ export default function PostsRenderer({
   baseFilters,
   page,
   totalPages,
+  locale,
 }: {
   posts: Post[];
   total: number;
@@ -20,6 +21,7 @@ export default function PostsRenderer({
   baseFilters: Record<string, any>;
   page: number;
   totalPages: number;
+  locale: string;
 }) {
   const btnBase = 'inline-flex items-center justify-center h-9 min-w-[64px] px-3 rounded whitespace-nowrap text-sm';
 
@@ -40,7 +42,11 @@ export default function PostsRenderer({
       {posts.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {posts.map((post: any) => (
-            <Link key={post.id} href={`/blog/${post.slug}`} className="block group">
+            <Link
+              key={post.id}
+              href={`/${locale}/blog/${post.slug}`}
+              className="block group"
+            >
               <article className="relative bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300">
                 <div className="aspect-w-16 aspect-h-9 bg-gray-100 dark:bg-gray-700">
                   {post.thumb ? (
