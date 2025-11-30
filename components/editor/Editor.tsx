@@ -9,7 +9,7 @@ import { TextStyle } from '@tiptap/extension-text-style';
 import { Color } from '@tiptap/extension-color';
 import FontFamily from '@tiptap/extension-font-family';
 import { FontSize } from './FontSize'; // Custom extension
-import { useCallback, useRef, ChangeEvent, useState } from 'react';
+import { useCallback, useRef, ChangeEvent, useState, useEffect } from 'react';
 import {
   FaBold, FaItalic, FaStrikethrough, FaCode, FaParagraph, FaHeading, FaListUl, FaListOl,
   FaFileCode, FaQuoteLeft, FaMinus, FaArrowDown, FaImage, FaUndo, FaRedo, FaSpellCheck, FaPalette
@@ -20,6 +20,29 @@ import { SpellCheckExtension, spellCheckPluginKey } from './SpellCheckExtension'
 const MenuBar = ({ editor }: { editor: TiptapEditor | null }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isSpellCheckActive, setIsSpellCheckActive] = useState(false);
+  const [isFontDropdownOpen, setIsFontDropdownOpen] = useState(false);
+  const fontDropdownRef = useRef<HTMLDivElement>(null);
+
+  const fontFamilies = [
+    { name: 'Default Font', value: '' },
+    { name: 'Inter', value: 'Inter' },
+    { name: 'Sans-serif', value: 'sans-serif' },
+    { name: 'Serif', value: 'serif' },
+    { name: 'Monospace', value: 'monospace' },
+    { name: 'Cursive', value: 'cursive' },
+  ];
+  
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (fontDropdownRef.current && !fontDropdownRef.current.contains(event.target as Node)) {
+        setIsFontDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   const handleImageUpload = useCallback(async (event: ChangeEvent<HTMLInputElement>) => {
     if (!editor) return;
@@ -113,8 +136,13 @@ const MenuBar = ({ editor }: { editor: TiptapEditor | null }) => {
     editor.chain().focus().setFontSize(size ? `${size}px` : '').run();
   };
 
-  const handleFontFamilyChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    editor.chain().focus().setFontFamily(event.target.value).run();
+  const selectFontFamily = (fontFamily: string) => {
+    if(fontFamily === '') {
+      editor.chain().focus().unsetFontFamily().run();
+    } else {
+      editor.chain().focus().setFontFamily(fontFamily).run();
+    }
+    setIsFontDropdownOpen(false);
   };
 
   const handleColorChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -126,6 +154,9 @@ const MenuBar = ({ editor }: { editor: TiptapEditor | null }) => {
 
   const inputClasses = "p-1 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-black dark:text-white focus:ring-2 focus:ring-blue-500";
 
+
+  const currentFontFamily = editor.getAttributes('textStyle').fontFamily || '';
+  const currentFont = fontFamilies.find(font => font.value === currentFontFamily) || fontFamilies[0];
 
   return (
     <div className="bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 rounded-t-lg p-2 flex flex-wrap items-center gap-x-1 sticky top-0 z-10">
@@ -147,14 +178,27 @@ const MenuBar = ({ editor }: { editor: TiptapEditor | null }) => {
       
       {/* Font Group */}
       <div className="flex items-center gap-x-1 border-r border-gray-200 dark:border-gray-600 pr-1 mr-1">
-        <select onChange={handleFontFamilyChange} value={editor.isActive('fontFamily') ? editor.getAttributes('textStyle').fontFamily : ''} className={`${inputClasses} w-28`}>
-          <option value="">Default Font</option>
-          <option value="Inter">Inter</option>
-          <option value="sans-serif">Sans-serif</option>
-          <option value="serif">Serif</option>
-          <option value="monospace">Monospace</option>
-          <option value="cursive">Cursive</option>
-        </select>
+        <div className="relative" ref={fontDropdownRef}>
+          <button type="button" onClick={() => setIsFontDropdownOpen(!isFontDropdownOpen)} className={`${inputClasses} w-32 flex justify-between items-center`}>
+            <span style={{ fontFamily: currentFont.value }}>{currentFont.name}</span>
+            <span>▼</span>
+          </button>
+          {isFontDropdownOpen && (
+            <div className="absolute top-full left-0 mt-1 w-48 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md shadow-lg z-20">
+              {fontFamilies.map(font => (
+                <button
+                  key={font.name}
+                  type="button"
+                  onClick={() => selectFontFamily(font.value)}
+                  className={`block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 ${editor.isActive('textStyle', { fontFamily: font.value }) ? 'bg-gray-200 dark:bg-gray-600' : ''}`}
+                  style={{ fontFamily: font.value }}
+                >
+                  {font.name}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
         
         <input
           id="font-size"
