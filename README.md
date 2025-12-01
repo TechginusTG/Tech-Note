@@ -13,12 +13,12 @@ Tech-Note는 개발자와 기술 애호가를 위해 설계된 모던 풀스택 
 *   **백엔드 API**: Next.js API Routes
 *   **데이터베이스 ORM**: [Prisma](https.www.prisma.io/)
 *   **데이터베이스**: [PostgreSQL](https://www.postgresql.org/)
-    *   **개발**: Podman으로 로컬 환경에서 실행
+    *   **개발**: Docker로 로컬 환경에서 실행
     *   **운영**: [Supabase](https://supabase.com/)에 배포 예정
 *   **인증**: [NextAuth.js](https://next-auth.js.org/)
 *   **상태 관리**: [Redux Toolkit](https://redux-toolkit.js.org/)
 *   **스타일링**: [Tailwind CSS](https://tailwindcss.com/) & CSS 모듈
-*   **컨테이너화**: [Podman](https.podman.io/) & Podman Compose
+*   **컨테이너화**: [Docker](https://www.docker.com/) & Docker Compose
 
 ---
 
@@ -29,8 +29,8 @@ Tech-Note는 개발자와 기술 애호가를 위해 설계된 모던 풀스택 
 ### 사전 요구 사항
 
 *   **Node.js 18+**
-*   **Podman**
-*   **Podman Compose**
+*   **Docker**
+*   **Docker Compose**
 *   **Git**
 
 ### 설정 단계
@@ -46,7 +46,7 @@ Tech-Note는 개발자와 기술 애호가를 위해 설계된 모던 풀스택 
     ```env
     # .env
 
-    # Podman Compose를 위한 변수
+    # Docker Compose를 위한 변수
     POSTGRES_USER=admin
     POSTGRES_PASSWORD=admin
     POSTGRES_DB=devDB
@@ -61,13 +61,13 @@ Tech-Note는 개발자와 기술 애호가를 위해 설계된 모던 풀스택 
     ```bash
     npm run dev
     ```
-    이 스크립트는 `npm install`, `prisma migrate dev`, `podman-compose up -d`, `next dev`를 순차적으로 실행합니다.
+    이 스크립트는 `npm install`, `prisma migrate dev`, `docker-compose up -d`, `next dev`를 순차적으로 실행합니다.
 
     이제 브라우저에서 [http://localhost:3000](http://localhost:3000)으로 접속하여 애플리케이션을 확인할 수 있습니다.
 
 ### 개발 중지
 
-개발 서버와 데이터베이스 컨테이너를 중지하려면 `npm run dev`를 실행한 터미널에서 `Ctrl + C`를 누르세요. 만약 컨테이너가 자동으로 중지되지 않으면 `podman-compose down` 명령을 수동으로 실행할 수 있습니다.
+개발 서버와 데이터베이스 컨테이너를 중지하려면 `npm run dev`를 실행한 터미널에서 `Ctrl + C`를 누르세요. 만약 컨테이너가 자동으로 중지되지 않으면 `docker-compose down` 명령을 수동으로 실행할 수 있습니다.
 
 ---
 
@@ -78,7 +78,7 @@ Tech-Note는 개발자와 기술 애호가를 위해 설계된 모던 풀스택 
 - **1단계: 기반 및 설정 (완료)**
     - [x] 풀스택 모노레포 구조 설정
     - [x] Next.js, TypeScript, Prisma 기반 프로젝트 초기화
-    - [x] Podman Compose를 사용한 로컬 개발 환경 구축
+    - [x] Docker Compose를 사용한 로컬 개발 환경 구축
 
 - **2단계: 핵심 기능 - 블로그 게시물 (진행 중)**
     - **백엔드:**

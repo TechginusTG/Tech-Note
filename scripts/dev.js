@@ -8,20 +8,16 @@ function run(cmd, opts = {}) {
 
 async function main() {
   try {
-    // 1) try to start DB via docker compose, fallback to docker-compose, then podman-compose
+    // 1) try to start DB via docker compose, fallback to docker-compose
     try {
       run("docker compose up -d");
     } catch (e) {
       try {
         run("docker-compose up -d");
       } catch (e2) {
-        try {
-          run("podman-compose up -d");
-        } catch (e3) {
-          console.warn(
-            "Could not start DB with docker/docker-compose/podman-compose. If you need a DB, start it manually (see docker-compose.yml).",
-          );
-        }
+        console.warn(
+          "Could not start DB with docker-compose. If you need a DB, start it manually (see docker-compose.yml).",
+        );
       }
     }
 

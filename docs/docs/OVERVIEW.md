@@ -21,12 +21,12 @@ Tech-Note는 개발자와 기술 애호가를 위해 설계된 모던 풀스택 
 *   **백엔드 API:** Next.js API Routes
 *   **데이터베이스 ORM:** [Prisma](https://www.prisma.io/)
 *   **데이터베이스:** [PostgreSQL](https://www.postgresql.org/)
-    *   **개발 환경:** Podman을 통해 로컬에서 실행되는 PostgreSQL.
+    *   **개발 환경:** Docker를 통해 로컬에서 실행되는 PostgreSQL.
     *   **프로덕션 환경:** [Supabase](https://supabase.com/) (PostgreSQL)에 배포될 예정.
 *   **인증:** [NextAuth.js](https://next-auth.js.org/)
 *   **상태 관리:** [Redux Toolkit](https://redux-toolkit.js.org/)
 *   **스타일링:** [Tailwind CSS](https://tailwindcss.com/) & CSS 모듈
-*   **컨테이너화:** [Podman](https://podman.io/) & Podman Compose
+*   **컨테이너화:** [Docker](https://www.docker.com/) & Docker Compose
 *   **빌드 도구:** [npm](https://www.npmjs.com/)
 
 ## 4. 디렉토리 구조

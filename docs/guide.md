@@ -10,7 +10,7 @@
 - **작업:**
     - [x] 풀스택 모노레포를 위한 프로젝트 구조 재구성.
     - [x] TypeScript 기반의 Next.js 프로젝트로 통합 백엔드/프론트엔드 설정.
-    - [x] 데이터베이스용 Podman/Docker Compose를 사용한 로컬 개발 환경 설정.
+    - [x] 데이터베이스용 Docker Compose를 사용한 로컬 개발 환경 설정.
     - [x] Prisma를 사용하여 `User` 및 `Post` 모델 스키마 정의.
     - [x] Prisma Migrate를 사용하여 초기 데이터베이스 마이그레이션 실행.
 
