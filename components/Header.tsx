@@ -23,6 +23,21 @@ const Header = () => {
     signOut({ callbackUrl: `/` });
   };
 
+  const handleLanguageChange = () => {
+    const currentLocale = i18n.language;
+    const newLocale = currentLocale === 'en' ? 'ko' : 'en';
+    const path = window.location.pathname;
+
+    let newPath;
+    if (path.startsWith(`/${currentLocale}`)) {
+        newPath = path.replace(`/${currentLocale}`, `/${newLocale}`);
+    } else {
+        newPath = `/${newLocale}${path === '/' ? '' : path}`;
+    }
+    
+    window.location.href = newPath;
+  };
+
   return (
     <header className="bg-gray-900/90 backdrop-blur-md text-gray-200 shadow-lg border-b border-gray-700 sticky top-0 z-50">
       <nav className="container mx-auto px-6 py-3 flex justify-between items-center">
@@ -45,12 +60,19 @@ const Header = () => {
               <div className="h-8 w-20 bg-gray-700 rounded animate-pulse"></div>
             ) : user ? (
               <div className="flex items-center space-x-4">
-                <span className="text-sm">Welcome, {user.name}</span>
+                <span className="text-sm">{user.name}</span>
                 <button
                   onClick={handleLogout}
                   className="btn btn-secondary"
                 >
                   Logout
+                </button>
+                <button
+                  onClick={handleLanguageChange}
+                  className="text-gray-400 hover:text-white transition-colors text-xs font-semibold"
+                  title="Change language"
+                >
+                  {locale === 'en' ? '한국어' : 'English'}
                 </button>
               </div>
             ) : (
