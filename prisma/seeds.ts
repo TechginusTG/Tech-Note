@@ -10,7 +10,6 @@ async function main() {
     update: {},
     create: {
       email: "test@example.com",
-      nickname: "Test User",
       name: "TEST",
     },
   });

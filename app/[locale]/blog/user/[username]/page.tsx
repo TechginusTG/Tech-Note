@@ -46,7 +46,6 @@ export default async function UserBlogPage({
   const isLoggedInUser = session?.user?.username === username;
   const authorDisplayName =
     posts[0]?.author.name ||
-    posts[0]?.author.nickname ||
     posts[0]?.author.username ||
     username;
   const pageTitle = `${authorDisplayName}의 블로그`;

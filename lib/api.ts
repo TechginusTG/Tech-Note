@@ -56,7 +56,6 @@ export async function getPosts({
           select: {
             id: true,
             name: true,
-            nickname: true,
             username: true,
           },
         },
@@ -94,7 +93,6 @@ export async function getPostBySlug(slug: string) {
           select: {
             id: true,
             name: true,
-            nickname: true,
           },
         },
         category: true,

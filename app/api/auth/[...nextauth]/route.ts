@@ -3,6 +3,7 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import NextAuth, { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GitHubProvider from "next-auth/providers/github";
+import GoogleProvider from "next-auth/providers/google";
 import prisma from "@/lib/prisma";
 
 /**
@@ -10,14 +11,14 @@ import prisma from "@/lib/prisma";
  * If the nickname is already taken, it appends a number until a unique username is found.
  * @param nickname The base nickname to use.
  */
-async function generateUniqueUsername(nickname: string): Promise<string> {
-  let username = nickname;
+async function generateUniqueUsername(baseName: string): Promise<string> {
+  let username = baseName;
   let userWithSameUsername = await prisma.user.findUnique({
     where: { username: username },
   });
   let counter = 1;
   while (userWithSameUsername) {
-    username = `${nickname}${counter}`;
+    username = `${baseName}${counter}`;
     userWithSameUsername = await prisma.user.findUnique({
       where: { username: username },
     });
@@ -32,17 +33,20 @@ export const authOptions: AuthOptions = {
     strategy: "jwt",
   },
   providers: [
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+    }),
     GitHubProvider({
       clientId: process.env.GITHUB_CLIENT_ID!,
       clientSecret: process.env.GITHUB_CLIENT_SECRET!,
       async profile(profile) {
-        const nickname = profile.name || profile.login;
-        const username = await generateUniqueUsername(nickname);
+        const baseName = profile.name || profile.login;
+        const username = await generateUniqueUsername(baseName);
 
         return {
           id: profile.id.toString(),
           name: profile.name || profile.login,
-          nickname: nickname,
           username: username,
           email: profile.email,
           image: profile.avatar_url,
@@ -80,7 +84,6 @@ export const authOptions: AuthOptions = {
           return {
             id: user.id,
             name: user.name,
-            nickname: user.nickname,
             username: user.username,
             email: user.email,
             image: user.image,
@@ -102,31 +105,32 @@ export const authOptions: AuthOptions = {
           where: { id: user.id },
         });
 
-        if (dbUser && !dbUser.username) {
-          const baseUsername = dbUser.nickname || dbUser.name;
-          if (baseUsername) {
-            let username = baseUsername;
-            let existingUser = await prisma.user.findUnique({
-              where: { username: username },
-            });
-            let counter = 1;
-            while (existingUser && existingUser.id !== dbUser.id) {
-              username = `${baseUsername}${counter}`;
-              existingUser = await prisma.user.findUnique({
-                where: { username: username },
+        if (dbUser) {
+          // Backfill username if it's missing
+          if (!dbUser.username) {
+            const baseUsername = dbUser.name || dbUser.email; // Simplified base for username
+            if (baseUsername) {
+              const username = await generateUniqueUsername(baseUsername);
+              await prisma.user.update({
+                where: { id: dbUser.id },
+                data: { username: username },
               });
-              counter++;
+              // Mutate the user object to reflect the change in the same login flow
+              user.username = username;
             }
+          }
+
+          // Redirect new users to profile page to review their details
+          if (dbUser.isNew) {
             await prisma.user.update({
-              where: { id: dbUser.id },
-              data: { username: username },
+              where: { id: user.id },
+              data: { isNew: false },
             });
-            // Mutate the user object to reflect the change in the same login flow
-            user.username = username;
+            return '/mypage/profile'; // Redirect to profile page
           }
         }
       }
-      return true;
+      return true; // Continue normal sign in
     },
     async jwt({ token, user }) {
       // 최초 로그인 시에만 user 객체가 존재
@@ -151,7 +155,7 @@ export const authOptions: AuthOptions = {
           session.user.email = userFromDb.email;
           session.user.image = userFromDb.image;
           session.user.username = userFromDb.username;
-          session.user.nickname = userFromDb.nickname;
+
         }
       }
       return session;

@@ -12,18 +12,18 @@ const ProfilePage = () => {
   const router = useRouter();
 
   // 기존 상태
-  const [nickname, setNickname] = useState('');
+  const [userName, setUserName] = useState('');
   const [profilePicture, setProfilePicture] = useState('https://via.placeholder.com/150');
   
   // 새로운 상태 추가
   const [introduction, setIntroduction] = useState('');
   const [techStack, setTechStack] = useState<string[]>([]);
   const [currentTech, setCurrentTech] = useState('');
-  const [isEditingNickname, setIsEditingNickname] = useState(false);
+  const [isEditingName, setIsEditingName] = useState(false);
 
   useEffect(() => {
     if (user) {
-      setNickname(user.nickname || '');
+      setUserName(user.name || user.username || '');
       setProfilePicture(user.image || 'https://via.placeholder.com/150');
       // TODO: 백엔드에서 introduction과 techStack을 추가해야 함
       setIntroduction((user as any).introduction || ''); 
@@ -44,8 +44,8 @@ const ProfilePage = () => {
       const updatedUser = await res.json();
       setUser({ ...user, ...updatedUser });
       alert('프로필이 성공적으로 업데이트되었습니다!');
-      if (field === 'nickname') {
-        setIsEditingNickname(false);
+      if (field === 'name') {
+        setIsEditingName(false);
       }
     } else {
       alert('프로필 업데이트에 실패했습니다.');
@@ -106,23 +106,23 @@ const ProfilePage = () => {
           </button>
         </div>
 
-        {/* 닉네임 섹션 */}
+        {/* 표시 이름 섹션 */}
         <div className={styles.section}>
-          <h3 className={styles.sectionTitle}>닉네임</h3>
+          <h3 className={styles.sectionTitle}>표시 이름</h3>
           <div className={styles.inputGroup}>
             <input
               type="text"
-              value={nickname}
-              onChange={(e) => setNickname(e.target.value)}
+              value={userName}
+              onChange={(e) => setUserName(e.target.value)}
               className={styles.input}
-              readOnly={!isEditingNickname}
+              readOnly={!isEditingName}
             />
-            {isEditingNickname ? (
-              <button className="btn btn-primary btn-sm" onClick={() => handleProfileUpdate('nickname', nickname)}>
+            {isEditingName ? (
+              <button className="btn btn-primary btn-sm" onClick={() => handleProfileUpdate('name', userName)}>
                 저장
               </button>
             ) : (
-              <button className="btn btn-secondary btn-sm" onClick={() => setIsEditingNickname(true)}>
+              <button className="btn btn-secondary btn-sm" onClick={() => setIsEditingName(true)}>
                 변경
               </button>
             )}

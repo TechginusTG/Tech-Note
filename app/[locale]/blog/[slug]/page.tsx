@@ -50,7 +50,7 @@ export default async function BlogPostPage({ params }: Params) {
           <article className={styles.article}>
             <h1>{post.title}</h1>
             <p className={styles.date}>
-              by {post.author.name || post.author.nickname} on{" "}
+              by {post.author.name || post.author.username} on{" "}
               {new Date(post.createdAt).toLocaleDateString()}
             </p>
             <div dangerouslySetInnerHTML={{ __html: post.content || "" }} />
